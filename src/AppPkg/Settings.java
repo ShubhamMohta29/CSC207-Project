@@ -13,23 +13,46 @@ public class Settings extends javax.swing.JFrame
     private void initComponents()
     {
 
+        btnReturn = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Settings");
+
+        btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagesPkg/return.png"))); // NOI18N
+        btnReturn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnReturnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(325, Short.MAX_VALUE)
+                .addComponent(btnReturn)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(248, Short.MAX_VALUE)
+                .addComponent(btnReturn)
+                .addContainerGap())
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnReturnActionPerformed
+    {//GEN-HEADEREND:event_btnReturnActionPerformed
+        new MainMenu().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnReturnActionPerformed
 
     public static void main(String args[])
     {
@@ -37,5 +60,6 @@ public class Settings extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnReturn;
     // End of variables declaration//GEN-END:variables
 }

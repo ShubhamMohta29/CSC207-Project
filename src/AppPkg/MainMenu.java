@@ -24,6 +24,7 @@ public class MainMenu extends javax.swing.JFrame
         btnSettings = new javax.swing.JButton();
         btnCompatibility = new javax.swing.JButton();
         btnFavorites = new javax.swing.JButton();
+        lblError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Main Menu");
@@ -67,7 +68,7 @@ public class MainMenu extends javax.swing.JFrame
             }
         });
 
-        btnCompatibility.setText("Macth Compatibility");
+        btnCompatibility.setText("Match Compatibility");
         btnCompatibility.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -85,6 +86,9 @@ public class MainMenu extends javax.swing.JFrame
             }
         });
 
+        lblError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblError.setText(" ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -99,26 +103,26 @@ public class MainMenu extends javax.swing.JFrame
                     .addGroup(layout.createSequentialGroup()
                         .addGap(55, 55, 55)
                         .addComponent(lblQuestion)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                         .addComponent(txfAnimal, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
                         .addComponent(btnFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 171, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(251, 251, 251))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblGreeting2, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(152, 152, 152))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(80, 80, 80)
                 .addComponent(btnCompatibility)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnFavorites)
                 .addGap(56, 56, 56))
+            .addComponent(lblError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblGreeting2, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(152, 152, 152))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(261, 261, 261)
+                .addComponent(btnSearch)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,9 +139,11 @@ public class MainMenu extends javax.swing.JFrame
                         .addComponent(txfAnimal, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblQuestion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(btnFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblError)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSearch)
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCompatibility)
                     .addComponent(btnFavorites))
@@ -157,6 +163,11 @@ public class MainMenu extends javax.swing.JFrame
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSearchActionPerformed
     {//GEN-HEADEREND:event_btnSearchActionPerformed
         String animalName = txfAnimal.getText();
+        
+        if (animalName.isEmpty()){
+            lblError.setText("Please select an animal.");
+        }
+        // lblError.setText(animalName);
         
     }//GEN-LAST:event_btnSearchActionPerformed
 
@@ -189,6 +200,7 @@ public class MainMenu extends javax.swing.JFrame
     private javax.swing.JButton btnFilter;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnSettings;
+    private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblGreeting1;
     private javax.swing.JLabel lblGreeting2;
     private javax.swing.JLabel lblQuestion;
