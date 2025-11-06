@@ -24,17 +24,53 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="325" max="32767" attributes="0"/>
-              <Component id="btnReturn" min="-2" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="btnReturn" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="lblHeading" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblAnimal1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblAnimal2" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="txfAnimal2" pref="80" max="32767" attributes="0"/>
+                          <Component id="txfAnimal1" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="160" max="32767" attributes="0"/>
+              <Component id="btnCompare" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="155" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="248" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lblHeading" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblAnimal1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txfAnimal1" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblAnimal2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txfAnimal2" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="85" max="32767" attributes="0"/>
+              <Component id="btnCompare" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
               <Component id="btnReturn" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -45,12 +81,40 @@
     <Component class="javax.swing.JButton" name="btnReturn">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/imagesPkg/return.png"/>
+          <Image iconType="3" name="/imagesPkg/home.png"/>
         </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReturnActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblHeading">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="18" style="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Pet Compatibility"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblAnimal1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Animal 1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblAnimal2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Animal 2"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txfAnimal1">
+    </Component>
+    <Component class="javax.swing.JTextField" name="txfAnimal2">
+    </Component>
+    <Component class="javax.swing.JButton" name="btnCompare">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Compare"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

@@ -18,7 +18,7 @@ public class Filter extends javax.swing.JFrame
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Filter Page");
 
-        btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagesPkg/return.png"))); // NOI18N
+        btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagesPkg/home.png"))); // NOI18N
         btnReturn.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)

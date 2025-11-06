@@ -163,12 +163,23 @@ public class MainMenu extends javax.swing.JFrame
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSearchActionPerformed
     {//GEN-HEADEREND:event_btnSearchActionPerformed
         String animalName = txfAnimal.getText();
-        
-        if (animalName.isEmpty()){
+
+        if (animalName.isEmpty())
+        {
             lblError.setText("Please select an animal.");
         }
         // lblError.setText(animalName);
-        
+        if (false)
+        {
+            new SuccesfulSearch(animalName).setVisible(true);
+            this.dispose();
+        }
+        if (true)
+        {
+            new MultiSuccesfulSearch().setVisible(true);
+            this.dispose();
+        }
+
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnFilterActionPerformed
