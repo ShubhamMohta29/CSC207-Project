@@ -1,15 +1,16 @@
-package AppPkg;
+package Classes;
 import java.awt.Color;
+import java.awt.Font;
 
-public class Setting{
+public class SettingClass {
     private int textSize;
     private Color textColor;
-    private String textStyle;
+    private Font textStyle;
 
-    public Setting() {
+    public SettingClass() {
         this.textSize = 13;
         this.textColor = new Color(100, 50, 200);
-        this.textStyle = new String("Times New Roman");
+        this.textStyle = new Font("Arial", 0, this.textSize);
     }
     public int getTextSize() {
         return this.textSize;
@@ -17,8 +18,20 @@ public class Setting{
     public Color getTextColor() {
         return this.textColor;
         }
-    public String getTextStyle()  {
+    public Font getTextStyle()  {
         return this.textStyle;
+    }
+
+    public void setColor(Color name) {
+        this.textColor = name;
+    }
+
+    public void setSize(int size) {
+        this.textSize = size;
+    }
+
+    public void setStyle(String style) {
+        this.textStyle = new Font(style, 0, this.textSize);
     }
 
 }

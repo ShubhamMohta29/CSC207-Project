@@ -1,4 +1,5 @@
 package AppPkg;
+import Classes.SettingClass;
 
 public class Settings extends javax.swing.JFrame
 {
@@ -12,8 +13,13 @@ public class Settings extends javax.swing.JFrame
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents()
     {
+        SettingClass config  = new SettingClass();
+
 
         lblFontSize = new javax.swing.JLabel();
+        lblFontSize.setForeground(config.getTextColor());
+        lblFontSize.setFont(config.getTextStyle());
+
         cBoxFontSizes = new javax.swing.JComboBox<>();
         lblFont = new javax.swing.JLabel();
         cBoxFonts = new javax.swing.JComboBox<>();
@@ -28,7 +34,7 @@ public class Settings extends javax.swing.JFrame
 
         lblFontSize.setText("Font Size");
 
-        cBoxFontSizes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cBoxFontSizes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
 
         lblFont.setText("Font");
 
