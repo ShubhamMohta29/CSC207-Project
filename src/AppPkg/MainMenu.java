@@ -194,8 +194,14 @@ public class MainMenu extends javax.swing.JFrame
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnFilterActionPerformed
     {//GEN-HEADEREND:event_btnFilterActionPerformed
-        new Filter().setVisible(true);
-        this.dispose();
+        Filter filterFrame = new Filter();  // create the frame
+
+        //get MainMenu's co-ords
+        int x = this.getX() + this.getWidth();
+        int y = this.getY();
+
+        filterFrame.setLocation(x, y);  // set the location
+        filterFrame.setVisible(true);   // make it visible
     }//GEN-LAST:event_btnFilterActionPerformed
 
     private void btnCompatibilityActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnCompatibilityActionPerformed
