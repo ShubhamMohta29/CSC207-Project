@@ -6,6 +6,7 @@ public class Filter extends javax.swing.JFrame
     public Filter()
     {
         initComponents();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     @SuppressWarnings("unchecked")

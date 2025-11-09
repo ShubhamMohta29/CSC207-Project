@@ -7,6 +7,7 @@ public class Settings extends javax.swing.JFrame
     public Settings()
     {
         initComponents();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     @SuppressWarnings("unchecked")
