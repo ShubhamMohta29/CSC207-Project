@@ -165,30 +165,29 @@ public class MainMenu extends javax.swing.JFrame
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSearchActionPerformed
     {//GEN-HEADEREND:event_btnSearchActionPerformed
         String animalName = txfAnimal.getText().toLowerCase();  // gets the animal name, and makes it lowercase
-        APIClass aClass = new Classes.APIClass();               // instantiates APIClass
-        String result = aClass.getAnimalData(animalName);       // calls getAnimalData to get the JSON data of the animal
-        System.out.println(result);
-//        System.out.println(result.length());
-        System.out.println(aClass.numResults());
-        
 
-        if (animalName.isEmpty())   // asks for an input
-        {
-            lblError.setText("Please select an animal.");
-        }
-        if (result.length() == 2)   // asks the user to ensure they entered the correct animal
-        {
-            lblError.setText("Please double check animal name.");
-        }
-        if (false)
-        {
-            new SuccesfulSearch(animalName).setVisible(true);
-            this.dispose();
-        }
-        if (false)
-        {
-            new MultiSuccesfulSearch().setVisible(true);
-            this.dispose();
+        if (animalName.isEmpty()){  // ensures the user has given an input. if not, terminates teh call
+            lblError.setText("Please select an animal name.");
+        } else {
+            APIClass aClass = new Classes.APIClass();               // instantiates APIClass
+            String result = aClass.getAnimalData(animalName);       // calls getAnimalData to get the JSON data of the animal
+            System.out.println(result);
+
+
+            if (result.length() == 2)   // asks the user to ensure they entered the correct animal
+            {
+                lblError.setText("Please double check animal name.");
+            }
+            if (false)
+            {
+                new SuccesfulSearch(animalName).setVisible(true);
+                this.dispose();
+            }
+            if (false)
+            {
+                new MultiSuccesfulSearch().setVisible(true);
+                this.dispose();
+            }
         }
 
     }//GEN-LAST:event_btnSearchActionPerformed
