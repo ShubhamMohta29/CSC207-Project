@@ -87,7 +87,7 @@ public class SuccesfulSearch extends javax.swing.JFrame
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddFavorite)
-                    .addComponent(btnGenerateTraingCard))
+                    .addComponent(btnGenerateTradingCard))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addComponent(btnHome)
                 .addContainerGap())
