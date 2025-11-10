@@ -185,7 +185,7 @@ public class MainMenu extends javax.swing.JFrame
                 new SuccesfulSearch(animalName).setVisible(true);
                 this.dispose();
             }
-            if (numResults >= 2)
+            if (numResults >= 2)    // if there are multiple animals' data output from the search, open MultiSuccesfulSearch and prompt the user to choose
             {
                 new MultiSuccesfulSearch().setVisible(true);
                 this.dispose();

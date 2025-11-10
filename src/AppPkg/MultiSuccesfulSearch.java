@@ -1,6 +1,7 @@
 package AppPkg;
 
 import javax.swing.*;
+import java.util.List;
 
 public class MultiSuccesfulSearch extends javax.swing.JFrame
 {
@@ -86,7 +87,14 @@ public class MultiSuccesfulSearch extends javax.swing.JFrame
         this.dispose();
     }
 
-    private void
+    // updates the list
+    public void updateAnimalList(List<String> animals){
+        DefaultListModel<String> model = (DefaultListModel<String>) jListOptions.getModel();
+        model.clear();
+        for (String animal:animals){
+            model.addElement(animal);
+        }
+    }
 
     public static void main(String args[])
     {
