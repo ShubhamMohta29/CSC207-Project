@@ -6,11 +6,14 @@ public class SettingClass {
     private int textSize;
     private Color textColor;
     private Font textStyle;
+    private String style;
 
     public SettingClass() {
         this.textSize = 13;
         this.textColor = new Color(100, 50, 200);
-        this.textStyle = new Font("Arial", 0, this.textSize);
+        this.style = new String("Arial");
+        this.textStyle = new Font( this.style, 0, this.textSize);
+
     }
     public int getTextSize() {
         return this.textSize;
@@ -28,10 +31,11 @@ public class SettingClass {
 
     public void setSize(int size) {
         this.textSize = size;
+        this.textStyle = new Font(this.style, 0, this.textSize);
     }
 
-    public void setStyle(String style) {
-        this.textStyle = new Font(style, 0, this.textSize);
+    public void setStyle(String change) {
+        this.textStyle = new Font(change, 0, this.textSize);
     }
 
 }
