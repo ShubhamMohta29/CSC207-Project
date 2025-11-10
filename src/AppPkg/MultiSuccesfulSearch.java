@@ -1,5 +1,7 @@
 package AppPkg;
 
+import javax.swing.*;
+
 public class MultiSuccesfulSearch extends javax.swing.JFrame
 {
 
@@ -37,12 +39,8 @@ public class MultiSuccesfulSearch extends javax.swing.JFrame
             }
         });
 
-        jListOptions.setModel(new javax.swing.AbstractListModel<String>()
-        {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        jListOptions.setModel(listModel);
         jScrollPane1.setViewportView(jListOptions);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -87,6 +85,8 @@ public class MultiSuccesfulSearch extends javax.swing.JFrame
         new MainMenu().setVisible(true);
         this.dispose();
     }
+
+    private void
 
     public static void main(String args[])
     {
