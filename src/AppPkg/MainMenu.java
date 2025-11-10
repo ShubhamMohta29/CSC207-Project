@@ -4,7 +4,7 @@ import Classes.APIClass;
 
 import javax.swing.JOptionPane;
 
-public class MainMenu extends javax.swing.JFrame
+public class  MainMenu extends javax.swing.JFrame
 {
 
     public MainMenu()
