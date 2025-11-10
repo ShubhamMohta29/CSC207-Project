@@ -171,19 +171,21 @@ public class MainMenu extends javax.swing.JFrame
         } else {
             APIClass aClass = new Classes.APIClass();               // instantiates APIClass
             String result = aClass.getAnimalData(animalName);       // calls getAnimalData to get the JSON data of the animal
+            int numResults = aClass.numResults();                   // gets the number of animals' data that was returned
+
             System.out.println(result);
 
 
-            if (result.length() == 2)   // asks the user to ensure they entered the correct animal
+            if (numResults == 0)   // asks the user to ensure they entered the correct animal because an animal with the user inputted spelling doesn't exist in the API
             {
                 lblError.setText("Please double check animal name.");
             }
-            if (false)
+            if (numResults == 1)    // if there is only 1 outputting result, open SuccesfulSearch because the animal's data will be output there
             {
                 new SuccesfulSearch(animalName).setVisible(true);
                 this.dispose();
             }
-            if (false)
+            if (numResults >= 2)
             {
                 new MultiSuccesfulSearch().setVisible(true);
                 this.dispose();

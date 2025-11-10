@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class APIClass {
 
@@ -46,7 +47,6 @@ public class APIClass {
 
     public int numResults(){
         JSONArray animalsArray = new JSONArray(responseBody);
-        //added dummy return statement  to let program compile
-        return 1;
+        return animalsArray.length();
     }
 }
