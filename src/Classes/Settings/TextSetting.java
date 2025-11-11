@@ -1,10 +1,10 @@
-package Classes;
+package Classes.Settings;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.io.*;
 
-public class SettingClass {
+public class TextSetting extends Setting {
     private int textSize;
     private Color textColor;
     private Font textStyle;
@@ -12,7 +12,7 @@ public class SettingClass {
     final private String filePath;
 
 
-    public SettingClass(String filePath) {
+    public TextSetting(String filePath) {
         /**
          * extract saved setting from the csv file
          * When can't find filePath, it creates a csv file with default settings
@@ -30,7 +30,7 @@ public class SettingClass {
     }
 
     // Default constructor (if no file path given)
-    public SettingClass() {
+    public TextSetting() {
         /**
          * reads from a fixed filePath when no filePath is given
          */
@@ -121,6 +121,7 @@ public class SettingClass {
         return this.textStyle;
     }
     // all setter updates settings.csv
+
     public void setColor(Color color) {
         this.textColor = color;
         saveSettingsToCSV();

@@ -4,7 +4,7 @@ import Classes.APIClass;
 
 import javax.swing.JOptionPane;
 
-public class MainMenu extends javax.swing.JFrame
+public class  MainMenu extends javax.swing.JFrame
 {
 
     public MainMenu()
@@ -159,44 +159,51 @@ public class MainMenu extends javax.swing.JFrame
     private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSettingsActionPerformed
     {//GEN-HEADEREND:event_btnSettingsActionPerformed
         new Settings().setVisible(true);
-        this.dispose();
+        // this.dispose();
     }//GEN-LAST:event_btnSettingsActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSearchActionPerformed
     {//GEN-HEADEREND:event_btnSearchActionPerformed
         String animalName = txfAnimal.getText().toLowerCase();  // gets the animal name, and makes it lowercase
-        APIClass aClass = new Classes.APIClass();               // instantiates APIClass
-        String result = aClass.getAnimalData(animalName);       // calls getAnimalData to get the JSON data of the animal
-        System.out.println(result);
-//        System.out.println(result.length());
-        System.out.println(aClass.numResults());
-        
 
-        if (animalName.isEmpty())   // asks for an input
-        {
-            lblError.setText("Please select an animal.");
-        }
-        if (result.length() == 2)   // asks the user to ensure they entered the correct animal
-        {
-            lblError.setText("Please double check animal name.");
-        }
-        if (false)
-        {
-            new SuccesfulSearch(animalName).setVisible(true);
-            this.dispose();
-        }
-        if (false)
-        {
-            new MultiSuccesfulSearch().setVisible(true);
-            this.dispose();
+        if (animalName.isEmpty()){  // ensures the user has given an input. if not, terminates teh call
+            lblError.setText("Please select an animal name.");
+        } else {
+            APIClass aClass = new Classes.APIClass();               // instantiates APIClass
+            String result = aClass.getAnimalData(animalName);       // calls getAnimalData to get the JSON data of the animal
+            int numResults = aClass.numResults();                   // gets the number of animals' data that was returned
+
+            System.out.println(result);
+
+
+            if (numResults == 0)   // asks the user to ensure they entered the correct animal because an animal with the user inputted spelling doesn't exist in the API
+            {
+                lblError.setText("Please double check animal name.");
+            }
+            if (numResults == 1)    // if there is only 1 outputting result, open SuccesfulSearch because the animal's data will be output there
+            {
+                new SuccesfulSearch(animalName).setVisible(true);
+                this.dispose();
+            }
+            if (numResults >= 2)
+            {
+                new MultiSuccesfulSearch().setVisible(true);
+                this.dispose();
+            }
         }
 
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnFilterActionPerformed
     {//GEN-HEADEREND:event_btnFilterActionPerformed
-        new Filter().setVisible(true);
-        this.dispose();
+        Filter filterFrame = new Filter();  // create the frame
+
+        //get MainMenu's co-ords
+        int x = this.getX() + this.getWidth();
+        int y = this.getY();
+
+        filterFrame.setLocation(x, y);  // set the location
+        filterFrame.setVisible(true);   // make it visible
     }//GEN-LAST:event_btnFilterActionPerformed
 
     private void btnCompatibilityActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnCompatibilityActionPerformed
