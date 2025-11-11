@@ -12,68 +12,7 @@ public class Animal {
     private double weight;
     private double height;
     private String group;
-
-    public static double parseAverageLifespanYears(String lifespanStr) {
-        if (lifespanStr == null || lifespanStr.isEmpty()) {
-            return 0;
-        }
-
-        lifespanStr = lifespanStr.replaceAll("years?", "").trim();
-
-        String[] parts = lifespanStr.split("-");
-
-        if (parts.length == 2) {
-            double low = Double.parseDouble(parts[0].trim());
-            double high = Double.parseDouble(parts[1].trim());
-            return (low + high) / 2.0;
-        } else if (parts.length == 1) {
-            return Double.parseDouble(parts[0].trim());
-        }
-
-        return 0;
-    }
-
-
-    public static double parseAverageHeightCm(String heightStr) {
-        if (heightStr == null || heightStr.isEmpty()) {
-            return 0;
-        }
-
-        String cmPart = heightStr.split("\\(")[0];
-        cmPart = cmPart.replaceAll("cm", "").trim();
-        String[] parts = cmPart.split("-");
-
-        if (parts.length == 2) {
-            double low = Double.parseDouble(parts[0].trim());
-            double high = Double.parseDouble(parts[1].trim());
-            return (low + high) / 2.0;
-        } else if (parts.length == 1) {
-            return Double.parseDouble(parts[0].trim());
-        }
-
-        return 0;
-    }
-
-
-    public static double parseAverageWeightKg(String weightStr) {
-        if (weightStr == null || weightStr.isEmpty()) {
-            return 0;
-        }
-
-        String kgPart = weightStr.split("\\(")[0];
-
-        kgPart = kgPart.replaceAll("kg", "").trim();
-        String[] parts = kgPart.split("-");
-        if (parts.length == 2) {
-            double low = Double.parseDouble(parts[0].trim());
-            double high = Double.parseDouble(parts[1].trim());
-            return (low + high) / 2.0; // average
-        } else if (parts.length == 1) {
-            return Double.parseDouble(parts[0].trim());
-        }
-
-        return 0;
-    }
+    AnimalConverter conv =  new AnimalConverter();
 
     public String getName() {
         return name;
@@ -120,7 +59,7 @@ public class Animal {
     }
 
     public void setLifespan(String lifespan) {
-        this.lifespan = parseAverageLifespanYears(lifespan);
+        this.lifespan = conv.parseAverageLifespanYears(lifespan);
     }
 
     public String getDiet() {
@@ -144,7 +83,7 @@ public class Animal {
     }
 
     public void setWeight(String weight) {
-        this.weight = parseAverageWeightKg(weight);
+        this.weight = conv.parseAverageWeightKg(weight);
     }
 
     public double getHeight() {
@@ -152,7 +91,7 @@ public class Animal {
     }
 
     public void setHeight(String height) {
-        this.height = parseAverageHeightCm(height);
+        this.height = conv.parseAverageHeightCm(height);
     }
 
     public String getGroup() {
