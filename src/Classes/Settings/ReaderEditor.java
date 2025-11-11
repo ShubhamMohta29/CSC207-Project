@@ -5,8 +5,8 @@ import java.awt.Color;
 public class ReaderEditor {
     private SettingClass configuration;
 
-    public ReaderEditor(String s) {
-        this.configuration = new SettingClass(s);
+    public ReaderEditor(String filePath) {
+        this.configuration = new SettingClass(filePath);
     }
 //??
     public ReaderEditor() {
