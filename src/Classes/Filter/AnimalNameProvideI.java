@@ -9,7 +9,7 @@ package Classes.Filter;
 
 import java.util.*;
 
-public interface FilterRepositoryI {
+public interface AnimalNameProvideI {
 
     /*
         getCandidateName: fetches a list of potential animal names that meet the user's filter criteria.
@@ -21,7 +21,7 @@ public interface FilterRepositoryI {
         @param cursor: pagination token to keep track to mark when next batch of animals should be loaded
         @param limit: maximum number of items to fetch per request
      */
-    List<String> getCandidateNames (FilterInput input, int limit, String cursor);
+    List<String> getCandidateNames (FilterInput input);
 
 
 }

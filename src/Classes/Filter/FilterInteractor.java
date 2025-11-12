@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 import Classes.Animal;
 
 public class FilterInteractor {
-    private FilterRepositoryI repo;
+    private AnimalNameProvideI repo;
 
     //constructor
-    public FilterInteractor(FilterRepositoryI repo){ this.repo = repo; }
+    public FilterInteractor(AnimalNameProvideI repo){ this.repo = repo; }
 
 //    public FilterOutput handleFilter(FilterInput input){
 //        List<String> candidateNames = repo.getCandidateNames(input);
@@ -25,4 +25,37 @@ public class FilterInteractor {
 //        String nextCursor = hasMore ? candidateNames.get(candidateNames.size()-1) : null;
 //        return new FilterOutput(animals, hasMore, nextCursor);
 //    }
+
+    private boolean matchesFilters(Animal a, FilterInput request) {
+        // Group filter
+        if (request.getGroups() != null && !request.getGroups().isEmpty()) {
+            if (!request.getGroups().contains(a.getGroup())) {
+                return false;
+            }
+        }
+
+        // Location filter
+        if (request.getLocations() != null && !request.getLocations().isEmpty()) {
+            boolean locationMatch = false;
+            for (String location : request.getLocations()) {
+                if (a.getLocations().contains(location)) {
+                    locationMatch = true;
+                    break;
+                }
+            }
+            if (!locationMatch) return false;
+        }
+
+        // Diet filter
+        if (request.getDiets() != null && !request.getDiets().isEmpty()) {
+            if (!request.getDiets().contains(a.getDiet())) {
+                return false;
+            }
+        }
+
+        //Lifespan filter
+        //todo
+
+        return true;
+    }
 }
