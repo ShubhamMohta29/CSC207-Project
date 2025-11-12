@@ -163,13 +163,13 @@ public class Compatibility extends javax.swing.JFrame
         String choiceOne = txfAnimal1.getText();
         APIClass api = new APIClass();
         String animal1Data = api.getAnimalData(choiceOne);
-        Animal animalOne = new Animal();
+        //Animal animalOne = new Animal();
 
         String choiceTwo = txfAnimal2.getText();
         String animal2Data = api.getAnimalData(choiceTwo);
-        Animal animalTwo = new Animal();
+        //Animal animalTwo = new Animal();
 
-        ArrayList<String> similar = getSimilar(animalOne, animalTwo);
+        //ArrayList<String> similar = getSimilar(animalOne, animalTwo);
 
         txaMatching.setText(animal1Data);
         txaConflicting.setText("Goodbye");

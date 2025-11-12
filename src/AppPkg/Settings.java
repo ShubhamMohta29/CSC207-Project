@@ -5,7 +5,7 @@ import Classes.Settings.ReaderEditor;
 import java.awt.*;
 
 public class Settings extends javax.swing.JFrame {
-    private ReaderEditor config = new ReaderEditor();
+    private ReaderEditor config = new ReaderEditor("settings.csv");
     private String color = "black";
     private String style = "Arial";
     private int size = 2;
@@ -14,8 +14,6 @@ public class Settings extends javax.swing.JFrame {
         initComponents();
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setupListeners();
-        revalidate();
-        pack();
     }
 
     @SuppressWarnings("unchecked")
