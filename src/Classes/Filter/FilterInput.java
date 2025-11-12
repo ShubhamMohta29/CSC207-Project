@@ -1,6 +1,6 @@
 /**
  * FilterInput : Class modelling filter requests
- /)/)
+  /)/)
  ( . .)
  ( づ♡
  */
@@ -14,8 +14,9 @@ public class FilterInput {
     private final List<String> animal_groups;
     private final List<String> animal_diets;
     private final List<String> animal_locations;
-    private final int min_lifespan;
-    private final int max_lifespan;
+    private final Integer min_lifespan; //since the user can choose not to apply any lifespan filter in which case it
+    // would allow it to be Null (also autoboxing)
+    private final Integer max_lifespan;
     int limit;  //max number of items to fetch per request
     String cursor; //pagination token
 
@@ -42,10 +43,10 @@ public class FilterInput {
         private List<String> groups = List.of();
         private List<String> locations = List.of();
         private List<String> diets = List.of();
-        private int min_lifespan;
-        private int max_lifespan;
+        private Integer min_lifespan;
+        private Integer max_lifespan;
         private String cursor;
-        private int limit = 7;
+        private int limit = 5;
 
         public Builder groups(List<String> groups) {
             this.groups = groups != null ? groups : List.of();
@@ -63,7 +64,7 @@ public class FilterInput {
         }
 
 
-        public Builder lifespanRange(int min, int max) {
+        public Builder lifespanRange(Integer min, Integer max) {
             this.min_lifespan = min;
             this.max_lifespan = max;
             return this;
@@ -88,8 +89,8 @@ public class FilterInput {
     public List<String> getGroups() { return animal_groups; }
     public List<String> getLocations() { return animal_locations; }
     public List<String> getDiets() { return animal_diets; }
-    public int getMinLifespan() { return min_lifespan; }
-    public int getMaxLifespan() { return max_lifespan; }
+    public Integer getMinLifespan() { return min_lifespan; }
+    public Integer getMaxLifespan() { return max_lifespan; }
     public String getCursor() { return cursor; }
     public int getLimit() { return limit; }
 

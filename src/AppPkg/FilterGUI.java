@@ -2,7 +2,7 @@
  * FilterGUI: contains logic for the category selectors and range sliders
  *  also remember you OR within a category and AND across them
  *  (any group) AND (any location) AND (.....) ₍^ >⩊< ^₎Ⳋ
- /)/)
+  /)/)
  ( . .)
  ( づ♡
  */
