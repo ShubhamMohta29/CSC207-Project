@@ -211,13 +211,6 @@ public class Settings extends javax.swing.JFrame {
 
     }
 
-    private void rebuildUI() {
-        getContentPane().removeAll(); // remove everything
-        initComponents();             // recreate components
-        revalidate();                 // re-layout everything
-        repaint();                    // redraw
-    }
-
 
     public static void main(String args[]) {
         new Settings().setVisible(true);
