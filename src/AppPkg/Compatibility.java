@@ -2,8 +2,7 @@ package AppPkg;
 
 import Classes.APIClass;
 import Classes.Animal;
-
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Compatibility extends javax.swing.JFrame
 {
@@ -163,20 +162,23 @@ public class Compatibility extends javax.swing.JFrame
         String choiceOne = txfAnimal1.getText();
         APIClass api = new APIClass();
         String animal1Data = api.getAnimalData(choiceOne);
-        Animal animalOne = new Animal();
+        Animal animalOne = new Animal(animal1Data);
 
         String choiceTwo = txfAnimal2.getText();
         String animal2Data = api.getAnimalData(choiceTwo);
-        Animal animalTwo = new Animal();
+        Animal animalTwo = new Animal(animal2Data);
 
-        ArrayList<String> similar = getSimilar(animalOne, animalTwo);
+        HashSet<String> similar = getSimilar(animalOne, animalTwo);
 
-        txaMatching.setText(animal1Data);
+        String similarString = String.join(", ", similar);
+        txaMatching.setText(similarString);
         txaConflicting.setText("Goodbye");
+        //Making random changes (remove this)
     }
 
-    public static ArrayList<String> getSimilar(Animal animal1, Animal animal2){
-        ArrayList<String> similar = new ArrayList<String>();
+    public static HashSet<String> getSimilar(Animal animal1, Animal animal2){
+        //Create Similar Set
+        HashSet<String> similar = new HashSet<>();
 
         if (animal1.getGroup().equals(animal2.getGroup())){
             similar.add("Group");
@@ -187,12 +189,26 @@ public class Compatibility extends javax.swing.JFrame
         if (animal1.getLifestyle().equals(animal2.getLifestyle())){
             similar.add("Lifestyle");
         }
-        boolean found = false;
         for(String location1: animal1.getLocation()){
             for (String location2: animal2.getLocation()){
-                if (location1.equals(location2)){}
+                if (location1.equals(location2)){
+                    similar.add("Location");
+                }
+            }
+
+            boolean foundPrey = false;
+            for(String prey1: animal1.getPrey()) {
+                for (String prey2 : animal2.getPrey()) {
+                    if (prey1.equals(prey2)) {
+                        similar.add("Prey");
+                    }
+                }
+            }
+            if (animal1.getHabitat().equals(animal2.getHabitat())) {
+                similar.add("Habitat");
             }
         }
+
 
         return similar;
     }
