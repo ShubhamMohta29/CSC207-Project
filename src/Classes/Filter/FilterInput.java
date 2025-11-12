@@ -58,6 +58,7 @@ public class FilterInput {
     public double getMaxLifespan() { return max_lifespan; }
     // public double getMinWeight() { return min_weight; }
     // public double getMaxWeight() { return max_weight; }
+    public int getLimit(){return limit;}
 
 
 }
