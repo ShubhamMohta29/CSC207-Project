@@ -196,7 +196,7 @@ public class  MainMenu extends javax.swing.JFrame
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnFilterActionPerformed
     {//GEN-HEADEREND:event_btnFilterActionPerformed
-        FilterGUI filterFrame = new FilterGUIx(this);  // create the frame
+        FilterGUI filterFrame = new FilterGUI(this);  // create the frame
 
         //get MainMenu's co-ords
         int x = this.getX() + this.getWidth();
