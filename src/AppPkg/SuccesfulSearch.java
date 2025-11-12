@@ -1,21 +1,12 @@
 package AppPkg;
 
-import Classes.Animal;
-
 public class SuccesfulSearch extends javax.swing.JFrame
 {
 
-    public SuccesfulSearch(Animal animal)
+    public SuccesfulSearch(String animal)
     {
         initComponents();
-        String name = animal.getName();
-        lblHeading.setText("Searched: " + Character.toUpperCase(name.charAt(0)) + name.substring(1));
-        txaDisplay.setText(animal.toString());
-    }
-
-    public SuccesfulSearch() {
-        initComponents();
-        lblHeading.setText("Searched: ");
+        lblHeading.setText("Searched: " + Character.toUpperCase(animal.charAt(0)) + animal.substring(1));
     }
 
     /**
@@ -30,9 +21,9 @@ public class SuccesfulSearch extends javax.swing.JFrame
 
         lblHeading = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txaDisplay = new javax.swing.JTextArea();
+        jTextArea1 = new javax.swing.JTextArea();
         btnAddFavorite = new javax.swing.JButton();
-        btnGenerateTradingCard = new javax.swing.JButton();
+        btnGenerateTraingCard = new javax.swing.JButton();
         btnHome = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -41,14 +32,14 @@ public class SuccesfulSearch extends javax.swing.JFrame
         lblHeading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblHeading.setText("Searched: ");
 
-        txaDisplay.setColumns(20);
-        txaDisplay.setRows(5);
-        jScrollPane1.setViewportView(txaDisplay);
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
 
-        btnAddFavorite.setText("Favorite");
+        btnAddFavorite.setText("Add favorite");
 
-        btnGenerateTradingCard.setText("Generate Trading Card");
-        btnGenerateTradingCard.addActionListener(new java.awt.event.ActionListener()
+        btnGenerateTraingCard.setText("Generate Trading Card");
+        btnGenerateTraingCard.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
@@ -79,7 +70,7 @@ public class SuccesfulSearch extends javax.swing.JFrame
                 .addGap(35, 35, 35)
                 .addComponent(btnAddFavorite, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(btnGenerateTradingCard)
+                .addComponent(btnGenerateTraingCard)
                 .addGap(38, 38, 38))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -96,7 +87,7 @@ public class SuccesfulSearch extends javax.swing.JFrame
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddFavorite)
-                    .addComponent(btnGenerateTradingCard))
+                    .addComponent(btnGenerateTraingCard))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addComponent(btnHome)
                 .addContainerGap())
@@ -114,7 +105,7 @@ public class SuccesfulSearch extends javax.swing.JFrame
 
     private void btnGenerateTraingCardActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnGenerateTraingCardActionPerformed
     {//GEN-HEADEREND:event_btnGenerateTraingCardActionPerformed
-        new GenerateTradingCard().setVisible(true);
+        new Settings().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnGenerateTraingCardActionPerformed
 
@@ -123,15 +114,15 @@ public class SuccesfulSearch extends javax.swing.JFrame
      */
     public static void main(String args[])
     {
-        new SuccesfulSearch().setVisible(true);
+        new SuccesfulSearch("").setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddFavorite;
-    private javax.swing.JButton btnGenerateTradingCard;
+    private javax.swing.JButton btnGenerateTraingCard;
     private javax.swing.JButton btnHome;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea txaDisplay;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblHeading;
     // End of variables declaration//GEN-END:variables
 }
