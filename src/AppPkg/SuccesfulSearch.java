@@ -1,12 +1,21 @@
 package AppPkg;
 
+import Classes.Animal;
+
 public class SuccesfulSearch extends javax.swing.JFrame
 {
 
-    public SuccesfulSearch(String animal)
+    public SuccesfulSearch(Animal animal)
     {
         initComponents();
-        lblHeading.setText("Searched: " + Character.toUpperCase(animal.charAt(0)) + animal.substring(1));
+        String name = animal.getName();
+        lblHeading.setText("Searched: " + Character.toUpperCase(name.charAt(0)) + name.substring(1));
+        txaDisplay.setText(animal.toString());
+    }
+
+    public SuccesfulSearch() {
+        initComponents();
+        lblHeading.setText("Searched: ");
     }
 
     /**
@@ -21,7 +30,7 @@ public class SuccesfulSearch extends javax.swing.JFrame
 
         lblHeading = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txaDisplay = new javax.swing.JTextArea();
         btnAddFavorite = new javax.swing.JButton();
         btnGenerateTradingCard = new javax.swing.JButton();
         btnHome = new javax.swing.JButton();
@@ -32,9 +41,9 @@ public class SuccesfulSearch extends javax.swing.JFrame
         lblHeading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblHeading.setText("Searched: ");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txaDisplay.setColumns(20);
+        txaDisplay.setRows(5);
+        jScrollPane1.setViewportView(txaDisplay);
 
         btnAddFavorite.setText("Favorite");
 
@@ -114,7 +123,7 @@ public class SuccesfulSearch extends javax.swing.JFrame
      */
     public static void main(String args[])
     {
-        new SuccesfulSearch("").setVisible(true);
+        new SuccesfulSearch().setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -122,7 +131,7 @@ public class SuccesfulSearch extends javax.swing.JFrame
     private javax.swing.JButton btnGenerateTradingCard;
     private javax.swing.JButton btnHome;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea txaDisplay;
     private javax.swing.JLabel lblHeading;
     // End of variables declaration//GEN-END:variables
 }

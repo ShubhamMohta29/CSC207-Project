@@ -1,6 +1,7 @@
 package AppPkg;
 
 import Classes.APIClass;
+import Classes.Animal;
 
 import javax.swing.JOptionPane;
 
@@ -182,7 +183,8 @@ public class  MainMenu extends javax.swing.JFrame
             }
             if (numResults == 1)    // if there is only 1 outputting result, open SuccesfulSearch because the animal's data will be output there
             {
-                new SuccesfulSearch(animalName).setVisible(true);
+                Animal searched = new Animal(animalName);
+                new SuccesfulSearch(searched).setVisible(true);
                 this.dispose();
             }
             if (numResults >= 2)

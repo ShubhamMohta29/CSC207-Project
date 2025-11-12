@@ -146,4 +146,30 @@ public class Animal {
     public void setGroup(String group) {
         this.group = group;
     }
+
+    // toString implemented by Shubham
+    @Override
+    public String toString()
+    {
+        return "Name: " + getName()
+                + "Taxonomy: " + getTaxonomy()
+                + "Habitat: " + getHabitat()
+                + "Prey(s): " + convertedToString(getPrey())
+                + "Most Distinctive Feature: " + getMostDistinctiveFeature()
+                + "Lifespan: " + getLifespan()
+                + "Diet: " + getDiet()
+                + "Lifestyle: " + getLifestyle()
+                + "Weight: " + getWeight()
+                + "Height: " + getHeight()
+                + "Group: " + getGroup();
+    }
+
+    private String convertedToString(String[] preys)
+    {
+        String output = "";
+        for (String s : preys) {
+            output += s + ", ";
+        }
+        return output;
+    }
 }
