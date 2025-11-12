@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 public class Animal {
     private String name;
-    private String taxonomy;
+    private java.util.Map<String, String> taxonomy;
     private String habitat;
     private String[] location;
     private String[] prey;
@@ -25,7 +25,13 @@ public class Animal {
         JSONObject characteristics = animal.optJSONObject("characteristics");
 
         setName(animal.getString("name"));
-        setTaxonomy(animal.getString("taxonomy"));
+        JSONObject taxonomyObj = animal.getJSONObject("taxonomy");
+
+        java.util.Map<String, String> taxonomyMap = new java.util.HashMap<>();
+        for (String key : taxonomyObj.keySet()) {
+            taxonomyMap.put(key, taxonomyObj.getString(key));
+        }
+        setTaxonomy(taxonomyMap);
         setHabitat(characteristics.getString("habitat"));
 
         JSONArray locations = animal.getJSONArray("locations");
@@ -35,14 +41,8 @@ public class Animal {
         }
         setLocation(tempLoc);
 
-        JSONArray food = animal.getJSONArray("prey");
-        String[] tempPre = new String[food.length()];
-        for (int i = 0; i < food.length(); i++) {
-            tempPre[i] = food.get(i).toString();
-        }
-        setLocation(tempPre);
-
-        setMostDistinctiveFeature(characteristics.getString("mostDistinctiveFeature"));
+        setPrey(characteristics.getString("prey"));
+        setMostDistinctiveFeature(characteristics.getString("most_distinctive_feature"));
         setLifespan(characteristics.getString("lifespan"));
         setDiet(characteristics.getString("diet"));
         setLifestyle(characteristics.getString("lifestyle"));
@@ -59,9 +59,6 @@ public class Animal {
         this.name = name;
     }
 
-    public String getTaxonomy() {
-        return taxonomy;
-    }
 
     public String[] getLocation() {
         return location;
@@ -71,7 +68,11 @@ public class Animal {
         this.location = location;
     }
 
-    public void setTaxonomy(String taxonomy) {
+    public java.util.Map<String, String> getTaxonomy() {
+        return taxonomy;
+    }
+
+    public void setTaxonomy(java.util.Map<String, String> taxonomy) {
         this.taxonomy = taxonomy;
     }
 
@@ -87,8 +88,10 @@ public class Animal {
         return prey;
     }
 
-    public void setPrey(String[] prey) {
-        this.prey = prey;
+
+    public void setPrey(String preyString) {
+        String[] parts = preyString.split(",\\s*");
+        this.prey = parts;
     }
 
     public String getMostDistinctiveFeature() {
