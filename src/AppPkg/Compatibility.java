@@ -171,9 +171,9 @@ public class Compatibility extends javax.swing.JFrame
         HashSet<String> similar = getSimilar(animalOne, animalTwo);
 
         String similarString = String.join(", ", similar);
-
         txaMatching.setText(similarString);
         txaConflicting.setText("Goodbye");
+        //Making random changes
     }
 
     public static HashSet<String> getSimilar(Animal animal1, Animal animal2){
