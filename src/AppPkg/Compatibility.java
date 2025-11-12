@@ -4,8 +4,6 @@ import Classes.APIClass;
 import Classes.Animal;
 import java.util.HashSet;
 
-import java.util.ArrayList;
-
 public class Compatibility extends javax.swing.JFrame
 {
 
