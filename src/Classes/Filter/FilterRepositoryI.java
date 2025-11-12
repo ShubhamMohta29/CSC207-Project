@@ -23,8 +23,5 @@ public interface FilterRepositoryI {
      */
     List<String> getCandidateNames (FilterInput input, int limit, String cursor);
 
-    /*
-        getAnimalData : basic api call as implemented in APIClass
-     */
-    String getAnimalData (String name);
+
 }
