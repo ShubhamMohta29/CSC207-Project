@@ -1,10 +1,14 @@
 package Classes;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class Animal {
     private String name;
     private String taxonomy;
     private String habitat;
-    private String prey;
+    private String[] location;
+    private String[] prey;
     private String mostDistinctiveFeature; // or slogan
     private double lifespan;
     private String diet;
@@ -13,6 +17,39 @@ public class Animal {
     private double height;
     private String group;
     // private final AnimalConverter conv = new AnimalConverter();
+
+    public Animal(String s){
+        JSONArray obj = new JSONArray(s);
+        JSONObject animal = obj.getJSONObject(0);
+
+        JSONObject characteristics = animal.optJSONObject("characteristics");
+
+        setName(animal.getString("name"));
+        setTaxonomy(animal.getString("taxonomy"));
+        setHabitat(characteristics.getString("habitat"));
+
+        JSONArray locations = animal.getJSONArray("locations");
+        String[] tempLoc = new String[locations.length()];
+        for (int i = 0; i < locations.length(); i++) {
+            tempLoc[i] = locations.get(i).toString();
+        }
+        setLocation(tempLoc);
+
+        JSONArray food = animal.getJSONArray("prey");
+        String[] tempPre = new String[food.length()];
+        for (int i = 0; i < food.length(); i++) {
+            tempPre[i] = food.get(i).toString();
+        }
+        setLocation(tempPre);
+
+        setMostDistinctiveFeature(characteristics.getString("mostDistinctiveFeature"));
+        setLifespan(characteristics.getString("lifespan"));
+        setDiet(characteristics.getString("diet"));
+        setLifestyle(characteristics.getString("lifestyle"));
+        setWeight(characteristics.getString("weight"));
+        setHeight(characteristics.getString("height"));
+        setGroup(characteristics.getString("group"));
+    }
 
     public String getName() {
         return name;
@@ -24,6 +61,14 @@ public class Animal {
 
     public String getTaxonomy() {
         return taxonomy;
+    }
+
+    public String[] getLocation() {
+        return location;
+    }
+
+    public void setLocation(String[] location) {
+        this.location = location;
     }
 
     public void setTaxonomy(String taxonomy) {
@@ -38,11 +83,11 @@ public class Animal {
         this.habitat = habitat;
     }
 
-    public String getPrey() {
+    public String[] getPrey() {
         return prey;
     }
 
-    public void setPrey(String prey) {
+    public void setPrey(String[] prey) {
         this.prey = prey;
     }
 
