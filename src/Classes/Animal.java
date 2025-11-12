@@ -12,7 +12,7 @@ public class Animal {
     private double weight;
     private double height;
     private String group;
-    AnimalConverter conv =  new AnimalConverter();
+    // private final AnimalConverter conv = new AnimalConverter();
 
     public String getName() {
         return name;
@@ -58,9 +58,9 @@ public class Animal {
         return lifespan;
     }
 
-    public void setLifespan(String lifespan) {
-        this.lifespan = conv.parseAverageLifespanYears(lifespan);
-    }
+//    public void setLifespan(String lifespan) {
+//        this.lifespan = conv.parseAverageLifespanYears(lifespan);
+//    }
 
     public String getDiet() {
         return diet;
@@ -82,17 +82,17 @@ public class Animal {
         return weight;
     }
 
-    public void setWeight(String weight) {
-        this.weight = conv.parseAverageWeightKg(weight);
-    }
+//    public void setWeight(String weight) {
+//        this.weight = conv.parseAverageWeightKg(weight);
+//    }
 
     public double getHeight() {
         return height;
     }
 
-    public void setHeight(String height) {
-        this.height = conv.parseAverageHeightCm(height);
-    }
+//    public void setHeight(String height) {
+//        this.height = conv.parseAverageHeightCm(height);
+//    }
 
     public String getGroup() {
         return group;
