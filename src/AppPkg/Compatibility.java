@@ -177,6 +177,7 @@ public class Compatibility extends javax.swing.JFrame
     }
 
     public static HashSet<String> getSimilar(Animal animal1, Animal animal2){
+        //Create Similar Set
         HashSet<String> similar = new HashSet<>();
 
         if (animal1.getGroup().equals(animal2.getGroup())){
