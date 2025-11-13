@@ -53,7 +53,7 @@ public class SuccesfulSearch extends javax.swing.JFrame
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                btnGenerateTraingCardActionPerformed(evt);
+                btnGenerateTradingCardActionPerformed(evt);
             }
         });
 
@@ -113,9 +113,9 @@ public class SuccesfulSearch extends javax.swing.JFrame
         this.dispose();
     }//GEN-LAST:event_btnHomeActionPerformed
 
-    private void btnGenerateTraingCardActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnGenerateTraingCardActionPerformed
+    private void btnGenerateTradingCardActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnGenerateTraingCardActionPerformed
     {//GEN-HEADEREND:event_btnGenerateTraingCardActionPerformed
-        new Settings().setVisible(true);
+        new GenerateTradingCard().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnGenerateTraingCardActionPerformed
 

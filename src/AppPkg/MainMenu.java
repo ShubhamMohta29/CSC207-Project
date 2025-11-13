@@ -3,6 +3,8 @@ package AppPkg;
 import Classes.APIClass;
 import Classes.Animal;
 import Classes.Settings.ReaderEditor;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.swing.JOptionPane;
 import java.awt.*;
@@ -167,7 +169,7 @@ public class  MainMenu extends javax.swing.JFrame
     private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSettingsActionPerformed
     {//GEN-HEADEREND:event_btnSettingsActionPerformed
         new Settings().setVisible(true);
-        this.dispose();
+        // this.dispose();
     }//GEN-LAST:event_btnSettingsActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSearchActionPerformed
@@ -196,7 +198,20 @@ public class  MainMenu extends javax.swing.JFrame
             }
             if (numResults >= 2)
             {
-                new MultiSuccesfulSearch().setVisible(true);
+                // makes an array of all the animals that the api returns with teh search
+                JSONArray jsonArray = new JSONArray(result);
+                Animal[] animals = new Animal[numResults];
+                for (int i = 0; i < numResults; i++) {
+                    JSONObject singleAnimal = jsonArray.getJSONObject(i);
+
+                    // Wrap it in a single-element JSONArray (your constructor expects this)
+                    JSONArray singleArray = new JSONArray();
+                    singleArray.put(singleAnimal);
+
+                    animals[i] = new Animal(singleArray.toString());
+                }
+
+                new MultiSuccesfulSearch(animals).setVisible(true);
                 this.dispose();
             }
         }
