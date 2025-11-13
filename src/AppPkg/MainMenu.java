@@ -1,6 +1,7 @@
 package AppPkg;
 
 import Classes.APIClass;
+import Classes.Animal;
 import Classes.Settings.ReaderEditor;
 
 import javax.swing.JOptionPane;
@@ -179,6 +180,7 @@ public class  MainMenu extends javax.swing.JFrame
             APIClass aClass = new Classes.APIClass();               // instantiates APIClass
             String result = aClass.getAnimalData(animalName);       // calls getAnimalData to get the JSON data of the animal
             int numResults = aClass.numResults();                   // gets the number of animals' data that was returned
+            Animal searched = new Animal(result);
 
             System.out.println(result);
 
@@ -189,7 +191,7 @@ public class  MainMenu extends javax.swing.JFrame
             }
             if (numResults == 1)    // if there is only 1 outputting result, open SuccesfulSearch because the animal's data will be output there
             {
-                new SuccesfulSearch(animalName).setVisible(true);
+                new SuccesfulSearch(searched).setVisible(true);
                 this.dispose();
             }
             if (numResults >= 2)

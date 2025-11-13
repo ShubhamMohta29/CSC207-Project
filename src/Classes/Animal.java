@@ -149,4 +149,29 @@ public class Animal {
     public void setGroup(String group) {
         this.group = group;
     }
+
+    @Override
+    public String toString() {
+        return "Name: " + getName() + "\n"
+                + "Taxonomy: " + getTaxonomy() + "\n"
+                + "Habitat: " + getLocation() + "\n"
+                + "Prey: " + convertedToString(getPrey()) + "\n"
+                + "Most Distinctive Feature: " + getMostDistinctiveFeature() + "\n"
+                + "Lifespan: " + getLifespan() + "\n"
+                + "Diet: " + getDiet() + "\n"
+                + "Lifestyle: " + getLifestyle() + "\n"
+                + "Weight: " + getWeight() + "\n"
+                + "Height: " + getHeight() + "\n"
+                + "Group: " + getGroup();
+    }
+
+    private String convertedToString(String[] preys) {
+        String out = "";
+        for (String x : preys) {
+            out += x + ", ";
+        }
+        out.trim();
+        out = out.substring(0, out.length() - 2);
+        return out;
+    }
 }

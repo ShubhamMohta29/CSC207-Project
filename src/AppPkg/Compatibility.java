@@ -170,6 +170,9 @@ public class Compatibility extends javax.swing.JFrame
 
         //ArrayList<String> similar = getSimilar(animalOne, animalTwo);
 
+        //This below line is just a placeholder for now
+        String similar = "";
+
         String similarString = String.join(", ", similar);
         txaMatching.setText(similarString);
         txaConflicting.setText("Goodbye");
