@@ -15,7 +15,8 @@ public class Favorites extends javax.swing.JFrame
 
         btnReturn = new javax.swing.JButton();
         lblHeading = new javax.swing.JLabel();
-        cBoxFavs = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListFavs = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Favorites");
@@ -33,20 +34,26 @@ public class Favorites extends javax.swing.JFrame
         lblHeading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblHeading.setText("Favorites");
 
-        cBoxFavs.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jListFavs.setModel(new javax.swing.AbstractListModel<String>()
+        {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jListFavs);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cBoxFavs, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnReturn))
-                    .addComponent(lblHeading, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE))
+                    .addComponent(lblHeading, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -55,8 +62,8 @@ public class Favorites extends javax.swing.JFrame
                 .addContainerGap()
                 .addComponent(lblHeading)
                 .addGap(18, 18, 18)
-                .addComponent(cBoxFavs, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnReturn)
                 .addContainerGap())
         );
@@ -78,7 +85,8 @@ public class Favorites extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReturn;
-    private javax.swing.JComboBox<String> cBoxFavs;
+    private javax.swing.JList<String> jListFavs;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblHeading;
     // End of variables declaration//GEN-END:variables
 }
