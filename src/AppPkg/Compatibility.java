@@ -169,10 +169,19 @@ public class Compatibility extends javax.swing.JFrame
         Animal animalTwo = new Animal(animal2Data);
 
         HashSet<String> similar = getSimilar(animalOne, animalTwo);
-
         String similarString = String.join(", ", similar);
+
+        HashSet<String> conflicting = new HashSet<>();
+        String[] expected = {"Group", "Diet", "Lifestyle", "Location", "Prey", "Habitat", "Lifespan", "Height", "Weight"};
+        for (String s : expected) {
+            if (!similar.contains(s)) {
+                conflicting.add(s);
+            }
+        }
+        String conflictingString = String.join(", ", conflicting);
+
         txaMatching.setText(similarString);
-        txaConflicting.setText("Goodbye");
+        txaConflicting.setText(conflictingString);
     }
 
     public static HashSet<String> getSimilar(Animal animal1, Animal animal2){
