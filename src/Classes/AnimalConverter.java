@@ -1,6 +1,9 @@
 package Classes;
 
 public class AnimalConverter {
+    public AnimalConverter(){
+
+    }
 
     public double parseAverageLifespanYears(String s) {
         if (s == null || s.trim().isEmpty()) return 0;

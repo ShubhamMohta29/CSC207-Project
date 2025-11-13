@@ -1,15 +1,20 @@
 package AppPkg;
 
 import Classes.APIClass;
+import Classes.Animal;
+import Classes.Settings.ReaderEditor;
 
 import javax.swing.JOptionPane;
+import java.awt.*;
 
 public class  MainMenu extends javax.swing.JFrame
 {
+    private ReaderEditor config = new ReaderEditor("settings.csv");
 
     public MainMenu()
     {
         initComponents();
+        pack();
     }
 
     @SuppressWarnings("unchecked")
@@ -90,6 +95,9 @@ public class  MainMenu extends javax.swing.JFrame
 
         lblError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblError.setText(" ");
+        updateLabelStyle( );
+
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -159,7 +167,7 @@ public class  MainMenu extends javax.swing.JFrame
     private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSettingsActionPerformed
     {//GEN-HEADEREND:event_btnSettingsActionPerformed
         new Settings().setVisible(true);
-        // this.dispose();
+        this.dispose();
     }//GEN-LAST:event_btnSettingsActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSearchActionPerformed
@@ -172,6 +180,7 @@ public class  MainMenu extends javax.swing.JFrame
             APIClass aClass = new Classes.APIClass();               // instantiates APIClass
             String result = aClass.getAnimalData(animalName);       // calls getAnimalData to get the JSON data of the animal
             int numResults = aClass.numResults();                   // gets the number of animals' data that was returned
+            Animal searched = new Animal(result);
 
             System.out.println(result);
 
@@ -182,7 +191,7 @@ public class  MainMenu extends javax.swing.JFrame
             }
             if (numResults == 1)    // if there is only 1 outputting result, open SuccesfulSearch because the animal's data will be output there
             {
-                new SuccesfulSearch(animalName).setVisible(true);
+                new SuccesfulSearch(searched).setVisible(true);
                 this.dispose();
             }
             if (numResults >= 2)
@@ -217,6 +226,28 @@ public class  MainMenu extends javax.swing.JFrame
         new Favorites().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnFavoritesActionPerformed
+
+    private void updateLabelStyle(){
+        Color fg = config.getColor();
+        Font font = config.getStyle();
+        lblGreeting1.setForeground(fg);
+        lblGreeting2.setForeground(fg);
+        lblQuestion.setForeground(fg);
+        lblQuestion.setFont(font);
+        txfAnimal.setForeground(fg);
+        txfAnimal.setFont(font);
+        btnFilter.setForeground(fg);
+        btnFilter.setFont(font);
+        btnSearch.setForeground(fg);
+        btnSearch.setFont(font);
+        btnCompatibility.setForeground(fg);
+        btnCompatibility.setFont(font);
+        btnFavorites.setForeground(fg);
+        btnFavorites.setFont(font);
+        lblError.setForeground(fg);
+        lblError.setFont(font);
+
+    }
 
     public static void main(String args[])
     {

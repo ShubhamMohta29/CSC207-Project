@@ -1,5 +1,9 @@
 package AppPkg;
 
+import Classes.APIClass;
+import Classes.Animal;
+import java.util.HashSet;
+
 public class Compatibility extends javax.swing.JFrame
 {
 
@@ -26,7 +30,7 @@ public class Compatibility extends javax.swing.JFrame
         lblCategories1 = new javax.swing.JLabel();
         lblConflicting = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txaConflicting = new javax.swing.JTextArea();
         lblCategories = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -50,6 +54,13 @@ public class Compatibility extends javax.swing.JFrame
         lblAnimal2.setText("Animal 2");
 
         btnCompare.setText("Compare");
+        btnCompare.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnCompareActionPerformed(evt);
+            }
+        });
 
         lblMatching.setText("Matching");
 
@@ -61,9 +72,9 @@ public class Compatibility extends javax.swing.JFrame
 
         lblConflicting.setText("Conflicting");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        txaConflicting.setColumns(20);
+        txaConflicting.setRows(5);
+        jScrollPane2.setViewportView(txaConflicting);
 
         lblCategories.setText("Categories");
 
@@ -72,24 +83,21 @@ public class Compatibility extends javax.swing.JFrame
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                                .addGap(0, 0, Short.MAX_VALUE)
-                                                                .addComponent(btnReturn))
-                                                        .addComponent(lblHeading, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addComponent(lblAnimal1)
-                                                                        .addComponent(lblAnimal2))
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                                        .addComponent(txfAnimal2, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                                                                        .addComponent(txfAnimal1)))))
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addContainerGap()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(btnReturn))
+                                        .addComponent(lblHeading, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(lblAnimal1)
+                                                        .addComponent(lblAnimal2))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                        .addComponent(txfAnimal2, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                                                        .addComponent(txfAnimal1)))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(lblConflicting)
                                                         .addComponent(lblMatching)
@@ -149,6 +157,78 @@ public class Compatibility extends javax.swing.JFrame
         this.dispose();
     }
 
+    private void btnCompareActionPerformed(java.awt.event.ActionEvent evt)
+    {
+        String choiceOne = txfAnimal1.getText();
+        APIClass api = new APIClass();
+        String animal1Data = api.getAnimalData(choiceOne);
+        //Animal animalOne = new Animal();
+
+        String choiceTwo = txfAnimal2.getText();
+        String animal2Data = api.getAnimalData(choiceTwo);
+        //Animal animalTwo = new Animal();
+
+        //ArrayList<String> similar = getSimilar(animalOne, animalTwo);
+
+        //This below line is just a placeholder for now
+        String similar = "";
+
+        String similarString = String.join(", ", similar);
+        txaMatching.setText(similarString);
+        txaConflicting.setText("Goodbye");
+    }
+
+    public static HashSet<String> getSimilar(Animal animal1, Animal animal2){
+        HashSet<String> similar = new HashSet<>();
+
+        if (animal1.getGroup().equals(animal2.getGroup())){
+            similar.add("Group");
+        }
+        if (animal1.getDiet().equals(animal2.getDiet())){
+            similar.add("Diet");
+        }
+        if (animal1.getLifestyle().equals(animal2.getLifestyle())){
+            similar.add("Lifestyle");
+        }
+        for(String location1: animal1.getLocation()){
+            for (String location2: animal2.getLocation()){
+                if (location1.equals(location2)){
+                    similar.add("Location");
+                }
+            }
+
+            for(String prey1: animal1.getPrey()) {
+                for (String prey2 : animal2.getPrey()) {
+                    if (prey1.equals(prey2)) {
+                        similar.add("Prey");
+                    }
+                }
+            }
+            if (animal1.getHabitat().equals(animal2.getHabitat())) {
+                similar.add("Habitat");
+            }
+
+            if (relativeDIff(animal1.getLifespan(), animal2.getLifespan()) < 0.4){
+                similar.add("Lifespan");
+            }
+
+            if (relativeDIff(animal1.getHeight(), animal2.getHeight()) < 0.4){
+                similar.add("Height");
+            }
+
+            if (relativeDIff(animal1.getWeight(), animal2.getWeight()) < 0.4){
+                similar.add("Weight");
+            }
+        }
+
+
+        return similar;
+    }
+
+    public static double relativeDIff(double a, double b){
+        return Math.abs(a - b) / ((a + b) / 2.0);
+    }
+
     public static void main(String args[])
     {
         new Compatibility().setVisible(true);
@@ -159,7 +239,6 @@ public class Compatibility extends javax.swing.JFrame
     private javax.swing.JButton btnReturn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblAnimal1;
     private javax.swing.JLabel lblAnimal2;
     private javax.swing.JLabel lblCategories;
@@ -167,6 +246,7 @@ public class Compatibility extends javax.swing.JFrame
     private javax.swing.JLabel lblConflicting;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblMatching;
+    private javax.swing.JTextArea txaConflicting;
     private javax.swing.JTextArea txaMatching;
     private javax.swing.JTextField txfAnimal1;
     private javax.swing.JTextField txfAnimal2;

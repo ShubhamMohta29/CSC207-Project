@@ -1,12 +1,16 @@
 package Classes;
 
-import java.util.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+
+//Important Fields
 public class Animal {
     private String name;
-    private String taxonomy;
+    private java.util.Map<String, String> taxonomy;
     private String habitat;
-    private String prey;
+    private String[] location;
+    private String[] prey;
     private String mostDistinctiveFeature; // or slogan
     private double lifespan;
     private String diet;
@@ -14,8 +18,47 @@ public class Animal {
     private double weight;
     private double height;
     private String group;
-    private List<String> locations;
-    // private final AnimalConverter conv = new AnimalConverter();
+    private final AnimalConverter conv = new AnimalConverter();
+
+    public Animal(String s){
+        //Remove this comement
+        JSONArray obj = new JSONArray(s);
+        JSONObject animal = obj.optJSONObject(0);
+        JSONObject characteristics = animal.optJSONObject("characteristics");
+        setName(animal.optString("name"));
+        JSONObject taxonomyObj = animal.optJSONObject("taxonomy");
+
+        java.util.Map<String, String> taxonomyMap = new java.util.HashMap<>();
+        for (String key : taxonomyObj.keySet()) {
+            taxonomyMap.put(key, taxonomyObj.optString(key));
+        }
+        setTaxonomy(taxonomyMap);
+        setHabitat(characteristics.optString("habitat"));
+
+        JSONArray locations = animal.optJSONArray("locations");
+        String[] tempLoc = new String[locations.length()];
+        for (int i = 0; i < locations.length(); i++) {
+            tempLoc[i] = locations.get(i).toString();
+        }
+        setLocation(tempLoc);
+
+        setPrey(characteristics.optString("prey"));
+        setMostDistinctiveFeature(characteristics.optString("most_distinctive_feature"));
+        setLifespan(characteristics.optString("lifespan"));
+        setDiet(characteristics.optString("diet"));
+        setLifestyle(characteristics.optString("lifestyle"));
+        setWeight(characteristics.optString("weight"));
+        if (characteristics.optString("height").equals("")) {
+            if (characteristics.optString("length").equals("")) {
+                setHeight("0cm");
+            }
+            setHeight(characteristics.optString("length"));
+        }
+        else{
+            setHeight(characteristics.optString("height"));
+        }
+        setGroup(characteristics.optString("group"));
+    }
 
     public String getName() {
         return name;
@@ -25,11 +68,20 @@ public class Animal {
         this.name = name;
     }
 
-    public String getTaxonomy() {
+
+    public String[] getLocation() {
+        return location;
+    }
+
+    public void setLocation(String[] location) {
+        this.location = location;
+    }
+
+    public java.util.Map<String, String> getTaxonomy() {
         return taxonomy;
     }
 
-    public void setTaxonomy(String taxonomy) {
+    public void setTaxonomy(java.util.Map<String, String> taxonomy) {
         this.taxonomy = taxonomy;
     }
 
@@ -41,12 +93,14 @@ public class Animal {
         this.habitat = habitat;
     }
 
-    public String getPrey() {
+    public String[] getPrey() {
         return prey;
     }
 
-    public void setPrey(String prey) {
-        this.prey = prey;
+
+    public void setPrey(String preyString) {
+        String[] parts = preyString.split(",\\s*");
+        this.prey = parts;
     }
 
     public String getMostDistinctiveFeature() {
@@ -61,9 +115,9 @@ public class Animal {
         return lifespan;
     }
 
-//    public void setLifespan(String lifespan) {
-//        this.lifespan = conv.parseAverageLifespanYears(lifespan);
-//    }
+    public void setLifespan(String lifespan) {
+        this.lifespan = conv.parseAverageLifespanYears(lifespan);
+    }
 
     public String getDiet() {
         return diet;
@@ -85,17 +139,17 @@ public class Animal {
         return weight;
     }
 
-//    public void setWeight(String weight) {
-//        this.weight = conv.parseAverageWeightKg(weight);
-//    }
+    public void setWeight(String weight) {
+        this.weight = conv.parseAverageWeightKg(weight);
+    }
 
     public double getHeight() {
         return height;
     }
 
-//    public void setHeight(String height) {
-//        this.height = conv.parseAverageHeightCm(height);
-//    }
+    public void setHeight(String height) {
+        this.height = conv.parseAverageHeightCm(height);
+    }
 
     public String getGroup() {
         return group;
@@ -105,6 +159,28 @@ public class Animal {
         this.group = group;
     }
 
-    public void setLocations(List<String> locations){ this.locations = locations;}
-    public List<String> getLocations(){return locations;}
+    @Override
+    public String toString() {
+        return "Name: " + getName() + "\n"
+                + "Taxonomy: " + getTaxonomy() + "\n"
+                + "Habitat: " + getLocation() + "\n"
+                + "Prey: " + convertedToString(getPrey()) + "\n"
+                + "Most Distinctive Feature: " + getMostDistinctiveFeature() + "\n"
+                + "Lifespan: " + getLifespan() + "\n"
+                + "Diet: " + getDiet() + "\n"
+                + "Lifestyle: " + getLifestyle() + "\n"
+                + "Weight: " + getWeight() + "\n"
+                + "Height: " + getHeight() + "\n"
+                + "Group: " + getGroup();
+    }
 
+    private String convertedToString(String[] preys) {
+        String out = "";
+        for (String x : preys) {
+            out += x + ", ";
+        }
+        out.trim();
+        out = out.substring(0, out.length() - 2);
+        return out;
+    }
+}
