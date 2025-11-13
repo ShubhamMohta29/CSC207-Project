@@ -1,5 +1,6 @@
 package AppPkg;
 
+import Classes.Settings.FontFetcher;
 import Classes.Settings.ReaderEditor;
 
 import java.awt.*;
@@ -64,8 +65,10 @@ public class Settings extends javax.swing.JFrame {
         cBoxFontSizes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5"}));
 
         lblFont.setText("Font");
-
-        cBoxFonts.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Arial", "Times New Roman", "Verdana", "DejaVu Sans"}));
+        //fetches all Font available in OS
+        FontFetcher availableFont = new FontFetcher();
+        String[] list = availableFont.getFonts();
+        cBoxFonts.setModel(new javax.swing.DefaultComboBoxModel<>(list));
 
         lblColor.setText("Color");
 
