@@ -1,15 +1,19 @@
 package AppPkg;
 
 import Classes.APIClass;
+import Classes.Settings.ReaderEditor;
 
 import javax.swing.JOptionPane;
+import java.awt.*;
 
 public class  MainMenu extends javax.swing.JFrame
 {
+    private ReaderEditor config = new ReaderEditor("settings.csv");
 
     public MainMenu()
     {
         initComponents();
+        pack();
     }
 
     @SuppressWarnings("unchecked")
@@ -90,6 +94,9 @@ public class  MainMenu extends javax.swing.JFrame
 
         lblError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblError.setText(" ");
+        updateLabelStyle( );
+
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -159,7 +166,7 @@ public class  MainMenu extends javax.swing.JFrame
     private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSettingsActionPerformed
     {//GEN-HEADEREND:event_btnSettingsActionPerformed
         new Settings().setVisible(true);
-        // this.dispose();
+        this.dispose();
     }//GEN-LAST:event_btnSettingsActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSearchActionPerformed
@@ -217,6 +224,28 @@ public class  MainMenu extends javax.swing.JFrame
         new Favorites().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnFavoritesActionPerformed
+
+    private void updateLabelStyle(){
+        Color fg = config.getColor();
+        Font font = config.getStyle();
+        lblGreeting1.setForeground(fg);
+        lblGreeting2.setForeground(fg);
+        lblQuestion.setForeground(fg);
+        lblQuestion.setFont(font);
+        txfAnimal.setForeground(fg);
+        txfAnimal.setFont(font);
+        btnFilter.setForeground(fg);
+        btnFilter.setFont(font);
+        btnSearch.setForeground(fg);
+        btnSearch.setFont(font);
+        btnCompatibility.setForeground(fg);
+        btnCompatibility.setFont(font);
+        btnFavorites.setForeground(fg);
+        btnFavorites.setFont(font);
+        lblError.setForeground(fg);
+        lblError.setFont(font);
+
+    }
 
     public static void main(String args[])
     {

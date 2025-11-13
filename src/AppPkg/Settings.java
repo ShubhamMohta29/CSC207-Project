@@ -142,6 +142,7 @@ public class Settings extends javax.swing.JFrame {
     {//GEN-HEADEREND:event_btnHomeActionPerformed
         // new MainMenu().setVisible(true);
         this.dispose();
+        new MainMenu().setVisible(true);
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void setupListeners() {
@@ -209,13 +210,6 @@ public class Settings extends javax.swing.JFrame {
         revalidate();
         pack();
 
-    }
-
-    private void rebuildUI() {
-        getContentPane().removeAll(); // remove everything
-        initComponents();             // recreate components
-        revalidate();                 // re-layout everything
-        repaint();                    // redraw
     }
 
 

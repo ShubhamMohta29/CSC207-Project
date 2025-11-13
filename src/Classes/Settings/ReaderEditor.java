@@ -26,15 +26,15 @@ public class ReaderEditor {
         }
 
         if (size == 1){
-            configuration.setTextSize(12);
-        }else if (size == 2){
             configuration.setTextSize(13);
+        }else if (size == 2){
+            configuration.setTextSize(14);
         }else if (size == 4){
-            configuration.setTextSize(15);
+            configuration.setTextSize(16);
         }else if (size == 5){
             configuration.setTextSize(17);
         }else {
-            configuration.setTextSize(14);
+            configuration.setTextSize(15);
         }
 
         if (style.equals("Times New Roman")){
