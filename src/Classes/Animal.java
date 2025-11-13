@@ -3,6 +3,7 @@ package Classes;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
 //Important Fields
 public class Animal {
     private String name;
@@ -22,33 +23,41 @@ public class Animal {
     public Animal(String s){
         //Remove this comement
         JSONArray obj = new JSONArray(s);
-        JSONObject animal = obj.getJSONObject(0);
+        JSONObject animal = obj.optJSONObject(0);
         JSONObject characteristics = animal.optJSONObject("characteristics");
-        setName(animal.getString("name"));
-        JSONObject taxonomyObj = animal.getJSONObject("taxonomy");
+        setName(animal.optString("name"));
+        JSONObject taxonomyObj = animal.optJSONObject("taxonomy");
 
         java.util.Map<String, String> taxonomyMap = new java.util.HashMap<>();
         for (String key : taxonomyObj.keySet()) {
-            taxonomyMap.put(key, taxonomyObj.getString(key));
+            taxonomyMap.put(key, taxonomyObj.optString(key));
         }
         setTaxonomy(taxonomyMap);
-        setHabitat(characteristics.getString("habitat"));
+        setHabitat(characteristics.optString("habitat"));
 
-        JSONArray locations = animal.getJSONArray("locations");
+        JSONArray locations = animal.optJSONArray("locations");
         String[] tempLoc = new String[locations.length()];
         for (int i = 0; i < locations.length(); i++) {
             tempLoc[i] = locations.get(i).toString();
         }
         setLocation(tempLoc);
 
-        setPrey(characteristics.getString("prey"));
-        setMostDistinctiveFeature(characteristics.getString("most_distinctive_feature"));
-        setLifespan(characteristics.getString("lifespan"));
-        setDiet(characteristics.getString("diet"));
-        setLifestyle(characteristics.getString("lifestyle"));
-        setWeight(characteristics.getString("weight"));
-        setHeight(characteristics.getString("height"));
-        setGroup(characteristics.getString("group"));
+        setPrey(characteristics.optString("prey"));
+        setMostDistinctiveFeature(characteristics.optString("most_distinctive_feature"));
+        setLifespan(characteristics.optString("lifespan"));
+        setDiet(characteristics.optString("diet"));
+        setLifestyle(characteristics.optString("lifestyle"));
+        setWeight(characteristics.optString("weight"));
+        if (characteristics.optString("height").equals("")) {
+            if (characteristics.optString("length").equals("")) {
+                setHeight("0cm");
+            }
+            setHeight(characteristics.optString("length"));
+        }
+        else{
+            setHeight(characteristics.optString("height"));
+        }
+        setGroup(characteristics.optString("group"));
     }
 
     public String getName() {

@@ -173,11 +173,9 @@ public class Compatibility extends javax.swing.JFrame
         String similarString = String.join(", ", similar);
         txaMatching.setText(similarString);
         txaConflicting.setText("Goodbye");
-        //Making random changes (remove this)
     }
 
     public static HashSet<String> getSimilar(Animal animal1, Animal animal2){
-        //Create Similar Set
         HashSet<String> similar = new HashSet<>();
 
         if (animal1.getGroup().equals(animal2.getGroup())){
@@ -196,7 +194,6 @@ public class Compatibility extends javax.swing.JFrame
                 }
             }
 
-            boolean foundPrey = false;
             for(String prey1: animal1.getPrey()) {
                 for (String prey2 : animal2.getPrey()) {
                     if (prey1.equals(prey2)) {
@@ -207,10 +204,26 @@ public class Compatibility extends javax.swing.JFrame
             if (animal1.getHabitat().equals(animal2.getHabitat())) {
                 similar.add("Habitat");
             }
+
+            if (relativeDIff(animal1.getLifespan(), animal2.getLifespan()) < 0.4){
+                similar.add("Lifespan");
+            }
+
+            if (relativeDIff(animal1.getHeight(), animal2.getHeight()) < 0.4){
+                similar.add("Height");
+            }
+
+            if (relativeDIff(animal1.getWeight(), animal2.getWeight()) < 0.4){
+                similar.add("Weight");
+            }
         }
 
 
         return similar;
+    }
+
+    public static double relativeDIff(double a, double b){
+        return Math.abs(a - b) / ((a + b) / 2.0);
     }
 
     public static void main(String args[])
