@@ -65,7 +65,7 @@ public class Settings extends javax.swing.JFrame {
 
         lblFont.setText("Font");
 
-        cBoxFonts.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Arial", "Times New Roman", "Droid Sans Georgian", "DejaVu Sans"}));
+        cBoxFonts.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Arial", "Times New Roman", "Verdana", "DejaVu Sans"}));
 
         lblColor.setText("Color");
 

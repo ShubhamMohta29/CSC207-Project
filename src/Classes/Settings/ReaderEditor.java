@@ -39,8 +39,8 @@ public class ReaderEditor {
 
         if (style.equals("Times New Roman")){
             configuration.setTextStyle("Times New Roman");
-        }else if ((style.equals("Serif"))){
-            configuration.setTextStyle("Serif");
+        }else if ((style.equals("Verdana"))){
+            configuration.setTextStyle("Verdana");
         }else if (style.equals("DejaVu Sans")){
             configuration.setTextStyle("DejaVu Sans");
         }else{
