@@ -17,4 +17,12 @@ public class FavoriteList {
         return favorites;
     }
 
+    public void addFavorite(String name){
+        favorites.add(name);
+    }
+
+    public void removeFavorite(String name){
+        favorites.remove(name);
+    }
+
 }
