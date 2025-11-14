@@ -174,14 +174,24 @@ public class  MainMenu extends javax.swing.JFrame
         this.dispose();
     }//GEN-LAST:event_btnSettingsActionPerformed
 
+    private String linkName(String animal_name){
+        return animal_name.replace(" ", "%20");
+    }
+
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSearchActionPerformed
     {//GEN-HEADEREND:event_btnSearchActionPerformed
-        String animalName = txfAnimal.getText().toLowerCase();  // gets the animal name, and makes it lowercase
+        String animalName = txfAnimal.getText().toLowerCase().trim();  // gets the animal name, and makes it lowercase
 
         if (animalName.isEmpty()){  // ensures the user has given an input. if not, terminates teh call
             lblError.setText("Please select an animal name.");
         } else {
             APIClass aClass = new Classes.APIClass();               // instantiates APIClass
+
+            if (animalName.contains(" "))
+            {
+                animalName = linkName(animalName);
+            }
+
             String result = aClass.getAnimalData(animalName);       // calls getAnimalData to get the JSON data of the animal
             int numResults = aClass.numResults();                   // gets the number of animals' data that was returned
             Animal searched = new Animal(result);
