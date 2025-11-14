@@ -12,7 +12,7 @@ import java.awt.*;
 
 public class  MainMenu extends javax.swing.JFrame
 {
-    private ReaderEditor config = new ReaderEditor("settings.csv");
+    private final ReaderEditor config = new ReaderEditor("settings.csv");
     private final StyleUpdater styleUpdater = new StyleUpdater(config);
 
     public MainMenu()

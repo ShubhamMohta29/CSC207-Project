@@ -41,7 +41,7 @@ public class StyleUpdater {
      */
     private void updateComponentsRecursively(Container container, Color c, Font font) {
         for (Component comp : container.getComponents()) {
-            if (comp instanceof JComponent) {
+            if (comp instanceof JLabel || comp instanceof JButton || comp instanceof JTextField || comp instanceof JTextArea) {
                 comp.setForeground(c);
                 comp.setFont(font);
             } else if (comp instanceof Container) {
