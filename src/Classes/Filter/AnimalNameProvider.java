@@ -10,8 +10,8 @@ package Classes.Filter;
 
 import java.util.List;
 
-public class AnimalNameProvider implements AnimalNameProvideI{
-    private static final String FILTER_API_URL;
+public class AnimalNameProvider implements AnimalNameProviderI {
+    //private static final String FILTER_API_URL;
     //aPI key:  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
 
     @Override

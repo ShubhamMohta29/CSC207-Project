@@ -9,7 +9,7 @@ package Classes.Filter;
 
 import java.util.*;
 
-public interface AnimalNameProvideI {
+public interface AnimalNameProviderI {
 
     /*
         getCandidateName: fetches a list of potential animal names that meet the user's filter criteria.

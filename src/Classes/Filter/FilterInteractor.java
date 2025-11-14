@@ -6,15 +6,13 @@
  */
 package Classes.Filter;
 
-import java.util.*;
-import java.util.stream.Collectors;
 import Classes.Animal;
 
 public class FilterInteractor {
-    private AnimalNameProvideI repo;
+    private AnimalNameProviderI repo;
 
     //constructor
-    public FilterInteractor(AnimalNameProvideI repo){ this.repo = repo; }
+    public FilterInteractor(AnimalNameProviderI repo){ this.repo = repo; }
 
 //    public FilterOutput handleFilter(FilterInput input){
 //        List<String> candidateNames = repo.getCandidateNames(input);
@@ -38,10 +36,10 @@ public class FilterInteractor {
         if (request.getLocations() != null && !request.getLocations().isEmpty()) {
             boolean locationMatch = false;
             for (String location : request.getLocations()) {
-                if (a.getLocations().contains(location)) {
-                    locationMatch = true;
-                    break;
-                }
+//                if (a.getLocation().contains(location)) {
+//                    locationMatch = true;
+//                    break;
+//                }
             }
             if (!locationMatch) return false;
         }
