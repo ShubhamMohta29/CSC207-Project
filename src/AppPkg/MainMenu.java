@@ -3,6 +3,7 @@ package AppPkg;
 import Classes.APIClass;
 import Classes.Animal;
 import Classes.Settings.ReaderEditor;
+import Classes.Settings.StyleUpdater;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -11,12 +12,13 @@ import java.awt.*;
 
 public class  MainMenu extends javax.swing.JFrame
 {
-    private ReaderEditor config = new ReaderEditor("settings.csv");
+    private final ReaderEditor config = new ReaderEditor("settings.csv");
+    private final StyleUpdater styleUpdater = new StyleUpdater(config);
 
     public MainMenu()
     {
         initComponents();
-        pack();
+        updateLabelStyle();// apply setting changes
     }
 
     @SuppressWarnings("unchecked")
@@ -97,6 +99,9 @@ public class  MainMenu extends javax.swing.JFrame
 
         lblError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblError.setText(" ");
+        updateLabelStyle( );
+
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -166,7 +171,7 @@ public class  MainMenu extends javax.swing.JFrame
     private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSettingsActionPerformed
     {//GEN-HEADEREND:event_btnSettingsActionPerformed
         new Settings().setVisible(true);
-        // this.dispose();
+        this.dispose();
     }//GEN-LAST:event_btnSettingsActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSearchActionPerformed
@@ -240,24 +245,7 @@ public class  MainMenu extends javax.swing.JFrame
     }//GEN-LAST:event_btnFavoritesActionPerformed
 
     private void updateLabelStyle(){
-        Color fg = config.getColor();
-        Font font = config.getStyle();
-        lblGreeting1.setForeground(fg);
-        lblGreeting2.setForeground(fg);
-        lblQuestion.setForeground(fg);
-        lblQuestion.setFont(font);
-        txfAnimal.setForeground(fg);
-        txfAnimal.setFont(font);
-        btnFilter.setForeground(fg);
-        btnFilter.setFont(font);
-        btnSearch.setForeground(fg);
-        btnSearch.setFont(font);
-        btnCompatibility.setForeground(fg);
-        btnCompatibility.setFont(font);
-        btnFavorites.setForeground(fg);
-        btnFavorites.setFont(font);
-        lblError.setForeground(fg);
-        lblError.setFont(font);
+        styleUpdater.updateAll(this);
 
     }
 

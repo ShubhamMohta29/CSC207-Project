@@ -1,9 +1,13 @@
 package AppPkg;
 
 import Classes.Animal;
+import Classes.Settings.ReaderEditor;
+import Classes.Settings.StyleUpdater;
 
 public class SuccesfulSearch extends javax.swing.JFrame
 {
+    private ReaderEditor config = new ReaderEditor("settings.csv");
+    private final StyleUpdater styleUpdater = new StyleUpdater(config);
 
     public SuccesfulSearch(Animal animal)
     {
@@ -11,12 +15,14 @@ public class SuccesfulSearch extends javax.swing.JFrame
         String name = animal.getName();
         lblHeading.setText("Searched: " + Character.toUpperCase(name.charAt(0)) + name.substring(1));
         jTextArea1.setText(animal.toString());
+        updateLabelStyle();
     }
 
     public SuccesfulSearch()
     {
         initComponents();
         lblHeading.setText("Searched: ");
+        updateLabelStyle();
     }
 
     /**
@@ -125,6 +131,10 @@ public class SuccesfulSearch extends javax.swing.JFrame
     public static void main(String args[])
     {
         new SuccesfulSearch().setVisible(true);
+    }
+
+    private void updateLabelStyle(){
+        styleUpdater.updateAll(this);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

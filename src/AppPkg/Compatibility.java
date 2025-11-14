@@ -2,14 +2,20 @@ package AppPkg;
 
 import Classes.APIClass;
 import Classes.Animal;
+import Classes.Settings.ReaderEditor;
+import Classes.Settings.StyleUpdater;
+
 import java.util.HashSet;
 
 public class Compatibility extends javax.swing.JFrame
 {
+    private final ReaderEditor config = new ReaderEditor("settings.csv");
+    private final StyleUpdater styleUpdater = new StyleUpdater(config);
 
     public Compatibility()
     {
         initComponents();
+        updateLabelStyle();//apply setting changes
     }
 
     @SuppressWarnings("unchecked")
@@ -58,6 +64,7 @@ public class Compatibility extends javax.swing.JFrame
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCompareActionPerformed(evt);
             }
+
         });
 
         lblMatching.setText("Matching");
@@ -259,6 +266,10 @@ public class Compatibility extends javax.swing.JFrame
     public static void main(String args[])
     {
         new Compatibility().setVisible(true);
+    }
+
+    private void updateLabelStyle(){
+        styleUpdater.updateAll(this);
     }
 
     // Variables declaration - do not modify
