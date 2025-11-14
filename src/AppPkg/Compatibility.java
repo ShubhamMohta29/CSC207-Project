@@ -15,7 +15,7 @@ public class Compatibility extends javax.swing.JFrame
     public Compatibility()
     {
         initComponents();
-        updateLabelStyle();
+        updateLabelStyle();//apply setting changes
     }
 
     @SuppressWarnings("unchecked")
