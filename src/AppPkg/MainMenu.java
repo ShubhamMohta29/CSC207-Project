@@ -3,6 +3,7 @@ package AppPkg;
 import Classes.APIClass;
 import Classes.Animal;
 import Classes.Settings.ReaderEditor;
+import Classes.Settings.StyleUpdater;
 
 import javax.swing.JOptionPane;
 import java.awt.*;
@@ -10,11 +11,12 @@ import java.awt.*;
 public class  MainMenu extends javax.swing.JFrame
 {
     private ReaderEditor config = new ReaderEditor("settings.csv");
+    private final StyleUpdater styleUpdater = new StyleUpdater(config);
 
     public MainMenu()
     {
         initComponents();
-        pack();
+        updateLabelStyle();
     }
 
     @SuppressWarnings("unchecked")
@@ -228,24 +230,7 @@ public class  MainMenu extends javax.swing.JFrame
     }//GEN-LAST:event_btnFavoritesActionPerformed
 
     private void updateLabelStyle(){
-        Color fg = config.getColor();
-        Font font = config.getStyle();
-        lblGreeting1.setForeground(fg);
-        lblGreeting2.setForeground(fg);
-        lblQuestion.setForeground(fg);
-        lblQuestion.setFont(font);
-        txfAnimal.setForeground(fg);
-        txfAnimal.setFont(font);
-        btnFilter.setForeground(fg);
-        btnFilter.setFont(font);
-        btnSearch.setForeground(fg);
-        btnSearch.setFont(font);
-        btnCompatibility.setForeground(fg);
-        btnCompatibility.setFont(font);
-        btnFavorites.setForeground(fg);
-        btnFavorites.setFont(font);
-        lblError.setForeground(fg);
-        lblError.setFont(font);
+        styleUpdater.updateAll(this);
 
     }
 
