@@ -1,13 +1,18 @@
 package Classes.Settings;
 
+import Classes.Settings.UIStrategy.StrategyMap;
+import Classes.Settings.UIStrategy.UIStyleStrategy;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class StyleUpdater {
     private final ReaderEditor config;
+    private StrategyMap strategies;
 
     public StyleUpdater(ReaderEditor config) {
         this.config = config;
+        this.strategies = new StrategyMap();
     }
 
     /**
@@ -35,16 +40,26 @@ public class StyleUpdater {
         frame.pack();
     }
 
+    public void updateALL(JDialog dialog) {
+        Color fg = config.getColor();
+        Font font = config.getStyle();
+
+        updateComponentsRecursively(dialog.getContentPane(), fg, font);
+        dialog.revalidate();
+        dialog.pack();
+    }
+
     /**
      * Recursively traverses through all components in a container
      * and applies the given color and font.
      */
     private void updateComponentsRecursively(Container container, Color c, Font font) {
         for (Component comp : container.getComponents()) {
-            if (comp instanceof JLabel || comp instanceof JButton || comp instanceof JTextField || comp instanceof JTextArea) {
-                comp.setForeground(c);
-                comp.setFont(font);
-            } else if (comp instanceof Container) {
+
+            UIStyleStrategy strategy = this.strategies.getStrategy(comp.getClass());
+            strategy.apply(comp, c, font);
+
+            if (comp instanceof Container) {
                 updateComponentsRecursively((Container) comp, c, font);
             }
         }
