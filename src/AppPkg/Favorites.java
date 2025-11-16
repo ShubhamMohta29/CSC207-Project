@@ -1,5 +1,9 @@
 package AppPkg;
 
+import Classes.add_favorite.AddFavoriteOutputData;
+import Classes.add_favorite.FavoriteList;
+import Classes.add_favorite.FileFavoritesDataAccessObject;
+
 public class Favorites extends javax.swing.JFrame
 {
 
@@ -17,6 +21,9 @@ public class Favorites extends javax.swing.JFrame
         lblHeading = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListFavs = new javax.swing.JList<>();
+        final FavoriteList favorites = new FileFavoritesDataAccessObject("favorites.csv").getFavoriteList();
+        final AddFavoriteOutputData addFavoriteOutputData =
+                new AddFavoriteOutputData(favorites.getFavorites().toArray(new String[0]));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Favorites");
@@ -36,7 +43,7 @@ public class Favorites extends javax.swing.JFrame
 
         jListFavs.setModel(new javax.swing.AbstractListModel<String>()
         {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = addFavoriteOutputData.getFavList();
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
