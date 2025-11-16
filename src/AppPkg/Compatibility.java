@@ -188,38 +188,50 @@ public class Compatibility extends javax.swing.JFrame
 
     private void btnCompareActionPerformed(java.awt.event.ActionEvent evt)
     {
-       String choiceOne = txfAnimal1.getText();
+        lblSearchedAnimal1.setText("Searched Animal 1");
+        lblSearchedAnimal2.setText("Searched Animal 2");
+        String choiceOne = txfAnimal1.getText();
         APIClass api = new APIClass();
         String animal1Data = api.getAnimalData(choiceOne);
-        Animal animalOne = new Animal(animal1Data);
+        System.out.println(animal1Data);
+        if(animal1Data.equals("[]")){
+            lblSearchedAnimal1.setText("Invalid Animal 1");
+        }
+        else {
+            Animal animalOne = new Animal(animal1Data);
 
-        String choiceTwo = txfAnimal2.getText();
-        String animal2Data = api.getAnimalData(choiceTwo);
-        Animal animalTwo = new Animal(animal2Data);
+            String choiceTwo = txfAnimal2.getText();
+            String animal2Data = api.getAnimalData(choiceTwo);
+            if(animal2Data.equals("[]")){
+                lblSearchedAnimal2.setText("Invalid Animal 2");
+            }
+            else {
+                Animal animalTwo = new Animal(animal2Data);
 
-        lblSearchedAnimal1.setText(animalOne.getName());
-        lblSearchedAnimal2.setText(animalTwo.getName());
-        lblRating.setText("Rating: " + "");
+                lblSearchedAnimal1.setText(animalOne.getName());
+                lblSearchedAnimal2.setText(animalTwo.getName());
 
-        HashSet<String> similar = getSimilar(animalOne, animalTwo);
-        String similarString = String.join(", ", similar);
+                HashSet<String> similar = getSimilar(animalOne, animalTwo);
+                String similarString = String.join(", ", similar);
 
-        HashSet<String> conflicting = new HashSet<>();
-        String[] expected = {"Group", "Diet", "Lifestyle", "Location", "Prey", "Habitat", "Lifespan", "Height", "Weight"};
-        for (String s : expected) {
-            if (!similar.contains(s)) {
-                conflicting.add(s);
+                HashSet<String> conflicting = new HashSet<>();
+                String[] expected = {"Group", "Diet", "Lifestyle", "Location", "Prey", "Habitat", "Lifespan", "Height", "Weight"};
+                for (String s : expected) {
+                    if (!similar.contains(s)) {
+                        conflicting.add(s);
+                    }
+                }
+                System.out.println(similar.size());
+
+                int rating = (int) ((((double) (similar.size()) / (double) (expected.length)) * 100));
+                lblRating.setText("Rating: " + rating + "%");
+
+                String conflictingString = String.join(", ", conflicting);
+
+                txaMatching.setText(similarString);
+                txaConflicting.setText(conflictingString);
             }
         }
-        System.out.println(similar.size());
-
-        int rating = (int)((((double)(similar.size())/(double)(expected.length))*100));
-        lblRating.setText("Rating: " + rating + "%");
-
-        String conflictingString = String.join(", ", conflicting);
-
-        txaMatching.setText(similarString);
-        txaConflicting.setText(conflictingString);
     }
 
     public static HashSet<String> getSimilar(Animal animal1, Animal animal2){
