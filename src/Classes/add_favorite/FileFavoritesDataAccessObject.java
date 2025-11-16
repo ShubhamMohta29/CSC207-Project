@@ -8,23 +8,23 @@ import java.io.*;
 public class FileFavoritesDataAccessObject implements AddFavoriteDataAccessInterface{
 
     private final File csvFile;
-    private FavoriteList favorites;
+    private FavoriteList favorites =  new FavoriteList();
 
     public FileFavoritesDataAccessObject(String csvpath) {
         csvFile = new File(csvpath);
-        if (csvFile.length() == 0) {
-            save();
+        try {
+            csvFile.createNewFile();
         }
-        else {
-            try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))){
-                String row;
-                while((row = reader.readLine()) != null){
-                    favorites.addFavorite(row);
-                }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+            String row;
+            while ((row = reader.readLine()) != null) {
+                favorites.addFavorite(row);
             }
-            catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -37,15 +37,18 @@ public class FileFavoritesDataAccessObject implements AddFavoriteDataAccessInter
                 writer.newLine();
             }
             writer.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public String[] getFavoriteList(){
-        String[] favList = new String[favorites.getFavorites().size()];
-        return favorites.getFavorites().toArray(favList);
+    public FavoriteList getFavoriteList(){
+        return favorites;
     }
 
+    @Override
+    public void addFavorite(String name) {
+        favorites.addFavorite(name);
+        save();
+    }
 }

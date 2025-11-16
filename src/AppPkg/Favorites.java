@@ -1,5 +1,9 @@
 package AppPkg;
 
+import Classes.add_favorite.FavoriteList;
+import Classes.add_favorite.AddFavoriteOutputData;
+import Classes.add_favorite.FileFavoritesDataAccessObject;
+
 public class Favorites extends javax.swing.JFrame
 {
 
@@ -16,6 +20,9 @@ public class Favorites extends javax.swing.JFrame
         btnReturn = new javax.swing.JButton();
         lblHeading = new javax.swing.JLabel();
         cBoxFavs = new javax.swing.JComboBox<>();
+        final FavoriteList favorites = new FileFavoritesDataAccessObject("favorites.csv").getFavoriteList();
+        final AddFavoriteOutputData addFavoriteOutputData =
+                new AddFavoriteOutputData(favorites.getFavorites().toArray(new String[favorites.getFavorites().size()]));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Favorites");
@@ -33,7 +40,8 @@ public class Favorites extends javax.swing.JFrame
         lblHeading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblHeading.setText("Favorites");
 
-        cBoxFavs.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cBoxFavs.setModel(new javax.swing.DefaultComboBoxModel<>(addFavoriteOutputData.getFavList()));
+                //(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
