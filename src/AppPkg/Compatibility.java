@@ -4,6 +4,7 @@ import Classes.APIClass;
 import Classes.Animal;
 import Classes.Settings.ReaderEditor;
 import Classes.Settings.StyleUpdater;
+import java.util.Arrays;
 
 import java.util.HashSet;
 
@@ -196,6 +197,10 @@ public class Compatibility extends javax.swing.JFrame
         String animal2Data = api.getAnimalData(choiceTwo);
         Animal animalTwo = new Animal(animal2Data);
 
+        lblSearchedAnimal1.setText(animalOne.getName());
+        lblSearchedAnimal2.setText(animalTwo.getName());
+        lblRating.setText("Rating: " + "");
+
         HashSet<String> similar = getSimilar(animalOne, animalTwo);
         String similarString = String.join(", ", similar);
 
@@ -206,6 +211,11 @@ public class Compatibility extends javax.swing.JFrame
                 conflicting.add(s);
             }
         }
+        System.out.println(similar.size());
+
+        int rating = (int)((((double)(similar.size())/(double)(expected.length))*100));
+        lblRating.setText("Rating: " + rating + "%");
+
         String conflictingString = String.join(", ", conflicting);
 
         txaMatching.setText(similarString);
@@ -215,44 +225,53 @@ public class Compatibility extends javax.swing.JFrame
     public static HashSet<String> getSimilar(Animal animal1, Animal animal2){
         HashSet<String> similar = new HashSet<>();
 
-        if (animal1.getGroup().equals(animal2.getGroup())){
+        if (animal1.getGroup().equals(animal2.getGroup()) || animal1.getGroup().isEmpty() || animal2.getGroup().isEmpty()){
             similar.add("Group");
         }
-        if (animal1.getDiet().equals(animal2.getDiet())){
+
+        if (animal1.getDiet().equals(animal2.getDiet()) || animal1.getDiet().isEmpty() || animal2.getDiet().isEmpty()){
             similar.add("Diet");
         }
-        if (animal1.getLifestyle().equals(animal2.getLifestyle())){
+
+        if (animal1.getLifestyle().equals(animal2.getLifestyle()) || animal1.getLifestyle().isEmpty() || animal2.getLifestyle().isEmpty()){
             similar.add("Lifestyle");
         }
-        for(String location1: animal1.getLocation()){
-            for (String location2: animal2.getLocation()){
-                if (location1.equals(location2)){
+        for(String location1: animal1.getLocation()) {
+            for (String location2 : animal2.getLocation()) {
+                if (location1.equals(location2)) {
                     similar.add("Location");
                 }
             }
+        }
+        if (animal1.getLocation().length == 0 || animal2.getLocation().length == 0) {
+            similar.add("Location");
+        }
 
-            for(String prey1: animal1.getPrey()) {
-                for (String prey2 : animal2.getPrey()) {
-                    if (prey1.equals(prey2)) {
-                        similar.add("Prey");
-                    }
+        else if (animal1.getLocation()[0].equals("Worldwide") || animal2.getLocation()[0].equals("Worldwide")) {
+            similar.add("Location");
+        }
+
+        for(String prey1: animal1.getPrey()) {
+            for (String prey2 : animal2.getPrey()) {
+                if (prey1.equals(prey2)) {
+                    similar.add("Prey");
                 }
             }
-            if (animal1.getHabitat().equals(animal2.getHabitat())) {
-                similar.add("Habitat");
-            }
+        }
+        if (animal1.getHabitat().equals(animal2.getHabitat()) || animal1.getHabitat().isEmpty() || animal2.getHabitat().isEmpty()) {
+            similar.add("Habitat");
+        }
 
-            if (relativeDIff(animal1.getLifespan(), animal2.getLifespan()) < 0.4){
-                similar.add("Lifespan");
-            }
+        if (relativeDIff(animal1.getLifespan(), animal2.getLifespan()) < 0.4){
+            similar.add("Lifespan");
+        }
 
-            if (relativeDIff(animal1.getHeight(), animal2.getHeight()) < 0.4){
-                similar.add("Height");
-            }
+        if (relativeDIff(animal1.getHeight(), animal2.getHeight()) < 0.4){
+            similar.add("Height");
+        }
 
-            if (relativeDIff(animal1.getWeight(), animal2.getWeight()) < 0.4){
-                similar.add("Weight");
-            }
+        if (relativeDIff(animal1.getWeight(), animal2.getWeight()) < 0.4){
+            similar.add("Weight");
         }
 
 
