@@ -1,11 +1,50 @@
 package AppPkg;
 
+import Classes.Animal;
+import Classes.Settings.ReaderEditor;
+import Classes.Settings.StyleUpdater;
+
+import javax.swing.*;
+import java.util.ArrayList;
+
 public class MultiSuccesfulSearch extends javax.swing.JFrame
 {
+    private final ReaderEditor config = new ReaderEditor("settings.csv");
+    private final StyleUpdater styleUpdater = new StyleUpdater(config);
+
+    public MultiSuccesfulSearch(Animal[] animals)
+    {
+        initComponents();
+
+        // Popultes the JList
+        DefaultListModel<String> model = new DefaultListModel<>();
+        for (Animal a : animals) {
+            model.addElement(a.getName());
+        }
+        jListOptions.setModel(model);
+
+        // Allows the user to get the information of their desired animal from the list by them double clicking on any of the animals in teh list
+        jListOptions.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    int selectedIndex = jListOptions.locationToIndex(evt.getPoint());
+                    if (selectedIndex >= 0) {
+                        Animal selectedAnimal = animals[selectedIndex];
+
+                        new SuccesfulSearch(selectedAnimal).setVisible(true);
+                        MultiSuccesfulSearch.this.dispose();
+                    }
+                }
+            }
+        });
+        this.styleUpdater.updateALL(this);
+    }
 
     public MultiSuccesfulSearch()
     {
         initComponents();
+        JOptionPane.showMessageDialog(null, "Search Successful");
     }
 
     @SuppressWarnings("unchecked")

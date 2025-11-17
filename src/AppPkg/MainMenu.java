@@ -3,18 +3,22 @@ package AppPkg;
 import Classes.APIClass;
 import Classes.Animal;
 import Classes.Settings.ReaderEditor;
+import Classes.Settings.StyleUpdater;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.swing.JOptionPane;
 import java.awt.*;
 
 public class  MainMenu extends javax.swing.JFrame
 {
-    private ReaderEditor config = new ReaderEditor("settings.csv");
+    private final ReaderEditor config = new ReaderEditor("settings.csv");
+    private final StyleUpdater styleUpdater = new StyleUpdater(config);
 
     public MainMenu()
     {
         initComponents();
-        pack();
+        updateLabelStyle();// apply setting changes
     }
 
     @SuppressWarnings("unchecked")
@@ -84,7 +88,7 @@ public class  MainMenu extends javax.swing.JFrame
             }
         });
 
-        btnFavorites.setText("Favorites");
+        btnFavorites.setText("View Favourites");
         btnFavorites.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -95,9 +99,6 @@ public class  MainMenu extends javax.swing.JFrame
 
         lblError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblError.setText(" ");
-        updateLabelStyle( );
-
-
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -119,20 +120,17 @@ public class  MainMenu extends javax.swing.JFrame
                         .addComponent(btnFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(80, 80, 80)
+                .addGap(51, 51, 51)
                 .addComponent(btnCompatibility)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnFavorites)
-                .addGap(56, 56, 56))
+                .addComponent(btnFavorites, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51))
             .addComponent(lblError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblGreeting2, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(152, 152, 152))
             .addGroup(layout.createSequentialGroup()
-                .addGap(261, 261, 261)
+                .addGap(251, 251, 251)
                 .addComponent(btnSearch)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(lblGreeting2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,14 +168,24 @@ public class  MainMenu extends javax.swing.JFrame
         this.dispose();
     }//GEN-LAST:event_btnSettingsActionPerformed
 
+    private String linkName(String animal_name){
+        return animal_name.replace(" ", "%20");
+    }
+
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSearchActionPerformed
     {//GEN-HEADEREND:event_btnSearchActionPerformed
-        String animalName = txfAnimal.getText().toLowerCase();  // gets the animal name, and makes it lowercase
+        String animalName = txfAnimal.getText().toLowerCase().trim();  // gets the animal name, and makes it lowercase
 
         if (animalName.isEmpty()){  // ensures the user has given an input. if not, terminates teh call
             lblError.setText("Please select an animal name.");
         } else {
             APIClass aClass = new Classes.APIClass();               // instantiates APIClass
+
+            if (animalName.contains(" "))
+            {
+                animalName = linkName(animalName);
+            }
+
             String result = aClass.getAnimalData(animalName);       // calls getAnimalData to get the JSON data of the animal
             int numResults = aClass.numResults();                   // gets the number of animals' data that was returned
             Animal searched = new Animal(result);
@@ -196,7 +204,20 @@ public class  MainMenu extends javax.swing.JFrame
             }
             if (numResults >= 2)
             {
-                new MultiSuccesfulSearch().setVisible(true);
+                // makes an array of all the animals that the api returns with teh search
+                JSONArray jsonArray = new JSONArray(result);
+                Animal[] animals = new Animal[numResults];
+                for (int i = 0; i < numResults; i++) {
+                    JSONObject singleAnimal = jsonArray.getJSONObject(i);
+
+                    // Wrap it in a single-element JSONArray (your constructor expects this)
+                    JSONArray singleArray = new JSONArray();
+                    singleArray.put(singleAnimal);
+
+                    animals[i] = new Animal(singleArray.toString());
+                }
+
+                new MultiSuccesfulSearch(animals).setVisible(true);
                 this.dispose();
             }
         }
@@ -228,25 +249,12 @@ public class  MainMenu extends javax.swing.JFrame
     }//GEN-LAST:event_btnFavoritesActionPerformed
 
     private void updateLabelStyle(){
-        Color fg = config.getColor();
-        Font font = config.getStyle();
-        lblGreeting1.setForeground(fg);
-        lblGreeting2.setForeground(fg);
-        lblQuestion.setForeground(fg);
-        lblQuestion.setFont(font);
-        txfAnimal.setForeground(fg);
-        txfAnimal.setFont(font);
-        btnFilter.setForeground(fg);
-        btnFilter.setFont(font);
-        btnSearch.setForeground(fg);
-        btnSearch.setFont(font);
-        btnCompatibility.setForeground(fg);
-        btnCompatibility.setFont(font);
-        btnFavorites.setForeground(fg);
-        btnFavorites.setFont(font);
-        lblError.setForeground(fg);
-        lblError.setFont(font);
-
+        styleUpdater.updateAll(this);
+        lblGreeting1.setFont(new Font(
+                config.getStyleName(),
+                0,
+                36
+        ));
     }
 
     public static void main(String args[])

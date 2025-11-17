@@ -28,6 +28,7 @@ public class APIClass {
     public String getAnimalData(String animalName) {
         try{
             HttpClient client = HttpClient.newHttpClient();
+            animalName = animalName.replace(" ", "%20");
             HttpRequest request = HttpRequest.newBuilder(URI.create(API_URL + animalName)).header("X-Api-Key", API_KEY).build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

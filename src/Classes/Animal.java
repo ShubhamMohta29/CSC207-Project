@@ -77,8 +77,26 @@ public class Animal {
         this.location = location;
     }
 
-    public java.util.Map<String, String> getTaxonomy() {
-        return taxonomy;
+//    public java.util.Map<String, String> getTaxonomy() {
+//        return taxonomy;
+//    }
+
+    public String getTaxonomy() {
+        String kingdom = taxonomy.getOrDefault("kingdom", "Unknown");
+        String phylum = taxonomy.getOrDefault("phylum", "Unknown");
+        String clazz = taxonomy.getOrDefault("class", "Unknown");
+        String order = taxonomy.getOrDefault("order", "Unknown");
+        String family = taxonomy.getOrDefault("family", "Unknown");
+        String genus = taxonomy.getOrDefault("genus", "Unknown");
+        String scientificName = taxonomy.getOrDefault("scientific_name", "Unknown");
+
+        return  "Kingdom: " + kingdom + ", "
+                + "Phylum: " + phylum + ", "
+                + "Class: " + clazz + ", "
+                + "Order: " + order + ", "
+                + "Family: " + family + ", "
+                + "Genus: " + genus + ", "
+                + "Scientific Name: " + scientificName;
     }
 
     public void setTaxonomy(java.util.Map<String, String> taxonomy) {
@@ -163,7 +181,7 @@ public class Animal {
     public String toString() {
         return "Name: " + getName() + "\n"
                 + "Taxonomy: " + getTaxonomy() + "\n"
-                + "Habitat: " + getLocation() + "\n"
+                + "Habitat: " + convertedToString(getLocation()) + "\n"
                 + "Prey: " + convertedToString(getPrey()) + "\n"
                 + "Most Distinctive Feature: " + getMostDistinctiveFeature() + "\n"
                 + "Lifespan: " + getLifespan() + "\n"

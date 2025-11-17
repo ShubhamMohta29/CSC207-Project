@@ -8,6 +8,9 @@
  */
 package AppPkg;
 
+import Classes.Settings.ReaderEditor;
+import Classes.Settings.StyleUpdater;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
@@ -32,6 +35,10 @@ public class FilterGUI extends JDialog {
     private JSlider minWeightSlider;
     private JSlider maxLWeightSlider;
 
+    //apply setting changes
+    private ReaderEditor config = new ReaderEditor("settings.csv");
+    private final StyleUpdater styleUpdater = new StyleUpdater(config);
+
 
     private List<String> selectedTags;
 
@@ -41,6 +48,7 @@ public class FilterGUI extends JDialog {
         selectedTags = new ArrayList<>();
         initComponents();
         setLocationRelativeTo(parent);
+        this.styleUpdater.updateALL(this);
     }
 
     private void initComponents() {

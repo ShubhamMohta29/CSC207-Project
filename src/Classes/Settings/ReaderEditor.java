@@ -1,6 +1,5 @@
 package Classes.Settings;
-import java.awt.Font;
-import java.awt.Color;
+import java.awt.*;
 
 public class ReaderEditor {
     private TextSetting configuration;
@@ -37,15 +36,8 @@ public class ReaderEditor {
             configuration.setTextSize(15);
         }
 
-        if (style.equals("Times New Roman")){
-            configuration.setTextStyle("Times New Roman");
-        }else if ((style.equals("Serif"))){
-            configuration.setTextStyle("Serif");
-        }else if (style.equals("DejaVu Sans")){
-            configuration.setTextStyle("DejaVu Sans");
-        }else{
-            configuration.setTextStyle("Arial");
-        }
+        configuration.setTextStyle(style);
+
 
         settingFetcher.save(configuration);
 
@@ -61,6 +53,10 @@ public class ReaderEditor {
 
     public int getSize() {
         return this.configuration.getTextSize();
+    }
+
+    public String getStyleName() {
+        return this.configuration.getFontName();
     }
 
 }

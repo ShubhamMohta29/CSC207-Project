@@ -1,11 +1,17 @@
 package AppPkg;
 
+import Classes.Settings.ReaderEditor;
+import Classes.Settings.StyleUpdater;
+
 public class GenerateTradingCard extends javax.swing.JFrame
 {
+    private final ReaderEditor config = new ReaderEditor("settings.csv");
+    private final StyleUpdater styleUpdater = new StyleUpdater(config);
 
     public GenerateTradingCard()
     {
         initComponents();
+        styleUpdater.updateALL(this);
     }
 
     @SuppressWarnings("unchecked")

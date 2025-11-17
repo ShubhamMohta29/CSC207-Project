@@ -2,20 +2,26 @@ package AppPkg;
 
 import Classes.APIClass;
 import Classes.Animal;
+import Classes.Settings.ReaderEditor;
+import Classes.Settings.StyleUpdater;
+import java.util.Arrays;
+
 import java.util.HashSet;
 
 public class Compatibility extends javax.swing.JFrame
 {
+    private final ReaderEditor config = new ReaderEditor("settings.csv");
+    private final StyleUpdater styleUpdater = new StyleUpdater(config);
 
     public Compatibility()
     {
         initComponents();
+        updateLabelStyle();//apply setting changes
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">
-    private void initComponents()
-    {
+// <editor-fold defaultstate="collapsed" desc="Generated Code">
+    private void initComponents() {
 
         btnReturn = new javax.swing.JButton();
         lblHeading = new javax.swing.JLabel();
@@ -33,14 +39,16 @@ public class Compatibility extends javax.swing.JFrame
         txaConflicting = new javax.swing.JTextArea();
         lblCategories = new javax.swing.JLabel();
 
+        lblSearchedAnimal1 = new javax.swing.JLabel();
+        lblSearchedAnimal2 = new javax.swing.JLabel();
+        lblRating = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Compatibility");
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagesPkg/home.png"))); // NOI18N
-        btnReturn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        btnReturn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReturnActionPerformed(evt);
             }
         });
@@ -50,16 +58,14 @@ public class Compatibility extends javax.swing.JFrame
         lblHeading.setText("Pet Compatibility");
 
         lblAnimal1.setText("Animal 1");
-
         lblAnimal2.setText("Animal 2");
 
         btnCompare.setText("Compare");
-        btnCompare.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        btnCompare.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCompareActionPerformed(evt);
             }
+
         });
 
         lblMatching.setText("Matching");
@@ -78,16 +84,18 @@ public class Compatibility extends javax.swing.JFrame
 
         lblCategories.setText("Categories");
 
+        lblSearchedAnimal1.setText("Searched Animal 1");
+        lblSearchedAnimal2.setText("Searched Animal 2");
+        lblRating.setText("Rating");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
+
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addGap(0, 0, Short.MAX_VALUE)
-                                                .addComponent(btnReturn))
                                         .addComponent(lblHeading, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,11 +116,26 @@ public class Compatibility extends javax.swing.JFrame
                                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
                                                         .addComponent(jScrollPane2))))
                                 .addContainerGap())
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(160, 160, 160)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btnCompare)
-                                .addContainerGap(173, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(140)
+                                .addComponent(lblSearchedAnimal1)
+                                .addGap(40)
+                                .addComponent(lblSearchedAnimal2)
+                                .addContainerGap(140, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(lblRating)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(20)
+                                .addComponent(btnReturn)
+                                .addContainerGap())
         );
+
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -128,6 +151,10 @@ public class Compatibility extends javax.swing.JFrame
                                         .addComponent(txfAnimal2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnCompare)
+                                .addGap(10, 10, 10)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lblSearchedAnimal1)
+                                        .addComponent(lblSearchedAnimal2))
                                 .addGap(25, 25, 25)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
@@ -142,6 +169,8 @@ public class Compatibility extends javax.swing.JFrame
                                                 .addComponent(lblConflicting)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(lblCategories)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblRating)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                                 .addComponent(btnReturn)
                                 .addContainerGap())
@@ -159,66 +188,102 @@ public class Compatibility extends javax.swing.JFrame
 
     private void btnCompareActionPerformed(java.awt.event.ActionEvent evt)
     {
+        lblSearchedAnimal1.setText("Searched Animal 1");
+        lblSearchedAnimal2.setText("Searched Animal 2");
         String choiceOne = txfAnimal1.getText();
         APIClass api = new APIClass();
         String animal1Data = api.getAnimalData(choiceOne);
-        //Animal animalOne = new Animal();
+        System.out.println(animal1Data);
+        if(animal1Data.equals("[]")){
+            lblSearchedAnimal1.setText("Invalid Animal 1");
+        }
+        else {
+            Animal animalOne = new Animal(animal1Data);
 
-        String choiceTwo = txfAnimal2.getText();
-        String animal2Data = api.getAnimalData(choiceTwo);
-        //Animal animalTwo = new Animal();
+            String choiceTwo = txfAnimal2.getText();
+            String animal2Data = api.getAnimalData(choiceTwo);
+            if(animal2Data.equals("[]")){
+                lblSearchedAnimal2.setText("Invalid Animal 2");
+            }
+            else {
+                Animal animalTwo = new Animal(animal2Data);
 
-        //ArrayList<String> similar = getSimilar(animalOne, animalTwo);
+                lblSearchedAnimal1.setText(animalOne.getName());
+                lblSearchedAnimal2.setText(animalTwo.getName());
 
-        //This below line is just a placeholder for now
-        String similar = "";
+                HashSet<String> similar = getSimilar(animalOne, animalTwo);
+                String similarString = String.join(", ", similar);
 
-        String similarString = String.join(", ", similar);
-        txaMatching.setText(similarString);
-        txaConflicting.setText("Goodbye");
+                HashSet<String> conflicting = new HashSet<>();
+                String[] expected = {"Group", "Diet", "Lifestyle", "Location", "Prey", "Habitat", "Lifespan", "Height", "Weight"};
+                for (String s : expected) {
+                    if (!similar.contains(s)) {
+                        conflicting.add(s);
+                    }
+                }
+                System.out.println(similar.size());
+
+                int rating = (int) ((((double) (similar.size()) / (double) (expected.length)) * 100));
+                lblRating.setText("Rating: " + rating + "%");
+
+                String conflictingString = String.join(", ", conflicting);
+
+                txaMatching.setText(similarString);
+                txaConflicting.setText(conflictingString);
+            }
+        }
     }
 
     public static HashSet<String> getSimilar(Animal animal1, Animal animal2){
         HashSet<String> similar = new HashSet<>();
 
-        if (animal1.getGroup().equals(animal2.getGroup())){
+        if (animal1.getGroup().equals(animal2.getGroup()) || animal1.getGroup().isEmpty() || animal2.getGroup().isEmpty()){
             similar.add("Group");
         }
-        if (animal1.getDiet().equals(animal2.getDiet())){
+
+        if (animal1.getDiet().equals(animal2.getDiet()) || animal1.getDiet().isEmpty() || animal2.getDiet().isEmpty()){
             similar.add("Diet");
         }
-        if (animal1.getLifestyle().equals(animal2.getLifestyle())){
+
+        if (animal1.getLifestyle().equals(animal2.getLifestyle()) || animal1.getLifestyle().isEmpty() || animal2.getLifestyle().isEmpty()){
             similar.add("Lifestyle");
         }
-        for(String location1: animal1.getLocation()){
-            for (String location2: animal2.getLocation()){
-                if (location1.equals(location2)){
+        for(String location1: animal1.getLocation()) {
+            for (String location2 : animal2.getLocation()) {
+                if (location1.equals(location2)) {
                     similar.add("Location");
                 }
             }
+        }
+        if (animal1.getLocation().length == 0 || animal2.getLocation().length == 0) {
+            similar.add("Location");
+        }
 
-            for(String prey1: animal1.getPrey()) {
-                for (String prey2 : animal2.getPrey()) {
-                    if (prey1.equals(prey2)) {
-                        similar.add("Prey");
-                    }
+        else if (animal1.getLocation()[0].equals("Worldwide") || animal2.getLocation()[0].equals("Worldwide")) {
+            similar.add("Location");
+        }
+
+        for(String prey1: animal1.getPrey()) {
+            for (String prey2 : animal2.getPrey()) {
+                if (prey1.equals(prey2)) {
+                    similar.add("Prey");
                 }
             }
-            if (animal1.getHabitat().equals(animal2.getHabitat())) {
-                similar.add("Habitat");
-            }
+        }
+        if (animal1.getHabitat().equals(animal2.getHabitat()) || animal1.getHabitat().isEmpty() || animal2.getHabitat().isEmpty()) {
+            similar.add("Habitat");
+        }
 
-            if (relativeDIff(animal1.getLifespan(), animal2.getLifespan()) < 0.4){
-                similar.add("Lifespan");
-            }
+        if (relativeDIff(animal1.getLifespan(), animal2.getLifespan()) < 0.4){
+            similar.add("Lifespan");
+        }
 
-            if (relativeDIff(animal1.getHeight(), animal2.getHeight()) < 0.4){
-                similar.add("Height");
-            }
+        if (relativeDIff(animal1.getHeight(), animal2.getHeight()) < 0.4){
+            similar.add("Height");
+        }
 
-            if (relativeDIff(animal1.getWeight(), animal2.getWeight()) < 0.4){
-                similar.add("Weight");
-            }
+        if (relativeDIff(animal1.getWeight(), animal2.getWeight()) < 0.4){
+            similar.add("Weight");
         }
 
 
@@ -232,6 +297,10 @@ public class Compatibility extends javax.swing.JFrame
     public static void main(String args[])
     {
         new Compatibility().setVisible(true);
+    }
+
+    private void updateLabelStyle(){
+        styleUpdater.updateAll(this);
     }
 
     // Variables declaration - do not modify
@@ -250,5 +319,8 @@ public class Compatibility extends javax.swing.JFrame
     private javax.swing.JTextArea txaMatching;
     private javax.swing.JTextField txfAnimal1;
     private javax.swing.JTextField txfAnimal2;
+    private javax.swing.JLabel lblSearchedAnimal1;
+    private javax.swing.JLabel lblSearchedAnimal2;
+    private javax.swing.JLabel lblRating;
     // End of variables declaration
 }

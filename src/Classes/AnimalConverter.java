@@ -55,24 +55,47 @@ public class AnimalConverter {
     }
 
     private double parseMetricHeightToCm(String token) {
-        token = token.replaceAll("cm", " cm ").replaceAll("m", " m ").replaceAll("mm", " mm ").trim();
+        if (!token.contains("cm")){
+            if (token.contains("mm")){
+                token = token.replaceAll("mm", " mm ").trim();
+            }
+            else if (token.contains("m")){
+                token = token.replaceAll("m", " m ").trim();
+            }
+        }
+        else{
+            token = token.replaceAll("cm", " cm ").trim();
+        }
+
         String[] parts = splitRange(token);
         if (parts.length == 2) {
             double a = safeParseDouble(extractNumber(parts[0]));
             double b = safeParseDouble(extractNumber(parts[1]));
-            boolean aIsM = parts[0].contains(" m ");
-            boolean bIsM = parts[1].contains(" m ");
-            boolean aIsMm = parts[0].contains(" mm ");
-            boolean bIsMm = parts[1].contains(" mm ");
-            if (aIsM) a *= 100;
-            if (bIsM) b *= 100;
-            if (aIsMm) a /= 10.0;
-            if (bIsMm) b /= 10.0;
+            if (!(parts[0].contains(" cm ")) && !(parts[1].contains(" cm "))) {
+                if (parts[0].contains(" mm ")){
+                    a /= 10;
+                }
+                else if (parts[0].contains(" m ")){
+                    a *= 100;
+                }
+
+                if (parts[1].contains(" mm ")){
+                    b /= 10;
+                }
+                else if (parts[1].contains(" m ")){
+                    b *= 100;
+                }
+                boolean aIsM = parts[0].contains(" m ");
+                boolean bIsM = parts[1].contains(" m ");
+                boolean aIsMm = parts[0].contains(" mm ");
+                boolean bIsMm = parts[1].contains(" mm ");
+            }
+
             return (a + b) / 2.0;
         } else {
             double val = safeParseDouble(extractNumber(token));
-            if (token.contains(" m ")) return val * 100;
             if (token.contains(" mm ")) return val / 10.0;
+            if (token.contains(" m ") && !token.contains(" cm ")) return val * 100;
             return val;
         }
     }
