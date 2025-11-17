@@ -5,11 +5,19 @@ import Classes.Animal;
 public class SuccesfulSearch extends javax.swing.JFrame
 {
 
+    private Animal animal;
+
     public SuccesfulSearch(Animal animal)
     {
         initComponents();
+<<<<<<< Updated upstream
         String name = animal.getName();
         lblHeading.setText("Searched: " + Character.toUpperCase(name.charAt(0)) + name.substring(1));
+=======
+        this.animal = animal;
+        animalName = animal.getName();
+        lblHeading.setText("Searched: " + Character.toUpperCase(animalName.charAt(0)) + animalName.substring(1));
+>>>>>>> Stashed changes
         jTextArea1.setText(animal.toString());
     }
 
@@ -49,12 +57,9 @@ public class SuccesfulSearch extends javax.swing.JFrame
         btnAddFavorite.setText("Favorite");
 
         btnGenerateTradingCard.setText("Generate Trading Card");
-        btnGenerateTradingCard.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                btnGenerateTradingCardActionPerformed(evt);
-            }
+        btnGenerateTradingCard.addActionListener(evt -> {
+            new GenerateTradingCard(animal, this).setVisible(true);
+            this.setVisible(false);
         });
 
         btnHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagesPkg/home.png"))); // NOI18N
@@ -113,11 +118,29 @@ public class SuccesfulSearch extends javax.swing.JFrame
         this.dispose();
     }//GEN-LAST:event_btnHomeActionPerformed
 
+<<<<<<< Updated upstream
     private void btnGenerateTradingCardActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnGenerateTraingCardActionPerformed
     {//GEN-HEADEREND:event_btnGenerateTraingCardActionPerformed
         new GenerateTradingCard().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnGenerateTraingCardActionPerformed
+=======
+    private void btnAddFavoriteActionPerformed(java.awt.event.ActionEvent evt) {
+        final AddFavoriteInputBoundary addFavoriteInteractor = new AddFavoriteInteractor(favoritesDataAccessObject);
+        AddFavoriteController addFavoriteController = new AddFavoriteController(addFavoriteInteractor);
+
+        btnAddFavorite.setBackground(Color.RED);
+        btnAddFavorite.setOpaque(true);
+        // Set timer so the button goes back to normal after 300 ms
+        javax.swing.Timer t = new javax.swing.Timer(300, e -> {
+            btnAddFavorite.setBackground(null);
+            ((javax.swing.Timer) e.getSource()).stop();
+        });
+        t.start();
+
+        addFavoriteController.execute(animalName);
+    }
+>>>>>>> Stashed changes
 
     /**
      * @param args the command line arguments
