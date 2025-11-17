@@ -1,30 +1,38 @@
 package AppPkg;
 
 import Classes.Animal;
+import Classes.Settings.ReaderEditor;
+import Classes.Settings.StyleUpdater;
+import Classes.add_favorite.AddFavoriteController;
+import Classes.add_favorite.AddFavoriteInputBoundary;
+import Classes.add_favorite.AddFavoriteInteractor;
+import Classes.add_favorite.FileFavoritesDataAccessObject;
+
+import java.awt.*;
 
 public class SuccesfulSearch extends javax.swing.JFrame
 {
+    private ReaderEditor config = new ReaderEditor("settings.csv");
+    private final StyleUpdater styleUpdater = new StyleUpdater(config);
 
     private Animal animal;
 
     public SuccesfulSearch(Animal animal)
     {
         initComponents();
-<<<<<<< Updated upstream
-        String name = animal.getName();
-        lblHeading.setText("Searched: " + Character.toUpperCase(name.charAt(0)) + name.substring(1));
-=======
         this.animal = animal;
         animalName = animal.getName();
         lblHeading.setText("Searched: " + Character.toUpperCase(animalName.charAt(0)) + animalName.substring(1));
->>>>>>> Stashed changes
+
         jTextArea1.setText(animal.toString());
+        updateLabelStyle();
     }
 
     public SuccesfulSearch()
     {
         initComponents();
         lblHeading.setText("Searched: ");
+        updateLabelStyle();
     }
 
     /**
@@ -55,6 +63,9 @@ public class SuccesfulSearch extends javax.swing.JFrame
         jScrollPane1.setViewportView(jTextArea1);
 
         btnAddFavorite.setText("Favorite");
+        btnAddFavorite.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {btnAddFavoriteActionPerformed(evt);}
+        });
 
         btnGenerateTradingCard.setText("Generate Trading Card");
         btnGenerateTradingCard.addActionListener(evt -> {
@@ -118,13 +129,12 @@ public class SuccesfulSearch extends javax.swing.JFrame
         this.dispose();
     }//GEN-LAST:event_btnHomeActionPerformed
 
-<<<<<<< Updated upstream
     private void btnGenerateTradingCardActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnGenerateTraingCardActionPerformed
     {//GEN-HEADEREND:event_btnGenerateTraingCardActionPerformed
         new GenerateTradingCard().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnGenerateTraingCardActionPerformed
-=======
+
     private void btnAddFavoriteActionPerformed(java.awt.event.ActionEvent evt) {
         final AddFavoriteInputBoundary addFavoriteInteractor = new AddFavoriteInteractor(favoritesDataAccessObject);
         AddFavoriteController addFavoriteController = new AddFavoriteController(addFavoriteInteractor);
@@ -140,7 +150,6 @@ public class SuccesfulSearch extends javax.swing.JFrame
 
         addFavoriteController.execute(animalName);
     }
->>>>>>> Stashed changes
 
     /**
      * @param args the command line arguments
@@ -150,7 +159,14 @@ public class SuccesfulSearch extends javax.swing.JFrame
         new SuccesfulSearch().setVisible(true);
     }
 
+    private void updateLabelStyle(){
+        styleUpdater.updateAll(this);
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    String animalName;
+    final FileFavoritesDataAccessObject favoritesDataAccessObject
+            = new FileFavoritesDataAccessObject("favorites.csv");
     private javax.swing.JButton btnAddFavorite;
     private javax.swing.JButton btnGenerateTradingCard;
     private javax.swing.JButton btnHome;

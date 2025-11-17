@@ -17,4 +17,14 @@ public class FavoriteList {
         return favorites;
     }
 
+    public void addFavorite(String name){
+        if (!favorites.contains(name)) {
+            favorites.add(name);
+        }
+    }
+
+    public void removeFavorite(String name){
+        favorites.remove(name);
+    }
+
 }

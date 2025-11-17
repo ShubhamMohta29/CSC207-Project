@@ -2,14 +2,21 @@ package AppPkg;
 
 import Classes.APIClass;
 import Classes.Animal;
+import Classes.Settings.ReaderEditor;
+import Classes.Settings.StyleUpdater;
+import java.util.Arrays;
+
 import java.util.HashSet;
 
 public class Compatibility extends javax.swing.JFrame
 {
+    private final ReaderEditor config = new ReaderEditor("settings.csv");
+    private final StyleUpdater styleUpdater = new StyleUpdater(config);
 
     public Compatibility()
     {
         initComponents();
+        updateLabelStyle();//apply setting changes
     }
 
     @SuppressWarnings("unchecked")
@@ -58,6 +65,7 @@ public class Compatibility extends javax.swing.JFrame
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCompareActionPerformed(evt);
             }
+
         });
 
         lblMatching.setText("Matching");
@@ -180,66 +188,102 @@ public class Compatibility extends javax.swing.JFrame
 
     private void btnCompareActionPerformed(java.awt.event.ActionEvent evt)
     {
+        lblSearchedAnimal1.setText("Searched Animal 1");
+        lblSearchedAnimal2.setText("Searched Animal 2");
         String choiceOne = txfAnimal1.getText();
         APIClass api = new APIClass();
         String animal1Data = api.getAnimalData(choiceOne);
-        //Animal animalOne = new Animal();
+        System.out.println(animal1Data);
+        if(animal1Data.equals("[]")){
+            lblSearchedAnimal1.setText("Invalid Animal 1");
+        }
+        else {
+            Animal animalOne = new Animal(animal1Data);
 
-        String choiceTwo = txfAnimal2.getText();
-        String animal2Data = api.getAnimalData(choiceTwo);
-        //Animal animalTwo = new Animal();
+            String choiceTwo = txfAnimal2.getText();
+            String animal2Data = api.getAnimalData(choiceTwo);
+            if(animal2Data.equals("[]")){
+                lblSearchedAnimal2.setText("Invalid Animal 2");
+            }
+            else {
+                Animal animalTwo = new Animal(animal2Data);
 
-        //ArrayList<String> similar = getSimilar(animalOne, animalTwo);
+                lblSearchedAnimal1.setText(animalOne.getName());
+                lblSearchedAnimal2.setText(animalTwo.getName());
 
-        //This below line is just a placeholder for now
-        String similar = "";
+                HashSet<String> similar = getSimilar(animalOne, animalTwo);
+                String similarString = String.join(", ", similar);
 
-        String similarString = String.join(", ", similar);
-        txaMatching.setText(similarString);
-        txaConflicting.setText("Goodbye");
+                HashSet<String> conflicting = new HashSet<>();
+                String[] expected = {"Group", "Diet", "Lifestyle", "Location", "Prey", "Habitat", "Lifespan", "Height", "Weight"};
+                for (String s : expected) {
+                    if (!similar.contains(s)) {
+                        conflicting.add(s);
+                    }
+                }
+                System.out.println(similar.size());
+
+                int rating = (int) ((((double) (similar.size()) / (double) (expected.length)) * 100));
+                lblRating.setText("Rating: " + rating + "%");
+
+                String conflictingString = String.join(", ", conflicting);
+
+                txaMatching.setText(similarString);
+                txaConflicting.setText(conflictingString);
+            }
+        }
     }
 
     public static HashSet<String> getSimilar(Animal animal1, Animal animal2){
         HashSet<String> similar = new HashSet<>();
 
-        if (animal1.getGroup().equals(animal2.getGroup())){
+        if (animal1.getGroup().equals(animal2.getGroup()) || animal1.getGroup().isEmpty() || animal2.getGroup().isEmpty()){
             similar.add("Group");
         }
-        if (animal1.getDiet().equals(animal2.getDiet())){
+
+        if (animal1.getDiet().equals(animal2.getDiet()) || animal1.getDiet().isEmpty() || animal2.getDiet().isEmpty()){
             similar.add("Diet");
         }
-        if (animal1.getLifestyle().equals(animal2.getLifestyle())){
+
+        if (animal1.getLifestyle().equals(animal2.getLifestyle()) || animal1.getLifestyle().isEmpty() || animal2.getLifestyle().isEmpty()){
             similar.add("Lifestyle");
         }
-        for(String location1: animal1.getLocation()){
-            for (String location2: animal2.getLocation()){
-                if (location1.equals(location2)){
+        for(String location1: animal1.getLocation()) {
+            for (String location2 : animal2.getLocation()) {
+                if (location1.equals(location2)) {
                     similar.add("Location");
                 }
             }
+        }
+        if (animal1.getLocation().length == 0 || animal2.getLocation().length == 0) {
+            similar.add("Location");
+        }
 
-            for(String prey1: animal1.getPrey()) {
-                for (String prey2 : animal2.getPrey()) {
-                    if (prey1.equals(prey2)) {
-                        similar.add("Prey");
-                    }
+        else if (animal1.getLocation()[0].equals("Worldwide") || animal2.getLocation()[0].equals("Worldwide")) {
+            similar.add("Location");
+        }
+
+        for(String prey1: animal1.getPrey()) {
+            for (String prey2 : animal2.getPrey()) {
+                if (prey1.equals(prey2)) {
+                    similar.add("Prey");
                 }
             }
-            if (animal1.getHabitat().equals(animal2.getHabitat())) {
-                similar.add("Habitat");
-            }
+        }
+        if (animal1.getHabitat().equals(animal2.getHabitat()) || animal1.getHabitat().isEmpty() || animal2.getHabitat().isEmpty()) {
+            similar.add("Habitat");
+        }
 
-            if (relativeDIff(animal1.getLifespan(), animal2.getLifespan()) < 0.4){
-                similar.add("Lifespan");
-            }
+        if (relativeDIff(animal1.getLifespan(), animal2.getLifespan()) < 0.4){
+            similar.add("Lifespan");
+        }
 
-            if (relativeDIff(animal1.getHeight(), animal2.getHeight()) < 0.4){
-                similar.add("Height");
-            }
+        if (relativeDIff(animal1.getHeight(), animal2.getHeight()) < 0.4){
+            similar.add("Height");
+        }
 
-            if (relativeDIff(animal1.getWeight(), animal2.getWeight()) < 0.4){
-                similar.add("Weight");
-            }
+        if (relativeDIff(animal1.getWeight(), animal2.getWeight()) < 0.4){
+            similar.add("Weight");
         }
 
 
@@ -253,6 +297,10 @@ public class Compatibility extends javax.swing.JFrame
     public static void main(String args[])
     {
         new Compatibility().setVisible(true);
+    }
+
+    private void updateLabelStyle(){
+        styleUpdater.updateAll(this);
     }
 
     // Variables declaration - do not modify

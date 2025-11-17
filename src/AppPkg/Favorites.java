@@ -1,5 +1,11 @@
 package AppPkg;
 
+import Classes.Animal;
+import Classes.APIClass;
+import Classes.add_favorite.*;
+
+import javax.swing.*;
+
 public class Favorites extends javax.swing.JFrame
 {
 
@@ -14,9 +20,13 @@ public class Favorites extends javax.swing.JFrame
     {
 
         btnReturn = new javax.swing.JButton();
+        btnRemove = new javax.swing.JButton();
         lblHeading = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListFavs = new javax.swing.JList<>();
+        final FavoriteList favorites = new FileFavoritesDataAccessObject("favorites.csv").getFavoriteList();
+        final AddFavoriteOutputData addFavoriteOutputData =
+                new AddFavoriteOutputData(favorites.getFavorites().toArray(new String[0]));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Favorites");
@@ -30,17 +40,26 @@ public class Favorites extends javax.swing.JFrame
             }
         });
 
+        btnRemove.setText("Remove");
+        btnRemove.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent evt) {btnRemoveActionPerformed(evt);}
+        });
+
         lblHeading.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblHeading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblHeading.setText("Favorites");
 
         jListFavs.setModel(new javax.swing.AbstractListModel<String>()
         {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = addFavoriteOutputData.getFavList();
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
         jScrollPane1.setViewportView(jListFavs);
+
+        jListFavs.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {btnMouseClickActionPerformed(evt);}
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -50,8 +69,11 @@ public class Favorites extends javax.swing.JFrame
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(btnReturn))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRemove)
+                        .addGap(18, 18, 18)
                     .addComponent(lblHeading, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addContainerGap())
@@ -64,7 +86,9 @@ public class Favorites extends javax.swing.JFrame
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(btnReturn)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnReturn)
+                        .addComponent(btnRemove))
                 .addContainerGap())
         );
 
@@ -78,6 +102,38 @@ public class Favorites extends javax.swing.JFrame
         this.dispose();
     }//GEN-LAST:event_btnReturnActionPerformed
 
+    /**
+     * User double-click on the name to get the information.
+     */
+    private void btnMouseClickActionPerformed(java.awt.event.MouseEvent evt) {
+        if (evt.getClickCount() == 2) {
+            String animalName = jListFavs.getSelectedValue().toLowerCase().trim();
+            if (animalName.contains(" ")) {
+                animalName = animalName.replace(" ", "%20");
+            }
+            APIClass apiClass = new APIClass();
+            Animal animal = new Animal(apiClass.getAnimalData(animalName));
+            new SuccesfulSearch(animal).setVisible(true);
+            this.dispose();
+        }
+    }
+
+    /**
+     * User clicks on the name first, then clicks remove to remove the name.
+     */
+    private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {
+        final AddFavoriteInputBoundary addFavoriteInteractor = new AddFavoriteInteractor(favoritesDataAccessObject);
+        AddFavoriteController addFavoriteController = new AddFavoriteController(addFavoriteInteractor);
+        String animalName = jListFavs.getSelectedValue();
+        if (animalName == null) {
+            JOptionPane.showMessageDialog(null, "Select a name to remove");
+            return;
+        }
+        addFavoriteController.execute1(animalName);
+        new Favorites().setVisible(true);
+        this.dispose();
+    }
+
     public static void main(String args[])
     {
         new Favorites().setVisible(true);
@@ -88,5 +144,8 @@ public class Favorites extends javax.swing.JFrame
     private javax.swing.JList<String> jListFavs;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblHeading;
+    private javax.swing.JButton btnRemove;
+    final FileFavoritesDataAccessObject favoritesDataAccessObject
+            = new FileFavoritesDataAccessObject("favorites.csv");
     // End of variables declaration//GEN-END:variables
 }

@@ -1,11 +1,15 @@
 package AppPkg;
 
+import Classes.Settings.FontFetcher;
 import Classes.Settings.ReaderEditor;
+import Classes.Settings.StyleUpdater;
 
 import java.awt.*;
 
 public class Settings extends javax.swing.JFrame {
-    private ReaderEditor config = new ReaderEditor("settings.csv");
+    private final ReaderEditor config = new ReaderEditor("settings.csv");
+    private final StyleUpdater styleUpdater = new StyleUpdater(config);
+
     private String color = "black";
     private String style = "Arial";
     private int size = 2;
@@ -14,6 +18,8 @@ public class Settings extends javax.swing.JFrame {
         initComponents();
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setupListeners();
+        styleUpdater.updateAll(this);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -23,65 +29,38 @@ public class Settings extends javax.swing.JFrame {
         Font font = config.getStyle();
 
         lblFontSize = new javax.swing.JLabel();
-        lblFontSize.setForeground(fg);
-        lblFontSize.setFont(font);
-
         cBoxFontSizes = new javax.swing.JComboBox<>();
-        cBoxFontSizes.setForeground(fg);
-        cBoxFontSizes.setFont(font);
-
         lblFont = new javax.swing.JLabel();
-        lblFont.setForeground(fg);
-        lblFont.setFont(font);
-
         cBoxFonts = new javax.swing.JComboBox<>();
-        cBoxFonts.setForeground(fg);
-        cBoxFonts.setFont(font);
-
         lblColor = new javax.swing.JLabel();
-        lblColor.setForeground(fg);
-        lblColor.setFont(font);
-
         cBoxColor = new javax.swing.JComboBox<>();
-        cBoxColor.setForeground(fg);
-        cBoxColor.setFont(font);
-
         btnSave = new javax.swing.JButton();
-        btnSave.setForeground(fg);
-        btnSave.setFont(font);
-
         btnDefault = new javax.swing.JButton();
-        btnDefault.setForeground(fg);
-        btnDefault.setFont(font);
-
         btnHome = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Settings");
 
         lblFontSize.setText("Font Size");
-
         cBoxFontSizes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5"}));
 
         lblFont.setText("Font");
 
-        cBoxFonts.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Arial", "Times New Roman", "Droid Sans Georgian", "DejaVu Sans"}));
+        // Fetches all fonts available in the OS
+        FontFetcher availableFont = new FontFetcher();
+        String[] list = availableFont.getFonts();
+        cBoxFonts.setModel(new javax.swing.DefaultComboBoxModel<>(list));
 
         lblColor.setText("Color");
-
         cBoxColor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"black", "blue", "green", "purple"}));
 
         btnSave.setText("Save");
-
         btnDefault.setText("Restore Defaults");
 
         btnHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagesPkg/home.png"))); // NOI18N
-        btnHome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHomeActionPerformed(evt);
-            }
-        });
+        btnHome.addActionListener(this::btnHomeActionPerformed);
 
+        // Layout setup
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -138,80 +117,30 @@ public class Settings extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnHomeActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnHomeActionPerformed
-    {//GEN-HEADEREND:event_btnHomeActionPerformed
-        // new MainMenu().setVisible(true);
+    private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {
         this.dispose();
         new MainMenu().setVisible(true);
-    }//GEN-LAST:event_btnHomeActionPerformed
+    }
 
     private void setupListeners() {
-        // Font size combo box
-        cBoxFontSizes.addActionListener(e -> {
-            size = Integer.parseInt((String) cBoxFontSizes.getSelectedItem());
-        });
-
-        // Font style combo box
-        cBoxFonts.addActionListener(e -> {
-            style = (String) cBoxFonts.getSelectedItem();
-        });
-
-        // Color combo box
-        cBoxColor.addActionListener(e -> {
-            color = (String) cBoxColor.getSelectedItem();
-
-
-        });
-
+        cBoxFontSizes.addActionListener(e -> size = Integer.parseInt((String) cBoxFontSizes.getSelectedItem()));
+        cBoxFonts.addActionListener(e -> style = (String) cBoxFonts.getSelectedItem());
+        cBoxColor.addActionListener(e -> color = (String) cBoxColor.getSelectedItem());
 
         btnDefault.addActionListener(e -> {
             size = 2;
-            style = "Aerial";
+            style = "Arial";
             color = "black";
             updateLabelStyle();
-
         });
 
-        btnSave.addActionListener(e -> {
-            updateLabelStyle();
-        });
+        btnSave.addActionListener(e -> updateLabelStyle());
     }
 
     private void updateLabelStyle() {
-        config.editSettings(color, size, style);
-        Color fg = config.getColor();
-        Font font = config.getStyle();
-
-        lblFontSize.setForeground(fg);
-        lblFontSize.setFont(font);
-
-        cBoxFontSizes.setForeground(fg);
-        cBoxFontSizes.setFont(font);
-
-        lblFont.setForeground(fg);
-        lblFont.setFont(font);
-
-        cBoxFonts.setForeground(fg);
-        cBoxFonts.setFont(font);
-
-        lblColor.setForeground(fg);
-        lblColor.setFont(font);
-
-        cBoxColor.setForeground(fg);
-        cBoxColor.setFont(font);
-
-        btnSave.setForeground(fg);
-        btnSave.setFont(font);
-
-        btnDefault.setForeground(fg);
-        btnDefault.setFont(font);
-
-        // Automatically resize window to fit updated font sizes
-        revalidate();
-        pack();
-
+        //automatic StyleUpdater
+        styleUpdater.updateChangesAll(color, size, style, this);
     }
-
 
     public static void main(String args[]) {
         new Settings().setVisible(true);
