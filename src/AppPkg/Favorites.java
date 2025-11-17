@@ -2,16 +2,21 @@ package AppPkg;
 
 import Classes.Animal;
 import Classes.APIClass;
+import Classes.Settings.ReaderEditor;
+import Classes.Settings.StyleUpdater;
 import Classes.add_favorite.*;
 
 import javax.swing.*;
 
 public class Favorites extends javax.swing.JFrame
 {
+    private final ReaderEditor config = new ReaderEditor("settings.csv");
+    private final StyleUpdater styleUpdater = new StyleUpdater(config);
 
     public Favorites()
     {
         initComponents();
+        styleUpdater.updateALL(this);
     }
 
     @SuppressWarnings("unchecked")

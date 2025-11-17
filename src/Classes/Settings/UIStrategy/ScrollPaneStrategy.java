@@ -6,6 +6,7 @@ import java.awt.*;
 public class ScrollPaneStrategy implements UIStyleStrategy {
     public void apply(Component comp, Color c, Font font) {
 
+
         JScrollPane sp = (JScrollPane) comp;
         sp.setFont(font);
         sp.setForeground(c);

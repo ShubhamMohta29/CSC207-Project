@@ -49,6 +49,15 @@ public class StyleUpdater {
         dialog.pack();
     }
 
+    public void updateALL(Window window) {
+        Color fg = config.getColor();
+        Font font = config.getStyle();
+
+        updateComponentsRecursively(window, fg, font);
+        window.revalidate();
+        window.pack();
+    }
+
     /**
      * Recursively traverses through all components in a container
      * and applies the given color and font.

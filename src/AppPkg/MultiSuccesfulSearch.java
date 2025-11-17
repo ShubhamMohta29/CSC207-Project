@@ -1,12 +1,16 @@
 package AppPkg;
 
 import Classes.Animal;
+import Classes.Settings.ReaderEditor;
+import Classes.Settings.StyleUpdater;
 
 import javax.swing.*;
 import java.util.ArrayList;
 
 public class MultiSuccesfulSearch extends javax.swing.JFrame
 {
+    private final ReaderEditor config = new ReaderEditor("settings.csv");
+    private final StyleUpdater styleUpdater = new StyleUpdater(config);
 
     public MultiSuccesfulSearch(Animal[] animals)
     {
@@ -34,6 +38,7 @@ public class MultiSuccesfulSearch extends javax.swing.JFrame
                 }
             }
         });
+        this.styleUpdater.updateALL(this);
     }
 
     public MultiSuccesfulSearch()
