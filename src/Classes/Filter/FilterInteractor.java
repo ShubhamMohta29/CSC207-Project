@@ -1,5 +1,6 @@
 /**
- * FilterInteractor: todo
+ * FilterInteractor: gets the animals from the repository, applies filters, sorting, and pagination, then calls the
+ * presenter with the output data.
   /)/)
  ( . .)
  ( づ♡
