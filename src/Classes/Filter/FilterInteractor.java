@@ -9,11 +9,17 @@ package Classes.Filter;
 
 import Classes.Animal;
 
-public class FilterInteractor {
+import java.util.List;
+
+public class FilterInteractor implements FilterInputBoundary{
     private AnimalNameProviderI repo;
+    private FilterOutputBoundary outputBoundary;
 
     //constructor
-    public FilterInteractor(AnimalNameProviderI repo){ this.repo = repo; }
+    public FilterInteractor(AnimalNameProviderI repo, FilterOutputBoundary outputBoundary){
+        this.repo = repo;
+        this.outputBoundary = outputBoundary;
+    }
 
 //    public FilterOutput handleFilter(FilterInput input){
 //        List<String> candidateNames = repo.getCandidateNames(input);
@@ -24,7 +30,6 @@ public class FilterInteractor {
 //        String nextCursor = hasMore ? candidateNames.get(candidateNames.size()-1) : null;
 //        return new FilterOutput(animals, hasMore, nextCursor);
 //    }
-
     private boolean matchesFilters(Animal a, FilterInput request) {
         // Group filter
         if (request.getGroups() != null && !request.getGroups().isEmpty()) {
@@ -56,5 +61,27 @@ public class FilterInteractor {
         //todo
 
         return true;
+    }
+
+    @Override
+    public void filterAnimals(FilterInput input) {
+        List<Animal> allAnimals = AnimalNameProviderI.getAllAnimals();
+
+        // 2. Apply filters
+        List<Animal> filteredAnimals = applyFilters(allAnimals, inputData);
+
+        // 3. Apply sorting
+        sortAnimals(filteredAnimals, inputData);
+
+        // 4. Apply pagination
+        List<Animal> pageAnimals = paginate(filteredAnimals, inputData);
+
+        // 5. Create output data
+        FilterOutput outputData = new FilterOutput(pageAnimals,
+                calculateTotalPages(filteredAnimals.size(), inputData.getPageSize()),
+                inputData.getPage());
+
+        // 6. Pass output data to presenter
+        outputBoundary.present(outputData);
     }
 }

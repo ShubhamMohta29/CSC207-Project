@@ -15,7 +15,6 @@ public class FilterOutput {
     private final List<Animal> filtered_animals;
     private final boolean hasMore; //flag to keep track of whether the system can generate another lazy-load request
     private final boolean success;
-    private final String errorMsg;
 
     //optional
     private double time; //maybe need this for optimization proof?
@@ -26,7 +25,6 @@ public class FilterOutput {
         this.filtered_animals = filtered_animals != null ? filtered_animals : List.of();
         this.hasMore = hasMore;
         this.success = success;
-        this.errorMsg = errorMsg;
     }
 
     //getters
@@ -34,9 +32,7 @@ public class FilterOutput {
     public boolean checkHasMore(){ return hasMore;}
     public double getTime() { return time; }
     public int getTotalResults() { return total_results; }
-    public String getErrorMsg() {
-        return errorMsg;
-    }
+
 }
 
 
