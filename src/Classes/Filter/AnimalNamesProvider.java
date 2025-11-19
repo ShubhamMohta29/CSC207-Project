@@ -1,5 +1,5 @@
 /**
- * AnimalNameProvider: todo -- > need to determine whether to ake another api query or just build a local json database
+ * AnimalNamesProvider: todo -- > need to determine whether to ake another api query or just build a local json database
  *
  * and query?
  /)/)
@@ -10,7 +10,7 @@ package Classes.Filter;
 
 import java.util.List;
 
-public class AnimalNameProvider implements AnimalNameProviderI {
+public class AnimalNamesProvider implements AnimalNamesProviderI {
     //private static final String FILTER_API_URL;
     //aPI key:  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
 

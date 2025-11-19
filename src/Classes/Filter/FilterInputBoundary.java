@@ -1,5 +1,5 @@
 package Classes.Filter;
-
+//called by controller
 public interface FilterInputBoundary {
-    public void filterAnimals(FilterInput input);
+     FilterOutput filterAnimals(FilterInput input);
 }

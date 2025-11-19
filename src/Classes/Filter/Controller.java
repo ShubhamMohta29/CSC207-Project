@@ -7,7 +7,7 @@ public class Controller {
         this.interactor = interactor;
     }
 
-    public void browseAnimals(FilterInput inputData) {
+    public void filterAnimals(FilterInput inputData) {
         interactor.filterAnimals(inputData);
     }
 }

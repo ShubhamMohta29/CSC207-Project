@@ -1,5 +1,5 @@
 package Classes.Filter;
-
+//called by interactor to pass to presenter
 public interface FilterOutputBoundary {
-    public void present(FilterOutput output);
+    void present(FilterOutput output);
 }

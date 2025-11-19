@@ -12,11 +12,11 @@ import Classes.Animal;
 import java.util.List;
 
 public class FilterInteractor implements FilterInputBoundary{
-    private AnimalNameProviderI repo;
+    private AnimalNamesProviderI repo;
     private FilterOutputBoundary outputBoundary;
 
     //constructor
-    public FilterInteractor(AnimalNameProviderI repo, FilterOutputBoundary outputBoundary){
+    public FilterInteractor(AnimalNamesProviderI repo, FilterOutputBoundary outputBoundary){
         this.repo = repo;
         this.outputBoundary = outputBoundary;
     }
@@ -26,7 +26,7 @@ public class FilterInteractor implements FilterInputBoundary{
 //        List<Animal> animals = candidateNames.stream()
 //                .map(repo::getAnimalData)
 //                .collect(Collectors.toList());
-//        boolean hasMore = candidateNames.size() == input.getLimit();
+//        boolean hasMore = candidateNames.size() == input.getPageSize();
 //        String nextCursor = hasMore ? candidateNames.get(candidateNames.size()-1) : null;
 //        return new FilterOutput(animals, hasMore, nextCursor);
 //    }
@@ -65,7 +65,7 @@ public class FilterInteractor implements FilterInputBoundary{
 
     @Override
     public void filterAnimals(FilterInput input) {
-        List<Animal> allAnimals = AnimalNameProviderI.getAllAnimals();
+        List<Animal> allAnimals = AnimalNamesProviderI.getAllAnimals();
 
         // 2. Apply filters
         List<Animal> filteredAnimals = applyFilters(allAnimals, inputData);
