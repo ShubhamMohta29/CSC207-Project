@@ -26,7 +26,7 @@ public class FilterInput {
 
 
     // Private constructor - use builder. Why? --> in case we want to add more filter criterion
-    private FilterInput(Builder builder) {
+    FilterInput(Builder builder) {
         this.animal_groups = List.copyOf(builder.groups);
         this.animal_locations = List.copyOf(builder.locations);
         this.animal_diets = List.copyOf(builder.diets);
