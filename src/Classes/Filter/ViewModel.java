@@ -1,3 +1,9 @@
+/**
+ * ViewModal : Holds current filtered results and pagination info. GUI reads from this class to render results.
+  /)/)
+ ( . .)
+ ( づ♡
+ */
 package Classes.Filter;
 
 import Classes.Animal;
@@ -5,34 +11,41 @@ import Classes.Animal;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Holds current filtered results and pagination info.
- * GUI reads from this class to render results.
- */
 public class ViewModel {
 
+    //field declarations
     private List<Animal> animals = new ArrayList<>();
     private boolean hasMore = false;
     private String nextCursor = null;
 
+    /*
+    Constructor
+     */
     public List<Animal> getAnimals() {
         return new ArrayList<>(animals);
     }
 
+    /*
+    Updates the list of animals to be displayed in the results panel
+     */
     public void setAnimals(List<Animal> newAnimals) {
         this.animals = new ArrayList<>(newAnimals);
+        System.out.println("im updating the set animals method to this: " +animals);
     }
 
-    public void appendAnimals(List<Animal> moreAnimals) {
-        this.animals.addAll(moreAnimals);
-    }
-
+    /*
+    Checks if more animals are to be displayed --> affects the load more button logic
+     */
     public boolean hasMore() {
         return hasMore;
     }
 
+    /*
+    Setters and getters
+     */
     public void setHasMore(boolean hasMore) {
         this.hasMore = hasMore;
+        System.out.println("do i have more animals to display? " + hasMore);
     }
 
     public String getNextCursor() {

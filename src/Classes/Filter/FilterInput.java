@@ -10,6 +10,7 @@ package Classes.Filter;
 import java.util.*;
 
 public class FilterInput {
+    //field declarations
     //define all the filter criterion - immutable class
     //constant(s)
     private static final int PAGE_SIZE = 5; // fixed page size
@@ -25,7 +26,9 @@ public class FilterInput {
     private final String cursor; //pagination token
 
 
-    // Private constructor - use builder. Why? --> in case we want to add more filter criterion
+    /*
+      Constructor --> Private constructor - use builder. Why? --> in case we want to add more filter criterion
+     */
     FilterInput(Builder builder) {
         this.animal_groups = List.copyOf(builder.groups);
         this.animal_locations = List.copyOf(builder.locations);
@@ -36,12 +39,12 @@ public class FilterInput {
         this.pageSize = PAGE_SIZE;
     }
 
-    // Builder pattern for flexible construction
     /*
-    Static inner class because : It doesn’t need the outer instance.
-        want to logically group related code.
-        want better memory efficiency.
-        want encapsulation for helper classes.
+      Builder pattern for flexible construction
+        Note: Static inner class because : It doesn’t need the outer instance.
+                                            want to logically group related code.
+                                            want better memory efficiency.
+                                            want encapsulation for helper classes.
      */
     public static class Builder {
         private List<String> groups = List.of();
@@ -83,7 +86,9 @@ public class FilterInput {
         }
     }
 
-    // Getters
+    /*
+    Getter methods
+     */
     public List<String> getGroups() { return animal_groups; }
     public List<String> getLocations() { return animal_locations; }
     public List<String> getDiets() { return animal_diets; }

@@ -187,6 +187,10 @@ public class  MainMenu extends javax.swing.JFrame
             }
 
             String result = aClass.getAnimalData(animalName);       // calls getAnimalData to get the JSON data of the animal
+            if (result == null) {
+                lblError.setText("Animal '" + animalName + "' not found. Please double check the name.");
+                return; // Exit early
+            }
             int numResults = aClass.numResults();                   // gets the number of animals' data that was returned
             Animal searched = new Animal(result);
 
@@ -226,14 +230,17 @@ public class  MainMenu extends javax.swing.JFrame
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnFilterActionPerformed
     {//GEN-HEADEREND:event_btnFilterActionPerformed
-        FilterGUI filterFrame = new FilterGUI(this);  // create the frame
-
-        //get MainMenu's co-ords
-        int x = this.getX() + this.getWidth();
-        int y = this.getY();
-
-        filterFrame.setLocation(x, y);  // set the location
-        filterFrame.setVisible(true);   // make it visible
+        FilterGUI filterFrame = FilterGUIFactory.create(this);
+        filterFrame.setLocation(this.getX() + this.getWidth(), this.getY());
+        filterFrame.setVisible(true);
+//
+//
+//        //get MainMenu's co-ords
+//        int x = this.getX() + this.getWidth();
+//        int y = this.getY();
+//
+//        filterFrame.setLocation(x, y);  // set the location
+//        filterFrame.setVisible(true);   // make it visible
     }//GEN-LAST:event_btnFilterActionPerformed
 
     private void btnCompatibilityActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnCompatibilityActionPerformed
@@ -250,11 +257,11 @@ public class  MainMenu extends javax.swing.JFrame
 
     private void updateLabelStyle(){
         styleUpdater.updateAll(this);
-        lblGreeting1.setFont(new Font(
-                config.getStyleName(),
-                0,
-                36
-        ));
+//        lblGreeting1.setFont(new Font(
+//                config.getStyleName(),
+//                0,
+//                36
+//        ));
     }
 
     public static void main(String args[])

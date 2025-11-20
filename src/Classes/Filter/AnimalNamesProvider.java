@@ -1,6 +1,6 @@
 /**
- * AnimalNamesProvider
- /)/)
+ * AnimalNamesProvider :LLM - OpenRouterAPI
+  /)/)
  ( . .)
  ( づ♡
  */
@@ -18,37 +18,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnimalNamesProvider implements AnimalNamesProviderI {
-    //private static final String FILTER_API_URL;
-    //aPI key:  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
 
+    //field declarations
     private static final String API_URL = "https://openrouter.ai/api/v1/chat/completions";
     private final String apiKey;
     private final HttpClient client;
 
+    /*
+     * Constructor
+     */
     public AnimalNamesProvider(String apiKey) {
         this.apiKey = apiKey;
         this.client = HttpClient.newHttpClient();
     }
 
+    /*
+     * Function call to get the potential candidates satisfying the user's applied filters
+     */
     @Override
     public List<String> getCandidateNames(FilterInput request) {
         List<String> candidates = new ArrayList<>();
+        System.out.println("im in the animal names provider now");
 
         // 1. Build the prompt from the filter request
         String prompt = buildPrompt(request);
-
+        System.out.println("this is the prompt im sending to the OpenRouter API:" + prompt);
         // 2. Create JSON payload (the data inside the Http Request)
         JSONObject userMessage = new JSONObject()
                 .put("role", "user")
                 .put("content", prompt);
+
         JSONArray messages = new JSONArray().put(userMessage);
 
         JSONObject payload = new JSONObject()
                 .put("model", "openai/gpt-4o")  //selected model
                 .put("messages", messages)
+                .put("max_completion_tokens", 500)
                 .put("stream", false);
 
-        // 3. Build HTTP request
+        // 3. Build the HTTP request
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL))
                 .header("Authorization", "Bearer " + apiKey)
@@ -94,11 +102,11 @@ public class AnimalNamesProvider implements AnimalNamesProviderI {
         return candidates;
     }
 
-    /**
+    /*
      * Converts the filter request into a text prompt for the LLM.
      */
     private String buildPrompt(FilterInput request) {
-        StringBuilder prompt = new StringBuilder("List animal common names that match the following criteria. " +
+        StringBuilder prompt = new StringBuilder("List animal common names that match the following criteria exactly. " +
                 "The animals must satisfy at least one criteria from each of the categories:\n");
 
         if (request.getGroups() != null && !request.getGroups().isEmpty()) {
@@ -117,7 +125,7 @@ public class AnimalNamesProvider implements AnimalNamesProviderI {
             prompt.append("Maximum lifespan: ").append(request.getMaxLifespan()).append("\n");
         }
 
-        prompt.append("Return only 5-10 common names as a comma-separated list. No extra text.");
+        prompt.append("Return only 10-15 common names as a comma-separated list. ensure they are common names and preferably, more common animals as well. Also, try to provide more one-word named animals. No extra text.");
         return prompt.toString();
     }
 }
