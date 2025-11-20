@@ -2,6 +2,7 @@ package AppPkg;
 
 import Classes.APIClass;
 import Classes.Animal;
+import Classes.Filter.AnimalNamesProvider;
 import Classes.Settings.ReaderEditor;
 import Classes.Settings.StyleUpdater;
 import org.json.JSONArray;
@@ -188,8 +189,28 @@ public class  MainMenu extends javax.swing.JFrame
 
             String result = aClass.getAnimalData(animalName);       // calls getAnimalData to get the JSON data of the animal
             if (result == null) {
-                lblError.setText("Animal '" + animalName + "' not found. Please double check the name.");
-                return; // Exit early
+//                lblError.setText("Animal '" + animalName + "' not found. Please double check the name.");
+//                return; // Exit early
+                AnimalNamesProvider nameProvider = new AnimalNamesProvider("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");
+                String suggestion = nameProvider.fuzzySuggestion(animalName);
+
+                if (suggestion != null && !suggestion.isEmpty()) {
+                    String htmlText = "<html>Animal not found. Did you mean: <a href=''>" + suggestion + "</a>?</html>";
+                    lblError.setText(htmlText);
+
+                    // Add click listener to the label
+                    lblError.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    lblError.addMouseListener(new java.awt.event.MouseAdapter() {
+                        public void mouseClicked(java.awt.event.MouseEvent evt) {
+                            // When clicked, search for the suggested animal
+                            txfAnimal.setText(suggestion);
+                            btnSearchActionPerformed(null); // Trigger search again
+                        }
+                    });
+                } else {
+                    lblError.setText("Animal '" + animalName + "' not found.");
+                }
+                return;
             }
             int numResults = aClass.numResults();                   // gets the number of animals' data that was returned
             Animal searched = new Animal(result);

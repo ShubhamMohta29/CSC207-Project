@@ -128,4 +128,59 @@ public class AnimalNamesProvider implements AnimalNamesProviderI {
         prompt.append("Return only 10-15 common names as a comma-separated list. ensure they are common names and preferably, more common animals as well. Also, try to provide more one-word named animals. No extra text.");
         return prompt.toString();
     }
+
+    /*
+     * Function call to mimic fuzzy search suggestion? Bonus, rather
+     */
+    @Override
+    public String fuzzySuggestion(String animalName) {
+        System.out.println("Getting fuzzy suggestion for: " + animalName);
+
+        // Build a prompt for a single suggestion
+        String prompt = "The user searched for: \"" + animalName + "\"\n\n" +
+                "Suggest ONE correct animal name they might have meant. " +
+                "Return ONLY the single animal name, nothing else. No explanations, no commas, just one name.";
+
+        JSONObject userMessage = new JSONObject()
+                .put("role", "user")
+                .put("content", prompt);
+
+        JSONArray messages = new JSONArray().put(userMessage);
+
+        JSONObject payload = new JSONObject()
+                .put("model", "openai/gpt-4o")
+                .put("messages", messages)
+                .put("max_completion_tokens", 50)
+                .put("stream", false);
+
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+                .uri(URI.create(API_URL))
+                .header("Authorization", "Bearer " + apiKey)
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(payload.toString()))
+                .build();
+
+        try {
+            HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                JSONObject json = new JSONObject(response.body());
+                JSONArray choices = json.getJSONArray("choices");
+
+                if (!choices.isEmpty()) {
+                    JSONObject choice0 = choices.getJSONObject(0);
+                    String content = choice0.getJSONObject("message").getString("content").trim();
+
+                    System.out.println("Fuzzy suggestion result: " + content);
+                    return content;
+                }
+            } else {
+                System.out.println("OpenRouter API error in fuzzy suggestion: " + response.statusCode());
+            }
+        } catch (IOException | InterruptedException e) {
+            System.out.println("Error getting fuzzy suggestion: " + e.getMessage());
+        }
+
+        return null; //null if no suggestion
+    }
 }
