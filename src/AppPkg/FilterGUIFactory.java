@@ -19,7 +19,7 @@ public class FilterGUIFactory {
         APIClass animalProvider = new APIClass();
         ViewModel vm = new ViewModel();
         Presenter presenter = new Presenter(vm);
-        AnimalNamesProviderI nameProvider = new AnimalNamesProvider("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");
+        AnimalNamesProviderI nameProvider = new AnimalNamesProvider("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");
         FilterInteractor interactor = new FilterInteractor(nameProvider, presenter, animalProvider);
         FilterController filterController = new FilterController(interactor);
 

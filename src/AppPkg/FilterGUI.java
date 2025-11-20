@@ -370,7 +370,7 @@ public class FilterGUI extends JFrame {
             JLabel noResultsLabel = new JLabel("No animals found matching your filters. Try different criteria.");
             noResultsLabel.setForeground(Color.RED);
             noResultsLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            noResultsLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
+            noResultsLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
             noResultsPanel.add(noResultsLabel, BorderLayout.CENTER);
 
             noResultsPanel.setBorder(BorderFactory.createEmptyBorder(50, 10, 50, 10));
