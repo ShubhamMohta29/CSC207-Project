@@ -1,150 +1,240 @@
 /**
- * FilterGUI: contains logic for the category selectors and range sliders
- * also remember you OR within a category and AND across them
- * (any group) AND (any location) AND (.....) ₍^ >⩊< ^₎Ⳋ
- * /)/)
- * ( . .)
- * ( づ♡
+ * FilterGUI : Handles filters, sliders, tags, and results.
+ *  REMEMBER: OR within a category, AND across categories ₍^ >⩊< ^₎Ⳋ
+ /)/)
+ ( . .)
+ ( づ♡
  */
+
 package AppPkg;
 
+import Classes.Filter.FilterController;
+import Classes.Filter.ViewModel;
+import Classes.Animal;
 import Classes.Settings.ReaderEditor;
 import Classes.Settings.StyleUpdater;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
-import java.util.List; //cuz both awt and util contain List --> want to avoid ambiguity
+import java.util.ArrayList;
+import java.util.List;
 
-public class FilterGUI extends JDialog {
-    //extending it as a JDialog instead of JFrame cause it felt more natural ₍^ >⩊< ^₎Ⳋ
+public class FilterGUI extends JFrame {
 
     private JLabel lblLifespanRange;
-    private JPanel pnlFilters; //the panel for displaying all filter options
-    private JTextArea tagsTextArea; //want to display all the filters applied as "tags"
+    private JPanel pnlFilters;
+    private JTextArea tagsTextArea;
 
     private JCheckBox[] groupCheckboxes;
     private JCheckBox[] locationCheckboxes;
     private JCheckBox[] dietCheckboxes;
 
-    //slider for filtering based on life span
     private JSlider minLifespanSlider;
     private JSlider maxLifespanSlider;
 
-    //slider for filtering based on weight?
-    private JSlider minWeightSlider;
-    private JSlider maxLWeightSlider;
+    private JButton btnLoadMore;
+    private JButton btnApply;
+    private JButton btnReset;
+    private JButton btnClose;
 
-    //apply setting changes
-    private ReaderEditor config = new ReaderEditor("settings.csv");
+    private final ReaderEditor config = new ReaderEditor("settings.csv");
     private final StyleUpdater styleUpdater = new StyleUpdater(config);
 
-
     private List<String> selectedTags;
+    private final FilterController filterController;
+    private final ViewModel viewModel;
 
-    public FilterGUI(JFrame parent) {
-        super(parent, "Refined Search", true); //modal == true ensures the user cannot interact with the
-        // main frame until the filter dialogue is open
+    private JPanel resultsPanel;
+    private JScrollPane resultsScroll;
+    private JPanel topPanel;
+    private JScrollPane filtersScroll;
+    private JPanel resultsContainer;
+    private JPanel buttonPanel;
+    private JPanel mainContentPanel; // Added to manage view switching
+    private List<Animal> allLoadedAnimals = new ArrayList<>(); //track all the loaded animals
+
+    public FilterGUI(JFrame parent, FilterController filterController, ViewModel viewModel) {
+        super();
+        this.filterController = filterController;
+        this.viewModel = viewModel;
+
         selectedTags = new ArrayList<>();
         initComponents();
+        setupListeners();
         setLocationRelativeTo(parent);
-        //
-        this.styleUpdater.updateALL(this);
+        styleUpdater.updateAll(this);
     }
 
     private void initComponents() {
-        setLayout(new BorderLayout(8, 8)); //specifies padding between components in the FilterDialog
-        setPreferredSize(new Dimension(420, 400)); //specifies the ideal size of the FilterFrame
+        setLayout(new BorderLayout(8, 8));
+        setPreferredSize(new Dimension(500, 600));
 
-        // Top Panel: Heading + Selected "Tags"
-        JLabel lblHeading = new JLabel("Filter By...", SwingConstants.LEFT); //left align
+        // Top panel: filters + tags
+        JLabel lblHeading = new JLabel("Filter By...", SwingConstants.LEFT);
         lblHeading.setFont(new Font("Tahoma", Font.BOLD, 15));
 
         tagsTextArea = new JTextArea(1, 5);
-        tagsTextArea.setEditable(false); //read only! the user cannot alter the tags here YET -->
-        // maybe later if I can implement something that allows to toggle the tags themselves but for now it's just
-        // toggling the checkboxes to "edit" the tags section
-        tagsTextArea.setLineWrap(true); //wraps onto next line --> don't want to extend horizontally (⸝⸝⸝>﹏<⸝⸝⸝)
-        tagsTextArea.setWrapStyleWord(true); //don't chop the words if they don't fit on the line (⸝⸝⸝>﹏<⸝⸝⸝)
-        //tagsTextArea.setBackground(getBackground());
+        tagsTextArea.setEditable(false);
+        tagsTextArea.setLineWrap(true);
+        tagsTextArea.setWrapStyleWord(true);
 
-        // Scrollable tags area
-        JScrollPane scrollPane = new JScrollPane(tagsTextArea); //too many filter tags but now you can scroll and view
-        // them all:)
-        scrollPane.setPreferredSize(new Dimension(6, 45)); //dimensions of the panel
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); //scroll vertically
+        JScrollPane tagScroll = new JScrollPane(tagsTextArea);
+        tagScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        tagScroll.setPreferredSize(new Dimension(6, 45));
 
-        //panel to contain the above elements
-        JPanel topPanel = new JPanel(new BorderLayout(3, 3));
+        topPanel = new JPanel(new BorderLayout(3,3));
         topPanel.add(lblHeading, BorderLayout.NORTH);
-        topPanel.add(scrollPane, BorderLayout.SOUTH);
+        topPanel.add(tagScroll, BorderLayout.SOUTH);
 
-
-        // Filters Panel
-        pnlFilters = new JPanel(new GridBagLayout()); //want it to look like a grid layout so everything is
-        // aligned ⦮ ⦯
+        // Filters panel
+        pnlFilters = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(3, 3, 3, 3);
-        //gbc.weightx = 1.0;
+        gbc.insets = new Insets(3,3,3,3);
 
         String[] groups = {"Mammal", "Bird", "Reptile", "Amphibian", "Fish", "Insect"};
         String[] locations = {"Africa", "Asia", "Europe", "North America", "South America", "Australia", "Antarctica"};
         String[] diets = {"Herbivore", "Carnivore", "Omnivore", "Insectivore"};
 
-        gbc.gridy = 0;
-        pnlFilters.add(createCheckboxPanel("Group", groups), gbc);
-        gbc.gridy = 1;
-        pnlFilters.add(createCheckboxPanel("Location", locations), gbc);
-        gbc.gridy = 2;
-        pnlFilters.add(createCheckboxPanel("Diet", diets), gbc);
-        gbc.gridy = 3;
-        pnlFilters.add(createRangeSliderPanel(), gbc);
+        gbc.gridy = 0; pnlFilters.add(createCheckboxPanel("Group", groups), gbc);
+        gbc.gridy = 1; pnlFilters.add(createCheckboxPanel("Location", locations), gbc);
+        gbc.gridy = 2; pnlFilters.add(createCheckboxPanel("Diet", diets), gbc);
+        gbc.gridy = 3; pnlFilters.add(createRangeSliderPanel(), gbc);
 
+        filtersScroll = new JScrollPane(pnlFilters);
 
-        // Buttons Panel
-        JButton btnApply = new JButton("Apply");
-        JButton btnReset = new JButton("Reset");
-        //basic action buttons
-        JButton btnReturn = new JButton("Close");
+        // Results panel
+        resultsPanel = new JPanel();
+        resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
+        resultsScroll = new JScrollPane(resultsPanel);
+        resultsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        resultsScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        resultsScroll.setPreferredSize(new Dimension(300, 200));
 
-        btnApply.addActionListener(e -> applyFilters());
-        btnReset.addActionListener(e -> resetFilters());
-        btnReturn.addActionListener(e -> dispose());
+        btnLoadMore = new JButton("Load More");
+        btnLoadMore.setEnabled(false);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        resultsContainer = new JPanel(new BorderLayout());
+        resultsContainer.add(resultsScroll, BorderLayout.CENTER);
+        resultsContainer.add(btnLoadMore, BorderLayout.SOUTH);
+
+        // Main content panel to switch between views
+        mainContentPanel = new JPanel(new CardLayout());
+        mainContentPanel.add(filtersScroll, "FILTERS");
+        mainContentPanel.add(resultsContainer, "RESULTS");
+
+        // Buttons panel
+        btnApply = new JButton("Apply");
+        btnReset = new JButton("Reset");
+        btnClose = new JButton("Close");
+
+        buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         buttonPanel.add(btnReset);
         buttonPanel.add(btnApply);
-        buttonPanel.add(btnReturn);
+        buttonPanel.add(btnClose);
 
-        // Add to Dialog
+        // Add all panels
         add(topPanel, BorderLayout.NORTH);
-        add(new JScrollPane(pnlFilters), BorderLayout.CENTER);
-        add(buttonPanel, BorderLayout.SOUTH);
+        add(mainContentPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.PAGE_END);
+
+        // Initially I want to show the filters view
+        showFiltersView();
 
         pack();
     }
 
+    private void setupListeners() {
+        // Apply button listener
+        btnApply.addActionListener(e -> {
+            applyFilters();
+            // Now we want to switch to results view
+            showResultsView();
+        });
+
+        // Load More button listener
+        btnLoadMore.addActionListener(e -> {
+            loadMoreResults();
+        });
+
+        // Reset button listener
+        btnReset.addActionListener(e -> {
+            resetFilters();
+            // Now we want to show filters view
+            showFiltersView();
+        });
+
+        // Close button listener
+        btnClose.addActionListener(e -> {
+            dispose();
+        });
+    }
+
+    private void showResultsView() {
+        // Switch to results view using CardLayout
+        CardLayout cl = (CardLayout) mainContentPanel.getLayout();
+        cl.show(mainContentPanel, "RESULTS");
+
+        // Update buttons - remove Apply button (makes no sense), show Load More if needed
+        buttonPanel.removeAll();
+        buttonPanel.add(btnReset);
+        if (viewModel.hasMore()) {
+            buttonPanel.add(btnLoadMore);
+        }
+        buttonPanel.add(btnClose);
+        buttonPanel.revalidate();
+        buttonPanel.repaint();
+
+        // Update window title to indicate results view
+        setTitle("Filter Results");
+
+        // Resize dialog to fit results better
+        setPreferredSize(new Dimension(300, 400));
+        pack();
+    }
+
+    private void showFiltersView() {
+        // Switch to filters view using CardLayout
+        CardLayout cl = (CardLayout) mainContentPanel.getLayout();
+        cl.show(mainContentPanel, "FILTERS");
+
+        // Update buttons - show Apply again
+        buttonPanel.removeAll();
+        buttonPanel.add(btnReset);
+        buttonPanel.add(btnApply);
+        buttonPanel.add(btnClose);
+        buttonPanel.revalidate();
+        buttonPanel.repaint();
+
+        // Reset window title
+        setTitle("Filter Animals");
+
+        // Reset dialog size
+        setPreferredSize(new Dimension(500, 600));
+        pack();
+    }
+
     private JPanel createCheckboxPanel(String title, String[] options) {
-        JPanel panel = new JPanel(new GridLayout(0, 3, 1, 1));
+        JPanel panel = new JPanel(new GridLayout(0,3,1,1));
         panel.setBorder(BorderFactory.createTitledBorder(title));
 
         JCheckBox[] checkboxes = new JCheckBox[options.length];
-        for (String option : options) {
+        for (int i=0;i<options.length;i++) {
+            String option = options[i];
             JCheckBox cb = new JCheckBox(option);
             cb.addItemListener(e -> {
-                if (cb.isSelected()) selectedTags.add(option);
+                if(cb.isSelected()) selectedTags.add(option);
                 else selectedTags.remove(option);
                 updateTagLabel();
             });
+            checkboxes[i] = cb;
             panel.add(cb);
+        }
 
-            // save the array to the right field
-            switch (title) {
-                case "Group" -> groupCheckboxes = checkboxes;
-                case "Location" -> locationCheckboxes = checkboxes;
-                case "Diet" -> dietCheckboxes = checkboxes;
-            }
+        switch(title){
+            case "Group" -> groupCheckboxes = checkboxes;
+            case "Location" -> locationCheckboxes = checkboxes;
+            case "Diet" -> dietCheckboxes = checkboxes;
         }
         return panel;
     }
@@ -153,45 +243,31 @@ public class FilterGUI extends JDialog {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createTitledBorder("Lifespan Range (years)"));
 
-        minLifespanSlider = new JSlider(0, 100, 0);
-        maxLifespanSlider = new JSlider(0, 100, 100);
-
-        //slider for filtering based on speed?
-        JSlider minSpeedSlider = new JSlider(0, 100, 0);
-        JSlider maxSpeedSlider = new JSlider(0, 100, 100);
+        minLifespanSlider = new JSlider(0,100,0);
+        maxLifespanSlider = new JSlider(0,100,100);
 
         configureSlider(minLifespanSlider);
         configureSlider(maxLifespanSlider);
 
-        configureSlider(minSpeedSlider);
-        configureSlider(maxSpeedSlider);
-
-
         lblLifespanRange = new JLabel("Range: 0 - 100 years", JLabel.CENTER);
         lblLifespanRange.setFont(new Font("Tahoma", Font.BOLD, 9));
-
-//        lblSpeedRange = new JLabel("Range: 0 - 100 years", JLabel.CENTER);
-//        lblSpeedRange.setFont(new Font("Tahoma", Font.BOLD, 9));
 
         minLifespanSlider.addChangeListener(e -> {
             int min = minLifespanSlider.getValue();
             int max = maxLifespanSlider.getValue();
-            if (min > max) minLifespanSlider.setValue(max);
+            if(min>max) minLifespanSlider.setValue(max);
             updateRangeDisplay();
         });
-
         maxLifespanSlider.addChangeListener(e -> {
             int min = minLifespanSlider.getValue();
             int max = maxLifespanSlider.getValue();
-            if (max < min) maxLifespanSlider.setValue(min);
+            if(max<min) maxLifespanSlider.setValue(min);
             updateRangeDisplay();
         });
 
-        JPanel slidersPanel = new JPanel(new GridLayout(2, 2, 3, 3));
-        slidersPanel.add(new JLabel("Minimum:"));
-        slidersPanel.add(minLifespanSlider);
-        slidersPanel.add(new JLabel("Maximum:"));
-        slidersPanel.add(maxLifespanSlider);
+        JPanel slidersPanel = new JPanel(new GridLayout(2,2,3,3));
+        slidersPanel.add(new JLabel("Minimum:")); slidersPanel.add(minLifespanSlider);
+        slidersPanel.add(new JLabel("Maximum:")); slidersPanel.add(maxLifespanSlider);
 
         panel.add(slidersPanel, BorderLayout.CENTER);
         panel.add(lblLifespanRange, BorderLayout.SOUTH);
@@ -199,99 +275,302 @@ public class FilterGUI extends JDialog {
         return panel;
     }
 
-    private void configureSlider(JSlider slider) {
+    private void configureSlider(JSlider slider){
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
         slider.setMajorTickSpacing(15);
         slider.setMinorTickSpacing(5);
     }
 
-    private void updateRangeDisplay() {
+    private void updateRangeDisplay(){
         lblLifespanRange.setText("Range: " + minLifespanSlider.getValue() + " - " + maxLifespanSlider.getValue() + " years");
     }
 
-    private void updateTagLabel() {
-        if (selectedTags.isEmpty()) tagsTextArea.setText("No filters selected");
+    private void updateTagLabel(){
+        if(selectedTags.isEmpty()) tagsTextArea.setText("No filters selected");
         else tagsTextArea.setText(String.join(", ", selectedTags));
     }
 
-    //Returns a list of the currently selected groups
-    public List<String> getSelectedGroups() {
+    private List<String> getSelectedGroups(){
         List<String> selected = new ArrayList<>();
-        for (JCheckBox cb : groupCheckboxes) {
-            if (cb.isSelected()) selected.add(cb.getText());
-        }
+        for(JCheckBox cb: groupCheckboxes) if(cb.isSelected()) selected.add(cb.getText());
         return selected;
     }
 
-
-    //Returns a list of the currently selected locations
-    public List<String> getSelectedLocations() {
+    private List<String> getSelectedLocations(){
         List<String> selected = new ArrayList<>();
-        for (JCheckBox cb : locationCheckboxes) {
-            if (cb.isSelected()) selected.add(cb.getText());
-        }
+        for(JCheckBox cb: locationCheckboxes) if(cb.isSelected()) selected.add(cb.getText());
         return selected;
     }
 
-    // Returns a list of the currently selected diets
-    public List<String> getSelectedDiets() {
+    private List<String> getSelectedDiets(){
         List<String> selected = new ArrayList<>();
-        for (JCheckBox cb : dietCheckboxes) {
-            if (cb.isSelected()) selected.add(cb.getText());
-        }
+        for(JCheckBox cb: dietCheckboxes) if(cb.isSelected()) selected.add(cb.getText());
         return selected;
     }
 
-
-    private void resetFilters() {
+    private void resetFilters(){
         selectedTags.clear();
-        Component[] components = pnlFilters.getComponents();
-        for (Component comp : components) {
-            if (comp instanceof JPanel) {
-                for (Component inner : ((JPanel) comp).getComponents()) {
-                    if (inner instanceof JCheckBox)
-                        ((JCheckBox) inner).setSelected(false);
-                }
-            }
-        }
+        for(JCheckBox cb: groupCheckboxes) cb.setSelected(false);
+        for(JCheckBox cb: locationCheckboxes) cb.setSelected(false);
+        for(JCheckBox cb: dietCheckboxes) cb.setSelected(false);
         minLifespanSlider.setValue(0);
         maxLifespanSlider.setValue(100);
         updateTagLabel();
         updateRangeDisplay();
+
+        // Clear resultss
+        resultsPanel.removeAll();
+        resultsPanel.revalidate();
+        allLoadedAnimals.clear();
+        resultsPanel.repaint();
+        btnLoadMore.setEnabled(false);
     }
 
-    private void applyFilters() {
+    private void applyFilters(){
         int min = minLifespanSlider.getValue();
         int max = maxLifespanSlider.getValue();
-
-        System.out.println("Selected Tags: " + selectedTags);
-        System.out.println("Lifespan Range: " + min + " - " + max + " years");
 
         List<String> groups = getSelectedGroups();
         List<String> locations = getSelectedLocations();
         List<String> diets = getSelectedDiets();
 
-        // todo call the controller here ₍^ >⩊< ^₎Ⳋ
-        //FilterController control = new FilterController();
-        //control.applyFilter(groups,diets,locations,min, max);
-        dispose();
+        System.out.println("Filters - Groups: " + groups + ", Locations: " + locations + ", Diets: " + diets + ", Lifespan: " + min + "-" + max);
+
+        // Call controller to filter animals
+        filterController.filterAnimals(groups, locations, diets, min, max, null); // first page
+        updateResultsFromViewModel();
+
+        System.out.println("Controller called, animals in viewModel: " + viewModel.getAnimals().size());
     }
 
-    private void btnHomeActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnHomeActionPerformed
-    {//GEN-HEADEREND:event_btnHomeActionPerformed
-        // new MainMenu().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnHomeActionPerformed
+    private void loadMoreResults(){
+        // Call controller to load more results using the next cursor
+        filterController.filterAnimals(getSelectedGroups(), getSelectedLocations(), getSelectedDiets(),
+                minLifespanSlider.getValue(), maxLifespanSlider.getValue(), viewModel.getNextCursor());
+        System.out.println("ViewModel animals after filter before update call: " + viewModel.getAnimals().size());
+        if (this.viewModel.getAnimals() == null) {
+            this.viewModel.setAnimals(new ArrayList<>());
+        }
+        appendResultsFromViewModel();
+        System.out.println("ViewModel animals after filter after call: " + viewModel.getAnimals().size());
+    }
 
-    public static void main(String[] args) {
+//    private void updateResultsFromViewModel() {
+//        System.out.println("Updating results from view model");
+//
+//        // Clear existing results
+//        //resultsPanel.removeAll();
+//
+//        List<Animal> animals = viewModel.getAnimals();
+//        System.out.println("Number of animals to display: " + animals.size());
+//
+//        if (animals.isEmpty()) {
+//            // Show a message when no results are found
+//            System.out.println("No animals found matching your filters");
+//            JPanel noResultsPanel = new JPanel(new BorderLayout());
+//            JLabel noResultsLabel = new JLabel("No animals found matching your filters. Try different criteria.");
+//            noResultsLabel.setForeground(Color.RED);
+//            noResultsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+//            noResultsLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+//            noResultsPanel.add(noResultsLabel, BorderLayout.CENTER);
+//
+//            noResultsPanel.setBorder(BorderFactory.createEmptyBorder(50, 10, 50, 10));
+//            resultsPanel.add(noResultsPanel);
+//        } else {
+//            //Now add results from view model
+//            DefaultListModel<String> model = new DefaultListModel<>();
+//            for (Animal animal : animals) {
+//                model.addElement(animal.getName());
+//            }
+//
+//            JList<String> resultsList = new JList<>(model);
+//            resultsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//            resultsList.setFont(new Font("Tahoma", Font.PLAIN, 12));
+//
+//           // Add double-click listener - do we want to switch to single click?
+//            resultsList.addMouseListener(new java.awt.event.MouseAdapter() {
+//                @Override
+//                public void mouseClicked(java.awt.event.MouseEvent evt) {
+//                    if (evt.getClickCount() == 2) {
+//                        int selectedIndex = resultsList.locationToIndex(evt.getPoint());
+//                        if (selectedIndex >= 0) {
+//                            Animal selectedAnimal = animals.get(selectedIndex);
+//                            new SuccesfulSearch(selectedAnimal).setVisible(true);
+//
+//                        }
+//                    }
+//                }
+//            });
+//
+//          // Wrap it all in scroll pane
+//            JScrollPane listScrollPane = new JScrollPane(resultsList);
+//            listScrollPane.setPreferredSize(new Dimension(400, 300));
+//
+//           // Clear existing results and add the list
+//            //resultsPanel.removeAll();
+//            resultsPanel.setLayout(new BorderLayout());
+//            resultsPanel.add(listScrollPane, BorderLayout.CENTER);
+//
+//
+//            resultsPanel.revalidate();
+//            resultsPanel.repaint();
+//            btnLoadMore.setEnabled(viewModel.hasMore());
+//
+//            SwingUtilities.invokeLater(() -> {
+//                resultsScroll.getVerticalScrollBar().setValue(0);
+//            });
+//        }
+//    }
+//    private void appendResultsFromViewModel() {
+//        System.out.println("Appending results from view model");
+//
+//        List<Animal> newAnimals = viewModel.getAnimals();
+//        System.out.println("Number of new animals to append: " + newAnimals.size());
+//
+//        if (newAnimals.isEmpty()) {
+//            System.out.println("No more animals found");
+//            btnLoadMore.setEnabled(false);
+//            return;
+//        }
+//
+//        // Get the existing JList and model
+//        JScrollPane scrollPane = (JScrollPane) resultsPanel.getComponent(0);
+//        JList<String> resultsList = (JList<String>) scrollPane.getViewport().getView();
+//        DefaultListModel<String> model = (DefaultListModel<String>) resultsList.getModel();
+//
+//        // Append new animals to the existing model
+//        for (Animal animal : newAnimals) {
+//            model.addElement(animal.getName());
+//        }
+//
+//        btnLoadMore.setEnabled(viewModel.hasMore());
+//        System.out.println("Total animals now: " + model.getSize());
+//    }
+
+    private void updateResultsFromViewModel() {
+        System.out.println("Updating results from view model");
+
+        // Clear existing results and the complete animal list
+        resultsPanel.removeAll();
+        allLoadedAnimals.clear();
+
+        List<Animal> animals = viewModel.getAnimals();
+        System.out.println("Number of animals to display: " + animals.size());
+
+        // Add to our complete list
+        allLoadedAnimals.addAll(animals);
+
+        if (animals.isEmpty()) {
+            // Show a message when no results are found
+            System.out.println("No animals found matching your filters");
+            JPanel noResultsPanel = new JPanel(new BorderLayout());
+            JLabel noResultsLabel = new JLabel("No animals found matching your filters. Try different criteria.");
+            noResultsLabel.setForeground(Color.RED);
+            noResultsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            noResultsLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+            noResultsPanel.add(noResultsLabel, BorderLayout.CENTER);
+
+            noResultsPanel.setBorder(BorderFactory.createEmptyBorder(50, 10, 50, 10));
+            resultsPanel.add(noResultsPanel);
+        } else {
+            // Create a list model with all current animals
+            DefaultListModel<String> model = new DefaultListModel<>();
+            for (Animal animal : animals) {
+                model.addElement(animal.getName());
+            }
+
+            JList<String> resultsList = new JList<>(model);
+            resultsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            resultsList.setFont(new Font("Tahoma", Font.PLAIN, 12));
+            resultsList.clearSelection();
+
+            // Use the complete animal list for the listener
+            updateClickListener(resultsList, allLoadedAnimals);
+
+            // Wrap it all in scroll pane
+            JScrollPane listScrollPane = new JScrollPane(resultsList);
+            listScrollPane.setPreferredSize(new Dimension(400, 300));
+
+            // Add the list to results panel
+            resultsPanel.setLayout(new BorderLayout());
+            resultsPanel.add(listScrollPane, BorderLayout.CENTER);
+
+            resultsPanel.revalidate();
+            resultsPanel.repaint();
+            btnLoadMore.setEnabled(viewModel.hasMore());
+
+            SwingUtilities.invokeLater(() -> {
+                resultsScroll.getVerticalScrollBar().setValue(0);
+            });
+        }
+        this.styleUpdater.updateALL(this);
+    }
+
+    private void appendResultsFromViewModel() {
+        System.out.println("Appending results from view model");
+
+        List<Animal> newAnimals = viewModel.getAnimals();
+        System.out.println("Number of new animals to append: " + newAnimals.size());
+
+        if (newAnimals.isEmpty()) {
+            System.out.println("No more animals found");
+            btnLoadMore.setEnabled(false);
+            return;
+        }
+
+        // Add new animals to our complete list
+        allLoadedAnimals.addAll(newAnimals);
+
+        // Get the existing JList and model
+        JScrollPane scrollPane = (JScrollPane) resultsPanel.getComponent(0);
+        JList<String> resultsList = (JList<String>) scrollPane.getViewport().getView();
+        DefaultListModel<String> model = (DefaultListModel<String>) resultsList.getModel();
+        resultsList.clearSelection();
+
+        // Append new animals to the existing model
+        for (Animal animal : newAnimals) {
+            model.addElement(animal.getName());
+        }
+
+        // Update the mouse listener with the COMPLETE animal list
+        updateClickListener(resultsList, allLoadedAnimals);
+
+        btnLoadMore.setEnabled(viewModel.hasMore());
+        System.out.println("Total animals now: " + model.getSize());
+        this.styleUpdater.updateALL(this);
+    }
+
+    // Helper method to update the click listener with the complete animal list
+    private void updateClickListener(JList<String> resultsList, List<Animal> allAnimals) {
+        // Remove existing mouse listeners
+        for (java.awt.event.MouseListener listener : resultsList.getMouseListeners()) {
+            resultsList.removeMouseListener(listener);
+        }
+
+        // Create a new listener with the updated animal list
+        final List<Animal> currentAnimals = new ArrayList<>(allAnimals);
+        resultsList.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    int selectedIndex = resultsList.locationToIndex(evt.getPoint());
+                    if (selectedIndex >= 0 && selectedIndex < currentAnimals.size()) {
+                        resultsList.clearSelection();
+                        Animal selectedAnimal = currentAnimals.get(selectedIndex);
+                        new SuccesfulSearch(selectedAnimal).setVisible(true);
+                    }
+                }
+            }
+        });
+    }
+
+    public static void main(String[] args){
         SwingUtilities.invokeLater(() -> {
             JFrame parent = new JFrame();
-            parent.setSize(400, 300);
+            parent.setSize(500,300);
             parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             parent.setVisible(true);
-
-            new FilterGUI(parent).setVisible(true);
         });
     }
 }

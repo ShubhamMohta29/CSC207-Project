@@ -1,5 +1,5 @@
 /**
- * FilterRepositoryI: Data Access Interface
+ * AnimalNameProviderI: Data Access Interface for the LLM
  /)/)
  ( . .)
  ( づ♡
@@ -9,7 +9,7 @@ package Classes.Filter;
 
 import java.util.*;
 
-public interface FilterRepositoryI {
+public interface AnimalNamesProviderI {
 
     /*
         getCandidateName: fetches a list of potential animal names that meet the user's filter criteria.
@@ -18,10 +18,10 @@ public interface FilterRepositoryI {
         names potentially satisfying it.
 
         @param input: applied filters modelled in FilterInput object
-        @param cursor: pagination token to keep track to mark when next batch of animals should be loaded
-        @param limit: maximum number of items to fetch per request
+        cursor and limit pagination fields are already coupled with the FilterInput
      */
-    List<String> getCandidateNames (FilterInput input, int limit, String cursor);
+    List<String> getCandidateNames (FilterInput input);
+    String fuzzySuggestion(String animalName);
 
 
 }

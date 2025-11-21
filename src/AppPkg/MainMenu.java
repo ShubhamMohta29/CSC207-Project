@@ -187,6 +187,30 @@ public class  MainMenu extends javax.swing.JFrame
             }
 
             String result = aClass.getAnimalData(animalName);       // calls getAnimalData to get the JSON data of the animal
+            if (result == null) {
+//                lblError.setText("Animal '" + animalName + "' not found. Please double check the name.");
+//                return; // Exit early
+                AnimalNamesProvider nameProvider = new AnimalNamesProvider("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");
+                String suggestion = nameProvider.fuzzySuggestion(animalName);
+
+                if (suggestion != null && !suggestion.isEmpty()) {
+                    String htmlText = "<html>Animal not found. Did you mean: <a href=''>" + suggestion + "</a>?</html>";
+                    lblError.setText(htmlText);
+
+                    // Add click listener to the label
+                    lblError.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    lblError.addMouseListener(new java.awt.event.MouseAdapter() {
+                        public void mouseClicked(java.awt.event.MouseEvent evt) {
+                            // When clicked, search for the suggested animal
+                            txfAnimal.setText(suggestion);
+                            btnSearchActionPerformed(null); // Trigger search again
+                        }
+                    });
+                } else {
+                    lblError.setText("Animal '" + animalName + "' not found.");
+                }
+                return;
+            }
             int numResults = aClass.numResults();                   // gets the number of animals' data that was returned
             Animal searched = new Animal(result);
 
