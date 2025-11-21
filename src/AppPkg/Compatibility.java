@@ -1,28 +1,64 @@
 package AppPkg;
 
-import Classes.APIClass;
-import Classes.Animal;
 import Classes.Settings.ReaderEditor;
 import Classes.Settings.StyleUpdater;
-import java.util.Arrays;
-
-import java.util.HashSet;
+import Classes.Compatibility.usecases.CompareAnimalsInputBoundary;
+import Classes.Compatibility.usecases.CompareAnimalsOutputBoundary;
+import Classes.Compatibility.usecases.CompareAnimalsInteractor;
+import Classes.Compatibility.usecases.AnimalDataAccessInterface;
+import Classes.Compatibility.data.AnimalDataAccess;
 
 public class Compatibility extends javax.swing.JFrame
 {
     private final ReaderEditor config = new ReaderEditor("settings.csv");
     private final StyleUpdater styleUpdater = new StyleUpdater(config);
 
+    // Controller and Presenter are now part of this class for simplicity
+    private final CompareAnimalsInputBoundary interactor;
+
     public Compatibility()
     {
+        // Build the CA Engine in constructor
+        AnimalDataAccessInterface dataAccess = new AnimalDataAccess();
+        CompareAnimalsOutputBoundary presenter = new CompareAnimalsPresenter();
+        this.interactor = new CompareAnimalsInteractor(dataAccess, presenter);
+
         initComponents();
-        updateLabelStyle();//apply setting changes
+        updateLabelStyle();
+    }
+
+    // Inner class: Presenter (Interface Adapter Layer)
+    private class CompareAnimalsPresenter implements CompareAnimalsOutputBoundary {
+        @Override
+        public void presentSuccess(String animal1Name, String animal2Name,
+                                   String matching, String conflicting, String rating) {
+            lblSearchedAnimal1.setText(animal1Name);
+            lblSearchedAnimal2.setText(animal2Name);
+            txaMatching.setText(matching);
+            txaConflicting.setText(conflicting);
+            lblRating.setText(rating);
+        }
+
+        @Override
+        public void presentAnimal1Error() {
+            lblSearchedAnimal1.setText("Invalid Animal 1");
+            lblSearchedAnimal2.setText("Searched Animal 2");
+            txaMatching.setText("");
+            txaConflicting.setText("");
+            lblRating.setText("");
+        }
+
+        @Override
+        public void presentAnimal2Error() {
+            lblSearchedAnimal2.setText("Invalid Animal 2");
+            txaMatching.setText("");
+            txaConflicting.setText("");
+            lblRating.setText("");
+        }
     }
 
     @SuppressWarnings("unchecked")
-// <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
-
         btnReturn = new javax.swing.JButton();
         lblHeading = new javax.swing.JLabel();
         lblAnimal1 = new javax.swing.JLabel();
@@ -38,7 +74,6 @@ public class Compatibility extends javax.swing.JFrame
         jScrollPane2 = new javax.swing.JScrollPane();
         txaConflicting = new javax.swing.JTextArea();
         lblCategories = new javax.swing.JLabel();
-
         lblSearchedAnimal1 = new javax.swing.JLabel();
         lblSearchedAnimal2 = new javax.swing.JLabel();
         lblRating = new javax.swing.JLabel();
@@ -46,14 +81,14 @@ public class Compatibility extends javax.swing.JFrame
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Compatibility");
 
-        btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagesPkg/home.png"))); // NOI18N
+        btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagesPkg/home.png")));
         btnReturn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReturnActionPerformed(evt);
             }
         });
 
-        lblHeading.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblHeading.setFont(new java.awt.Font("Tahoma", 0, 18));
         lblHeading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblHeading.setText("Pet Compatibility");
 
@@ -65,7 +100,6 @@ public class Compatibility extends javax.swing.JFrame
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCompareActionPerformed(evt);
             }
-
         });
 
         lblMatching.setText("Matching");
@@ -178,7 +212,22 @@ public class Compatibility extends javax.swing.JFrame
 
         pack();
         setLocationRelativeTo(null);
-    }// </editor-fold>
+    }
+
+    // Controller logic (Interface Adapter Layer)
+    private void btnCompareActionPerformed(java.awt.event.ActionEvent evt)
+    {
+        // Reset labels
+        lblSearchedAnimal1.setText("Searched Animal 1");
+        lblSearchedAnimal2.setText("Searched Animal 2");
+
+        // Get user input and pass to interactor
+        String animal1Name = txfAnimal1.getText();
+        String animal2Name = txfAnimal2.getText();
+
+        // Call the use case
+        interactor.execute(animal1Name, animal2Name);
+    }
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt)
     {
@@ -186,124 +235,18 @@ public class Compatibility extends javax.swing.JFrame
         this.dispose();
     }
 
-    private void btnCompareActionPerformed(java.awt.event.ActionEvent evt)
-    {
-        lblSearchedAnimal1.setText("Searched Animal 1");
-        lblSearchedAnimal2.setText("Searched Animal 2");
-        String choiceOne = txfAnimal1.getText();
-        APIClass api = new APIClass();
-        String animal1Data = api.getAnimalData(choiceOne);
-        System.out.println(animal1Data);
-        if(animal1Data.equals("[]")){
-            lblSearchedAnimal1.setText("Invalid Animal 1");
-        }
-        else {
-            Animal animalOne = new Animal(animal1Data);
-
-            String choiceTwo = txfAnimal2.getText();
-            String animal2Data = api.getAnimalData(choiceTwo);
-            if(animal2Data.equals("[]")){
-                lblSearchedAnimal2.setText("Invalid Animal 2");
-            }
-            else {
-                Animal animalTwo = new Animal(animal2Data);
-
-                lblSearchedAnimal1.setText(animalOne.getName());
-                lblSearchedAnimal2.setText(animalTwo.getName());
-
-                HashSet<String> similar = getSimilar(animalOne, animalTwo);
-                String similarString = String.join(", ", similar);
-
-                HashSet<String> conflicting = new HashSet<>();
-                String[] expected = {"Group", "Diet", "Lifestyle", "Location", "Prey", "Habitat", "Lifespan", "Height", "Weight"};
-                for (String s : expected) {
-                    if (!similar.contains(s)) {
-                        conflicting.add(s);
-                    }
-                }
-                System.out.println(similar.size());
-
-                int rating = (int) ((((double) (similar.size()) / (double) (expected.length)) * 100));
-                lblRating.setText("Rating: " + rating + "%");
-
-                String conflictingString = String.join(", ", conflicting);
-
-                txaMatching.setText(similarString);
-                txaConflicting.setText(conflictingString);
-            }
-        }
-    }
-
-    public static HashSet<String> getSimilar(Animal animal1, Animal animal2){
-        HashSet<String> similar = new HashSet<>();
-
-        if (animal1.getGroup().equals(animal2.getGroup()) || animal1.getGroup().isEmpty() || animal2.getGroup().isEmpty()){
-            similar.add("Group");
-        }
-
-        if (animal1.getDiet().equals(animal2.getDiet()) || animal1.getDiet().isEmpty() || animal2.getDiet().isEmpty()){
-            similar.add("Diet");
-        }
-
-        if (animal1.getLifestyle().equals(animal2.getLifestyle()) || animal1.getLifestyle().isEmpty() || animal2.getLifestyle().isEmpty()){
-            similar.add("Lifestyle");
-        }
-        for(String location1: animal1.getLocation()) {
-            for (String location2 : animal2.getLocation()) {
-                if (location1.equals(location2)) {
-                    similar.add("Location");
-                }
-            }
-        }
-        if (animal1.getLocation().length == 0 || animal2.getLocation().length == 0) {
-            similar.add("Location");
-        }
-
-        else if (animal1.getLocation()[0].equals("Worldwide") || animal2.getLocation()[0].equals("Worldwide")) {
-            similar.add("Location");
-        }
-
-        for(String prey1: animal1.getPrey()) {
-            for (String prey2 : animal2.getPrey()) {
-                if (prey1.equals(prey2)) {
-                    similar.add("Prey");
-                }
-            }
-        }
-        if (animal1.getHabitat().equals(animal2.getHabitat()) || animal1.getHabitat().isEmpty() || animal2.getHabitat().isEmpty()) {
-            similar.add("Habitat");
-        }
-
-        if (relativeDIff(animal1.getLifespan(), animal2.getLifespan()) < 0.4){
-            similar.add("Lifespan");
-        }
-
-        if (relativeDIff(animal1.getHeight(), animal2.getHeight()) < 0.4){
-            similar.add("Height");
-        }
-
-        if (relativeDIff(animal1.getWeight(), animal2.getWeight()) < 0.4){
-            similar.add("Weight");
-        }
-
-
-        return similar;
-    }
-
-    public static double relativeDIff(double a, double b){
-        return Math.abs(a - b) / ((a + b) / 2.0);
-    }
-
     public static void main(String args[])
     {
-        new Compatibility().setVisible(true);
+        java.awt.EventQueue.invokeLater(() -> {
+            new Compatibility().setVisible(true);
+        });
     }
 
     private void updateLabelStyle(){
         styleUpdater.updateAll(this);
     }
 
-    // Variables declaration - do not modify
+    // Variables declaration
     private javax.swing.JButton btnCompare;
     private javax.swing.JButton btnReturn;
     private javax.swing.JScrollPane jScrollPane1;
@@ -322,5 +265,4 @@ public class Compatibility extends javax.swing.JFrame
     private javax.swing.JLabel lblSearchedAnimal1;
     private javax.swing.JLabel lblSearchedAnimal2;
     private javax.swing.JLabel lblRating;
-    // End of variables declaration
 }
