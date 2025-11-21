@@ -4,6 +4,7 @@ import Classes.APIClass;
 import Classes.Animal;
 import Classes.Settings.ReaderEditor;
 import Classes.Settings.StyleUpdater;
+import Classes.Filter.AnimalNamesProvider;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
