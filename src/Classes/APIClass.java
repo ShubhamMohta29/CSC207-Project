@@ -36,7 +36,6 @@ public class APIClass {
 
             if (response.statusCode() == 200) {
                 responseBody = response.body();
-
                 //needed this check for filter logic
                 if (responseBody == null || responseBody.trim().isEmpty() || responseBody.equals("[]")) {
                     System.err.println("API returned empty data for: " + animalName);

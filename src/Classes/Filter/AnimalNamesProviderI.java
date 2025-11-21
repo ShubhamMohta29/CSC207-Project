@@ -1,5 +1,5 @@
 /**
- * FilterRepositoryI: Data Access Interface for the LLM
+ * AnimalNameProviderI: Data Access Interface for the LLM
  /)/)
  ( . .)
  ( づ♡

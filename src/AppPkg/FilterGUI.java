@@ -356,6 +356,98 @@ public class FilterGUI extends JFrame {
         System.out.println("ViewModel animals after filter after call: " + viewModel.getAnimals().size());
     }
 
+//    private void updateResultsFromViewModel() {
+//        System.out.println("Updating results from view model");
+//
+//        // Clear existing results
+//        //resultsPanel.removeAll();
+//
+//        List<Animal> animals = viewModel.getAnimals();
+//        System.out.println("Number of animals to display: " + animals.size());
+//
+//        if (animals.isEmpty()) {
+//            // Show a message when no results are found
+//            System.out.println("No animals found matching your filters");
+//            JPanel noResultsPanel = new JPanel(new BorderLayout());
+//            JLabel noResultsLabel = new JLabel("No animals found matching your filters. Try different criteria.");
+//            noResultsLabel.setForeground(Color.RED);
+//            noResultsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+//            noResultsLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+//            noResultsPanel.add(noResultsLabel, BorderLayout.CENTER);
+//
+//            noResultsPanel.setBorder(BorderFactory.createEmptyBorder(50, 10, 50, 10));
+//            resultsPanel.add(noResultsPanel);
+//        } else {
+//            //Now add results from view model
+//            DefaultListModel<String> model = new DefaultListModel<>();
+//            for (Animal animal : animals) {
+//                model.addElement(animal.getName());
+//            }
+//
+//            JList<String> resultsList = new JList<>(model);
+//            resultsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//            resultsList.setFont(new Font("Tahoma", Font.PLAIN, 12));
+//
+//           // Add double-click listener - do we want to switch to single click?
+//            resultsList.addMouseListener(new java.awt.event.MouseAdapter() {
+//                @Override
+//                public void mouseClicked(java.awt.event.MouseEvent evt) {
+//                    if (evt.getClickCount() == 2) {
+//                        int selectedIndex = resultsList.locationToIndex(evt.getPoint());
+//                        if (selectedIndex >= 0) {
+//                            Animal selectedAnimal = animals.get(selectedIndex);
+//                            new SuccesfulSearch(selectedAnimal).setVisible(true);
+//
+//                        }
+//                    }
+//                }
+//            });
+//
+//          // Wrap it all in scroll pane
+//            JScrollPane listScrollPane = new JScrollPane(resultsList);
+//            listScrollPane.setPreferredSize(new Dimension(400, 300));
+//
+//           // Clear existing results and add the list
+//            //resultsPanel.removeAll();
+//            resultsPanel.setLayout(new BorderLayout());
+//            resultsPanel.add(listScrollPane, BorderLayout.CENTER);
+//
+//
+//            resultsPanel.revalidate();
+//            resultsPanel.repaint();
+//            btnLoadMore.setEnabled(viewModel.hasMore());
+//
+//            SwingUtilities.invokeLater(() -> {
+//                resultsScroll.getVerticalScrollBar().setValue(0);
+//            });
+//        }
+//    }
+//    private void appendResultsFromViewModel() {
+//        System.out.println("Appending results from view model");
+//
+//        List<Animal> newAnimals = viewModel.getAnimals();
+//        System.out.println("Number of new animals to append: " + newAnimals.size());
+//
+//        if (newAnimals.isEmpty()) {
+//            System.out.println("No more animals found");
+//            btnLoadMore.setEnabled(false);
+//            return;
+//        }
+//
+//        // Get the existing JList and model
+//        JScrollPane scrollPane = (JScrollPane) resultsPanel.getComponent(0);
+//        JList<String> resultsList = (JList<String>) scrollPane.getViewport().getView();
+//        DefaultListModel<String> model = (DefaultListModel<String>) resultsList.getModel();
+//
+//        // Append new animals to the existing model
+//        for (Animal animal : newAnimals) {
+//            model.addElement(animal.getName());
+//        }
+//
+//        btnLoadMore.setEnabled(viewModel.hasMore());
+//        System.out.println("Total animals now: " + model.getSize());
+//    }
+
     private void updateResultsFromViewModel() {
         System.out.println("Updating results from view model");
 
