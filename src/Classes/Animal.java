@@ -21,6 +21,11 @@ public class Animal {
     private final AnimalConverter conv = new AnimalConverter();
 
     public Animal(String s){
+
+//        //adding a null/empty check
+        if (s == null || s.trim().isEmpty() || s.equals("[]")) {
+            throw new IllegalArgumentException("Cannot create Animal from null, empty, or empty array string");
+        }
         //Remove this comement
         JSONArray obj = new JSONArray(s);
         JSONObject animal = obj.optJSONObject(0);
@@ -97,10 +102,6 @@ public class Animal {
                 + "Family: " + family + ", "
                 + "Genus: " + genus + ", "
                 + "Scientific Name: " + scientificName;
-    }
-
-    public String getScientificName() {
-        return taxonomy.getOrDefault("scientific_name", "Unknown");
     }
 
     public void setTaxonomy(java.util.Map<String, String> taxonomy) {
