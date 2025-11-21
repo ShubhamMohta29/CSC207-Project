@@ -191,7 +191,7 @@ public class  MainMenu extends javax.swing.JFrame
             if (result == null) {
 //                lblError.setText("Animal '" + animalName + "' not found. Please double check the name.");
 //                return; // Exit early
-                AnimalNamesProvider nameProvider = new AnimalNamesProvider("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");
+                AnimalNamesProvider nameProvider = new AnimalNamesProvider("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");
                 String suggestion = nameProvider.fuzzySuggestion(animalName);
 
                 if (suggestion != null && !suggestion.isEmpty()) {
