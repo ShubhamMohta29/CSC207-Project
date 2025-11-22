@@ -2,8 +2,7 @@ package AppPkg;
 
 import Classes.APIClass;
 import Classes.Animal;
-import Classes.Settings.ReaderEditor;
-import Classes.Settings.StyleUpdater;
+import Classes.Filter.AnimalNamesProvider;
 import Classes.Settings.TextSettingInteractor;
 import Classes.Settings.TextSettingOutput;
 import org.json.JSONArray;
