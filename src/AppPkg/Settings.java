@@ -1,14 +1,14 @@
 package AppPkg;
 
-import Classes.Settings.FontFetcher;
-import Classes.Settings.ReaderEditor;
-import Classes.Settings.StyleUpdater;
+import Classes.Settings.*;
+import Classes.Settings.TextSettingInteractor;
+import Classes.Settings.TextSettingOutput;
 
 import java.awt.*;
 
 public class Settings extends javax.swing.JFrame {
-    private final ReaderEditor config = new ReaderEditor("settings.csv");
-    private final StyleUpdater styleUpdater = new StyleUpdater(config);
+    private final TextSettingInteractor config = new TextSettingInteractor("settings.csv");
+    private final TextSettingOutput textSettingOutput = new TextSettingOutput(config);
 
     private String color = "black";
     private String style = "Arial";
@@ -18,15 +18,13 @@ public class Settings extends javax.swing.JFrame {
         initComponents();
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setupListeners();
-        styleUpdater.updateAll(this);
+        textSettingOutput.updateAll(this);
 
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        Color fg = config.getColor();
-        Font font = config.getStyle();
 
         lblFontSize = new javax.swing.JLabel();
         cBoxFontSizes = new javax.swing.JComboBox<>();
@@ -139,7 +137,8 @@ public class Settings extends javax.swing.JFrame {
 
     private void updateLabelStyle() {
         //automatic StyleUpdater
-        styleUpdater.updateChangesAll(color, size, style, this);
+        TextSettingRequest request = new TextSettingRequest(color, size, style);
+        textSettingOutput.updateChangesAll(request, this);
     }
 
     public static void main(String args[]) {

@@ -3,10 +3,10 @@ package Classes.Settings;
 import java.awt.Color;
 import java.io.*;
 
-public class TextSettingCSV {
+public class TextSettingDataAccess {
     private final String filePath;
 
-    public TextSettingCSV(String filePath) {
+    public TextSettingDataAccess(String filePath) {
         this.filePath = filePath;
     }
 

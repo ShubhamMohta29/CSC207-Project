@@ -1,155 +1,120 @@
+
 package AppPkg;
+
 import Classes.Animal;
-import javax.imageio.ImageIO;
+import Classes.GenerateTradingCard.GenerateTradingCardInputBoundary;
+import Classes.GenerateTradingCard.GenerateTradingCardInteractor;
+import Classes.GenerateTradingCard.GenerateTradingCardRequestModel;
+import Classes.GenerateTradingCard.TradingCardPresenter;
+import Classes.GenerateTradingCard.TradingCardViewModel;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.event.ActionEvent;
 import java.io.File;
 
-public class GenerateTradingCard extends JFrame
-{
-    private Animal animal;
-    private GradientPanel cardPanel;
-    private JButton btnReturn;
-    private JButton btnDownload;
-    private JFrame previousScreen;
+public class GenerateTradingCard extends JFrame {
 
-    public GenerateTradingCard(Animal animal, JFrame previousScreen)
-    {
-        this.animal = animal;
+    private JPanel imagePanel;
+    private JPanel bottomPanel;
+    private JButton btnCancel;
+    private JButton btnDownload;
+
+    private TradingCardViewModel viewModel;
+
+    private JFrame previousScreen;   // ✅ NEW
+
+    // 2-argument constructor → supports going back previous screen
+    public GenerateTradingCard(Animal animal, JFrame previousScreen) {
         this.previousScreen = previousScreen;
+        runCleanArchitectureFlow(animal);
         initComponents();
-        displayTradingCard();
     }
 
-    private void initComponents()
-    {
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Trading Card - REVEAL");
-        setSize(480, 640);
+    // 1-argument constructor → default to MainMenu on Cancel
+    public GenerateTradingCard(Animal animal) {
+        this(animal, null);
+    }
+
+    private void runCleanArchitectureFlow(Animal animal) {
+        TradingCardPresenter presenter = new TradingCardPresenter();
+        GenerateTradingCardInputBoundary interactor =
+                new GenerateTradingCardInteractor(presenter);
+
+        GenerateTradingCardRequestModel requestModel =
+                new GenerateTradingCardRequestModel(animal);
+
+        this.viewModel = interactor.generate(requestModel);
+    }
+
+    private void initComponents() {
+        setTitle("Trading Card");
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setSize(500, 720);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // Main card panel
-        cardPanel = new GradientPanel();
-        cardPanel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(212, 175, 55), 8),
-                BorderFactory.createEmptyBorder(20,20,20,20)
-        ));
-        cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.Y_AXIS));
-        add(cardPanel, BorderLayout.CENTER);
-
-        // Bottom button panel
-        JPanel bottomPanel = new JPanel(new FlowLayout());
-        btnReturn = new JButton("Cancel");
-        btnReturn.addActionListener(evt -> {
-            if (previousScreen != null) {
-                previousScreen.setVisible(true);
+        // Panel that displays the generated card image
+        imagePanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (viewModel != null && viewModel.getImage() != null) {
+                    int imgW = viewModel.getImage().getWidth();
+                    int imgH = viewModel.getImage().getHeight();
+                    int x = (getWidth() - imgW) / 2;
+                    int y = (getHeight() - imgH) / 2;
+                    g.drawImage(viewModel.getImage(), x, y, null);
+                }
             }
-            this.dispose();
-        });
+        };
+        add(imagePanel, BorderLayout.CENTER);
 
+        // Bottom panel with Cancel and Download buttons
+        bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        btnCancel = new JButton("Cancel");
         btnDownload = new JButton("Download");
-        btnDownload.addActionListener(evt -> savetoJPG());
 
-        bottomPanel.add(btnReturn);
+        btnCancel.addActionListener(this::btnCancelActionPerformed);
+        btnDownload.addActionListener(this::btnDownloadActionPerformed);
+
+        bottomPanel.add(btnCancel);
         bottomPanel.add(btnDownload);
 
         add(bottomPanel, BorderLayout.SOUTH);
     }
 
-    private void displayTradingCard() {
-        if (animal == null) {
-            JLabel lblError = new JLabel("No animal data available.");
-            lblError.setHorizontalAlignment(SwingConstants.CENTER);
-            lblError.setFont(new Font("Arial", Font.BOLD, 20));
-            cardPanel.add(lblError);
+    // Go back to previous screen if provided, otherwise go to MainMenu
+    private void btnCancelActionPerformed(ActionEvent evt) {
+        if (previousScreen != null) {
+            previousScreen.setVisible(true);
+        } else {
+            new MainMenu().setVisible(true);
+        }
+        this.dispose();
+    }
+
+    // Save the generated trading card image
+    private void btnDownloadActionPerformed(ActionEvent evt) {
+        if (viewModel == null || viewModel.getImage() == null) {
+            JOptionPane.showMessageDialog(this, "No image to save.");
             return;
         }
 
-        // Animal name
-        JLabel nameLabel = new JLabel("<html><center><b>" + animal.getName() + "</b></center></html>");
-        nameLabel.setFont(new Font("Arial", Font.BOLD, 30));
-        nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        cardPanel.add(Box.createVerticalStrut(50));
-        cardPanel.add(nameLabel);
+        JFileChooser chooser = new JFileChooser();
+        chooser.setSelectedFile(new File("trading_card.jpg"));
 
-        // Divider
-        cardPanel.add(Box.createVerticalStrut(12));
-        cardPanel.add(makeGoldDivider());
-        cardPanel.add(Box.createVerticalStrut(18));
-
-        // --- Type ---
-        cardPanel.add(makeStat("Type", animal.getGroup()));
-
-        // --- Habitat ---
-        cardPanel.add(makeStat("Habitat", animal.getHabitat()));
-
-        // --- Diet ---
-        cardPanel.add(makeStat("Diet", animal.getDiet()));
-
-        // --- Distinctive Feature ---
-        cardPanel.add(makeStat("Distinctive Feature", animal.getMostDistinctiveFeature()));
-
-        cardPanel.add(Box.createVerticalStrut(20));
-
-        cardPanel.revalidate();
-        cardPanel.repaint();
-    }
-
-        private JSeparator makeGoldDivider() {
-            JSeparator sep = new JSeparator(SwingConstants.HORIZONTAL);
-            sep.setMaximumSize(new Dimension(Integer.MAX_VALUE, 5)); // thickness
-            sep.setForeground(new Color(212,175,55)); // GOLD
-            return sep;
-        }
-
-        // Formatting for each stat
-        private JLabel makeStat(String label, String value) {
-            JLabel stat = new JLabel("<html><b>" + label + ":</b> " + value + "</html>");
-            stat.setFont(new Font("Arial", Font.PLAIN, 18));
-            stat.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-            stat.setAlignmentX(Component.LEFT_ALIGNMENT);
-            return stat;
-        }
-
-        private void savetoJPG() {
-            try {
-                BufferedImage img = new BufferedImage(cardPanel.getWidth(), cardPanel.getHeight(), BufferedImage.TYPE_INT_RGB);
-                Graphics2D g2 = img.createGraphics();
-                cardPanel.paintAll(g2);
-                g2.dispose();
-
-                JFileChooser chooser = new JFileChooser();
-                chooser.setSelectedFile(new File(animal.getName() + "_card.jpg"));
-
-                if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-                    ImageIO.write(img, "jpg", chooser.getSelectedFile());
-                    JOptionPane.showMessageDialog(this, "Trading card saved!");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error saving the image.");
+        try {
+            if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+                javax.imageio.ImageIO.write(
+                        viewModel.getImage(),
+                        "jpg",
+                        chooser.getSelectedFile()
+                );
+                JOptionPane.showMessageDialog(this, "Card saved!");
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error saving card.");
         }
-
-    private static class GradientPanel extends JPanel {
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Graphics2D g2 = (Graphics2D) g;
-
-            Color top = new Color(255, 245, 180);    // soft yellow
-            Color bottom = new Color(255, 255, 255); // white
-
-            int w = getWidth();
-            int h = getHeight();
-
-            GradientPaint gp = new GradientPaint(0, 0, top, 0, h, bottom);
-            g2.setPaint(gp);
-            g2.fillRect(0, 0, w, h);
-        }
-    }
-    public static void main(String args[]) {
     }
 }

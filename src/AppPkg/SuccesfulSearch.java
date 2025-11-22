@@ -1,8 +1,9 @@
 package AppPkg;
 
 import Classes.Animal;
-import Classes.Settings.ReaderEditor;
-import Classes.Settings.StyleUpdater;
+import Classes.Settings.*;
+import Classes.Settings.TextSettingInteractor;
+import Classes.Settings.TextSettingOutput;
 import Classes.add_favorite.AddFavoriteController;
 import Classes.add_favorite.AddFavoriteInputBoundary;
 import Classes.add_favorite.AddFavoriteInteractor;
@@ -12,8 +13,8 @@ import java.awt.*;
 
 public class SuccesfulSearch extends javax.swing.JFrame
 {
-    private final ReaderEditor config = new ReaderEditor("settings.csv");
-    private final StyleUpdater styleUpdater = new StyleUpdater(config);
+    private final TextSettingInteractor config = new TextSettingInteractor("settings.csv");
+    private final TextSettingOutput textSettingOutput = new TextSettingOutput(config);
     private Animal animal;
 
     public SuccesfulSearch(Animal animal)
@@ -152,7 +153,7 @@ public class SuccesfulSearch extends javax.swing.JFrame
     }
 
     private void updateLabelStyle(){
-        styleUpdater.updateAll(this);
+        textSettingOutput.updateAll(this);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

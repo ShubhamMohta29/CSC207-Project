@@ -6,13 +6,15 @@ import Classes.Settings.UIStrategy.UIStyleStrategy;
 import javax.swing.*;
 import java.awt.*;
 
-public class StyleUpdater {
-    private final ReaderEditor config;
+public class TextSettingOutput {
+    private final TextSettingInteractor config;
     private StrategyMap strategies;
+    private TextSettingInputBoundary interactor;
 
-    public StyleUpdater(ReaderEditor config) {
+    public TextSettingOutput(TextSettingInteractor config) {
         this.config = config;
         this.strategies = new StrategyMap();
+
     }
 
     /**
@@ -20,7 +22,8 @@ public class StyleUpdater {
      * based on the provided color, size, and font style.
      */
     public void updateChangesAll(String color, int size, String fontStyle, JFrame frame) {
-        config.editSettings(color, size, fontStyle);
+        TextSettingRequest request = new TextSettingRequest(color, size, fontStyle);
+        interactor.editSettings(request);
         Color fg = config.getColor();
         Font font = config.getStyle();
 

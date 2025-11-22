@@ -3,7 +3,7 @@ package Classes.Settings;
 import java.awt.Color;
 import java.awt.Font;
 
-public class TextSetting extends Setting{
+public class TextSetting extends Settings {
     private int textSize;
     private Color textColor;
     private String fontName;
@@ -13,10 +13,6 @@ public class TextSetting extends Setting{
         this.textSize = textSize;
         this.textColor = textColor;
         this.fontName = fontName;
-    }
-
-    public TextSetting() {
-
     }
 
     public int getTextSize() {

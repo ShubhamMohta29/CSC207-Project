@@ -1,6 +1,6 @@
 package Classes.Settings;
 
-public abstract class Setting {
+public abstract class Settings {
     /**
      * Creating settings for the UI, changes different UI feature,
      * such as font, text size, and color

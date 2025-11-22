@@ -2,9 +2,7 @@ package Tests;
 
 import Classes.Settings.*;
 import org.junit.jupiter.api.*;
-
 import static org.junit.jupiter.api.Assertions.*;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,9 +12,9 @@ public class TextSettingUseCaseTest {
     @Test
     void testMainFlow_TextSettingsToFrame() {
 
-        TextSettingCSV saves = new TextSettingCSV("TestSettings.csv");
-        ReaderEditor config = new ReaderEditor("TestSettings.csv");
-        StyleUpdater updater = new StyleUpdater(config);
+        TextSettingDataAccess saves = new TextSettingDataAccess("TestSettings.csv");
+        TextSettingInteractor config = new TextSettingInteractor("TestSettings.csv");
+        TextSettingOutput updater = new TextSettingOutput(config);
         String[] fonts = (new FontFetcher()).getFonts();
 
 
@@ -34,7 +32,8 @@ public class TextSettingUseCaseTest {
         assertEquals("Arial", label1.getFont().getName());
         assertEquals(new Color(100, 50, 200), label1.getForeground());
 
-        config.editSettings("purple", 3, fonts[0]);
+        TextSettingRequest request = new TextSettingRequest("purple", 3, fonts[0]);
+        config.editSettings(request);
         updater.updateALL(frame);
 
         assertEquals(fonts[0], label2.getFont().getName());

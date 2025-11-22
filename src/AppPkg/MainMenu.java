@@ -4,17 +4,17 @@ import Classes.APIClass;
 import Classes.Animal;
 import Classes.Settings.ReaderEditor;
 import Classes.Settings.StyleUpdater;
-import Classes.Filter.AnimalNamesProvider;
+import Classes.Settings.TextSettingInteractor;
+import Classes.Settings.TextSettingOutput;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.swing.JOptionPane;
 import java.awt.*;
 
 public class  MainMenu extends javax.swing.JFrame
 {
-    private final ReaderEditor config = new ReaderEditor("settings.csv");
-    private final StyleUpdater styleUpdater = new StyleUpdater(config);
+    private final TextSettingInteractor config = new TextSettingInteractor("settings.csv");
+    private final TextSettingOutput textSettingOutput = new TextSettingOutput(config);
 
     public MainMenu()
     {
@@ -251,9 +251,14 @@ public class  MainMenu extends javax.swing.JFrame
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnFilterActionPerformed
     {//GEN-HEADEREND:event_btnFilterActionPerformed
-        FilterGUI filterFrame = FilterGUIFactory.create(this);
-        filterFrame.setLocation(this.getX() + this.getWidth(), this.getY());
-        filterFrame.setVisible(true);
+        FilterGUI filterFrame = new FilterGUI(this);  // create the frame
+
+        //get MainMenu's co-ords
+        int x = this.getX() + this.getWidth();
+        int y = this.getY();
+
+        filterFrame.setLocation(x, y);  // set the location
+        filterFrame.setVisible(true);   // make it visible
     }//GEN-LAST:event_btnFilterActionPerformed
 
     private void btnCompatibilityActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnCompatibilityActionPerformed

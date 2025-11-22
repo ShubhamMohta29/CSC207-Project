@@ -11,8 +11,7 @@ package AppPkg;
 import Classes.Filter.FilterController;
 import Classes.Filter.ViewModel;
 import Classes.Animal;
-import Classes.Settings.ReaderEditor;
-import Classes.Settings.StyleUpdater;
+import Classes.Settings.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,8 +36,8 @@ public class FilterGUI extends JFrame {
     private JButton btnReset;
     private JButton btnClose;
 
-    private final ReaderEditor config = new ReaderEditor("settings.csv");
-    private final StyleUpdater styleUpdater = new StyleUpdater(config);
+    private final TextSettingInteractor config = new TextSettingInteractor("settings.csv");
+    private final TextSettingOutput textSettingOutput = new TextSettingOutput(config);
 
     private List<String> selectedTags;
     private final FilterController filterController;
@@ -62,7 +61,7 @@ public class FilterGUI extends JFrame {
         initComponents();
         setupListeners();
         setLocationRelativeTo(parent);
-        styleUpdater.updateAll(this);
+        textSettingOutput.updateAll(this);
     }
 
     private void initComponents() {
@@ -504,7 +503,7 @@ public class FilterGUI extends JFrame {
                 resultsScroll.getVerticalScrollBar().setValue(0);
             });
         }
-        this.styleUpdater.updateALL(this);
+        this.textSettingOutput.updateALL(this);
     }
 
     private void appendResultsFromViewModel() {
@@ -538,7 +537,7 @@ public class FilterGUI extends JFrame {
 
         btnLoadMore.setEnabled(viewModel.hasMore());
         System.out.println("Total animals now: " + model.getSize());
-        this.styleUpdater.updateALL(this);
+        this.textSettingOutput.updateALL(this);
     }
 
     // Helper method to update the click listener with the complete animal list
