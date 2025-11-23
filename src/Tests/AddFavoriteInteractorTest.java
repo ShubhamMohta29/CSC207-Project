@@ -7,9 +7,18 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AddFavoriteInteractorTest {
 
     @Test
-    public void successTest() {
+    public void successAdd() {
         AddFavoriteInputData inputData = new AddFavoriteInputData("Cheetah");
+        AddFavoriteDataAccessInterface favList = new InMemoryFavoritesDataAccessObject();
+        AddFavoriteInputBoundary interactor = new AddFavoriteInteractor(favList);
+        interactor.execute(inputData);
+        assertTrue(favList.isFavorite("Cheetah"));
     }
     @Test
-    public void failTest() {}
-}
+    public void successRemove() {
+        AddFavoriteInputData inputData = new AddFavoriteInputData("Cheetah");
+        AddFavoriteDataAccessInterface favList = new InMemoryFavoritesDataAccessObject();
+        AddFavoriteInputBoundary interactor = new AddFavoriteInteractor(favList);
+        interactor.execute1(inputData);
+        assertFalse(favList.isFavorite("Cheetah"));
+    }}
