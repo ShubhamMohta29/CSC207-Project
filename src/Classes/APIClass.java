@@ -9,13 +9,15 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import Config.ProjectConfig;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class APIClass {
 
-    public static final String API_URL = "https://api.api-ninjas.com/v1/animals?name="; //final because we do not want these two variable values to change
-    private static final String API_KEY = "yenuWSGz+AZ0FMtDkHfNbw==jJFN4ywYAj6fJZhh";
+    public static final String API_URL = ProjectConfig.NINJA_API_URL; //final because we do not want these two variable values to change
+    private static final String API_KEY = ProjectConfig.getNinjaApiKey();
 
     private List<String> searchedAnimals;
     private String responseBody;

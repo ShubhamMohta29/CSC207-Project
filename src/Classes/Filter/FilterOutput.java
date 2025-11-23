@@ -1,8 +1,5 @@
 /**
  * FilterOutput : Class modelling filter output object
- /)/)
- ( . .)
- ( づ♡
  */
 package Classes.Filter;
 
@@ -31,7 +28,12 @@ public class FilterOutput {
     Getter methods
      */
     public List<Animal> getFilteredAnimals() { return filtered_animals; }
-    public boolean checkHasMore(){ return hasMore;}
+    public boolean hasMore(){ return hasMore;}
+
+    /*
+     * @return Token to be used in the next filter request to fetch additional results.
+     * Only relevant if checkHasMore() returns true.
+     */
     public String getNextCursor() { return nextCursor; }
 
 }

@@ -18,6 +18,7 @@ public class Animal {
     private double weight;
     private double height;
     private String group;
+    private String type;
     private final AnimalConverter conv = new AnimalConverter();
 
     public Animal(String s){
@@ -63,6 +64,7 @@ public class Animal {
             setHeight(characteristics.optString("height"));
         }
         setGroup(characteristics.optString("group"));
+        setType(characteristics.optString("type"));
     }
 
     public String getName() {
@@ -180,6 +182,14 @@ public class Animal {
 
     public void setGroup(String group) {
         this.group = group;
+    }
+
+    public void setType(String type){
+        this.type = type;
+    }
+
+    public String getType(){
+        return this.type;
     }
 
     @Override

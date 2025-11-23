@@ -3,6 +3,8 @@ package AppPkg;
 import Classes.APIClass;
 import Classes.Animal;
 import Classes.Filter.AnimalNamesProvider;
+import Classes.Filter.FuzzySearch.AnimalFuzzySearch;
+import Classes.Filter.FuzzySearch.FuzzySearchProvider;
 import Classes.Settings.ReaderEditor;
 import Classes.Settings.StyleUpdater;
 import org.json.JSONArray;
@@ -189,10 +191,10 @@ public class  MainMenu extends javax.swing.JFrame
 
             String result = aClass.getAnimalData(animalName);       // calls getAnimalData to get the JSON data of the animal
             if (result == null) {
-//                lblError.setText("Animal '" + animalName + "' not found. Please double check the name.");
-//                return; // Exit early
-                AnimalNamesProvider nameProvider = new AnimalNamesProvider("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");
-                String suggestion = nameProvider.fuzzySuggestion(animalName);
+
+                //fixed
+                FuzzySearchProvider fuzzy = new AnimalFuzzySearch();
+                String suggestion = fuzzy.getSuggestion(animalName);
 
                 if (suggestion != null && !suggestion.isEmpty()) {
                     String htmlText = "<html>Animal not found. Did you mean: <a href=''>" + suggestion + "</a>?</html>";

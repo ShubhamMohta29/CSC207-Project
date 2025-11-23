@@ -1,8 +1,5 @@
 /**
- * ViewModal : Holds current filtered results and pagination info. GUI reads from this class to render results.
- /)/)
- ( . .)
- ( づ♡
+ * FilterViewModel : Holds current filtered results and pagination info. GUI reads from this class to render results.
  */
 package Classes.Filter;
 
@@ -11,7 +8,7 @@ import Classes.Animal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewModel {
+public class FilterViewModel {
 
     //field declarations
     private List<Animal> animals = new ArrayList<>();
@@ -22,7 +19,7 @@ public class ViewModel {
     Constructor
      */
     public List<Animal> getAnimals() {
-        return animals;
+        return List.copyOf(animals); //to prevent external modification
     }
 
     /*

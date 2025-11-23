@@ -1,13 +1,9 @@
 /**
- * FilterGUIFactory : Created the filter gui object with all the necessary parameters
- /)/)
- ( . .)
- ( づ♡
+ * FilterGUIFactory : Creates the filter gui object with all the necessary parameters
  */
 package AppPkg;
 
 import Classes.APIClass;
-import Classes.Settings.*;
 import Classes.Filter.*;
 
 import javax.swing.*;
@@ -17,10 +13,10 @@ public class FilterGUIFactory {
 
         // required parameters
         APIClass animalProvider = new APIClass();
-        ViewModel vm = new ViewModel();
-        Presenter presenter = new Presenter(vm);
-        AnimalNamesProviderI nameProvider = new AnimalNamesProvider("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");
-        FilterInteractor interactor = new FilterInteractor(nameProvider, presenter, animalProvider);
+        FilterViewModel vm = new FilterViewModel();
+        FilterPresenter filterPresenter = new FilterPresenter(vm);
+        AnimalNamesProviderI nameProvider = new AnimalNamesProvider();
+        FilterInteractor interactor = new FilterInteractor(nameProvider, filterPresenter, animalProvider);
         FilterController filterController = new FilterController(interactor);
 
         // build GUI

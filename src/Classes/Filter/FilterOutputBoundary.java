@@ -1,8 +1,6 @@
 /**
- * FilterOutputBoundary : Interface used by the interactor to pass teh filter response object to the presenter
- /)/)
- ( . .)
- ( づ♡
+ * FilterOutputBoundary : Interface used by the interactor to pass the filter response to the presenter.
+ * The presenter implements this to receive a FilterOutput and format or display it as needed.
  */
 package Classes.Filter;
 

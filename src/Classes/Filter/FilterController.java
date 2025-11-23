@@ -1,8 +1,5 @@
 /**
  * FilterController :controller creates the input data and calls the use case. It gets called by the view with the user actions
- /)/)
- ( . .)
- ( づ♡
  */
 package Classes.Filter;
 
@@ -16,7 +13,7 @@ public class FilterController {
     /*
     Constructor
      */
-    public FilterController(FilterInteractor inputBoundary) {
+    public FilterController(FilterInputBoundary inputBoundary) {
         this.inputBoundary = inputBoundary;
     }
 

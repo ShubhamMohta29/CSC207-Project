@@ -1,8 +1,5 @@
 /**
  * FilterInput : Class modelling filter requests
- /)/)
- ( . .)
- ( づ♡
  */
 
 package Classes.Filter;
