@@ -273,8 +273,9 @@ public class  MainMenu extends javax.swing.JFrame
     }//GEN-LAST:event_btnFavoritesActionPerformed
 
     private void updateLabelStyle(){
-        styleUpdater.updateAll(this);
-        lblGreeting1.setFont(new Font(
+        textSettingOutput.updateAll(this);
+        lblGreeting1.setFont(
+                new Font(
                 config.getStyleName(),
                 0,
                 36
