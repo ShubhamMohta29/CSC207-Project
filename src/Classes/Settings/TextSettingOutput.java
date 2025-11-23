@@ -21,8 +21,8 @@ public class TextSettingOutput {
      * Updates the style of *all* JComponents in the given frame
      * based on the provided color, size, and font style.
      */
-    public void updateChangesAll(String color, int size, String fontStyle, JFrame frame) {
-        TextSettingRequest request = new TextSettingRequest(color, size, fontStyle);
+    public void updateChangesAll(TextSettingRequest request, JFrame frame) {
+
         interactor.editSettings(request);
         Color fg = config.getColor();
         Font font = config.getStyle();
