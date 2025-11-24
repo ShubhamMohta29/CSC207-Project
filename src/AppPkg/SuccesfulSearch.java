@@ -51,7 +51,14 @@ public class SuccesfulSearch extends javax.swing.JFrame
         btnGenerateTradingCard = new javax.swing.JButton();
         btnHome = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                new MainMenu().setVisible(true); // Open MainMenu
+                dispose(); // Close current frame
+            }
+        });
 
         lblHeading.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblHeading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

@@ -15,7 +15,7 @@ public class MultiSuccesfulSearch extends javax.swing.JFrame
     {
         initComponents();
 
-        // Popultes the JList
+        // Populates the JList
         DefaultListModel<String> model = new DefaultListModel<>();
         for (Animal a : animals) {
             model.addElement(a.getName());
