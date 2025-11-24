@@ -17,11 +17,20 @@ public class  MainMenu extends javax.swing.JFrame
 {
     private final TextSettingInteractor config = new TextSettingInteractor("settings.csv");
     private final TextSettingOutput textSettingOutput = new TextSettingOutput(config);
+    private APIClass api = new APIClass();
+    private FuzzySearchProvider fuzzyProvider = new AnimalFuzzySearch();
 
     public MainMenu()
     {
         initComponents();
         updateLabelStyle();// apply setting changes
+    }
+
+    public MainMenu(FuzzySearchProvider fuzzyProvider, APIClass api){
+        this.fuzzyProvider = fuzzyProvider;
+        this.api = api;
+        initComponents();
+        updateLabelStyle();
     }
 
     @SuppressWarnings("unchecked")
@@ -182,7 +191,7 @@ public class  MainMenu extends javax.swing.JFrame
         if (animalName.isEmpty()){  // ensures the user has given an input. if not, terminates teh call
             lblError.setText("Please select an animal name.");
         } else {
-            APIClass aClass = new Classes.APIClass();               // instantiates APIClass
+            APIClass aClass = this.api;               // instantiates APIClass
 
             if (animalName.contains(" "))
             {
@@ -193,7 +202,7 @@ public class  MainMenu extends javax.swing.JFrame
             if (result == null) {
 
                 //fixed
-                FuzzySearchProvider fuzzy = new AnimalFuzzySearch();
+                FuzzySearchProvider fuzzy = this.fuzzyProvider;
                 String suggestion = fuzzy.getSuggestion(animalName);
 
                 if (suggestion != null && !suggestion.isEmpty()) {
