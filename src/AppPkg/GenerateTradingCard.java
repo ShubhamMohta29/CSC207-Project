@@ -22,16 +22,14 @@ public class GenerateTradingCard extends JFrame {
 
     private TradingCardViewModel viewModel;
 
-    private JFrame previousScreen;   // NEW
+    private JFrame previousScreen;
 
-    // 2-argument constructor → supports going back previous screen
     public GenerateTradingCard(Animal animal, JFrame previousScreen) {
         this.previousScreen = previousScreen;
         runCleanArchitectureFlow(animal);
         initComponents();
     }
 
-    // 1-argument constructor → default to MainMenu on Cancel
     public GenerateTradingCard(Animal animal) {
         this(animal, null);
     }
@@ -101,20 +99,26 @@ public class GenerateTradingCard extends JFrame {
             return;
         }
 
+        // Use PNG (lossless, supports transparency)
         JFileChooser chooser = new JFileChooser();
-        chooser.setSelectedFile(new File("trading_card.jpg"));
+        chooser.setDialogTitle("Save Trading Card");
 
-        try {
-            if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-                javax.imageio.ImageIO.write(
-                        viewModel.getImage(),
-                        "jpg",
-                        chooser.getSelectedFile()
-                );
+        // Suggest default filename based on the animal name
+        String defaultName = "trading_card.png";
+        if (viewModel.getAnimalName() != null) {
+            defaultName = viewModel.getAnimalName().replace(" ", "_") + "_card.png";
+        }
+        chooser.setSelectedFile(new File(defaultName));
+
+        int result = chooser.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File chosen = chooser.getSelectedFile();
+            try {
+                javax.imageio.ImageIO.write(viewModel.getImage(), "png", chosen);
                 JOptionPane.showMessageDialog(this, "Card saved!");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error saving card: " + e.getMessage());
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error saving card.");
         }
     }
 }

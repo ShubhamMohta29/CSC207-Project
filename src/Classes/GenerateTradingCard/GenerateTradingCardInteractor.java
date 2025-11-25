@@ -5,9 +5,6 @@ import Classes.Animal;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.IOException;
 
 public class GenerateTradingCardInteractor implements GenerateTradingCardInputBoundary {
 
@@ -95,7 +92,7 @@ public class GenerateTradingCardInteractor implements GenerateTradingCardInputBo
         g.fillRect(innerLeft, y + 10, innerWidth, 4);
 
         // Slogan
-        String slogan = defaultValue(animal.getSlogan());
+        String slogan = sloganOrDefault(animal.getSlogan());
         g.setColor(new Color(255, 240, 255));
         g.setFont(new Font("Serif", Font.ITALIC, 18));
 
@@ -118,16 +115,11 @@ public class GenerateTradingCardInteractor implements GenerateTradingCardInputBo
 
         g.dispose();
 
-        // save to .png
-        String defaultName = animal.getName().replace(" ", "_") + "_card.png";
-        File chosen = chooseSaveLocation(defaultName);
 
-        if (chosen != null) {
-            saveCardToFile(img, chosen);
-        }
+        TradingCardViewModel vm =
+                presenter.prepareSuccessView(new GenerateTradingCardResponseModel(img, animal));
 
-        // Send to presenter
-        return presenter.prepareSuccessView(new GenerateTradingCardResponseModel(img));
+        return vm;
     }
 
     // HELPERS
@@ -204,27 +196,15 @@ public class GenerateTradingCardInteractor implements GenerateTradingCardInputBo
 
         return y;
     }
+    private String sloganOrDefault(String s) {
+        if (s == null || s.trim().isEmpty() ||
+                s.equalsIgnoreCase("n/a") ||
+                s.equalsIgnoreCase("none") ||
+                s.equalsIgnoreCase("") ||
+                s.equalsIgnoreCase("unknown")) {
 
-    private File chooseSaveLocation(String defaultName) {
-        javax.swing.JFileChooser chooser = new javax.swing.JFileChooser();
-        chooser.setSelectedFile(new File(defaultName));   // pre-fill filename
-        chooser.setDialogTitle("Save Trading Card As...");
-
-        int option = chooser.showSaveDialog(null);
-
-        if (option == javax.swing.JFileChooser.APPROVE_OPTION) {
-            return chooser.getSelectedFile();
-        } else {
-            return null;  // user cancelled
+            return "A creature full of wonder.";
         }
-    }
-
-    private void saveCardToFile(BufferedImage img, File output) {
-        try {
-            boolean ok = ImageIO.write(img, "png", output);
-            System.out.println("Saved to: " + output.getAbsolutePath() + " ok=" + ok);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return s.trim();
     }
 }

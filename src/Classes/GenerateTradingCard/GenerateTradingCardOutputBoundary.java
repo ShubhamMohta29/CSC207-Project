@@ -1,5 +1,5 @@
 package Classes.GenerateTradingCard;
 
 public interface GenerateTradingCardOutputBoundary {
-    TradingCardViewModel prepareSuccessView(GenerateTradingCardResponseModel responseModel);
+    TradingCardViewModel prepareSuccessView(GenerateTradingCardResponseModel response);
 }

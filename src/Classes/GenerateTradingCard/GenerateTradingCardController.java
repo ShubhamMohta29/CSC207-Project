@@ -1,4 +1,5 @@
 package Classes.GenerateTradingCard;
+import Classes.Animal;
 
 public class GenerateTradingCardController {
 
@@ -8,12 +9,8 @@ public class GenerateTradingCardController {
         this.interactor = interactor;
     }
 
-    public TradingCardViewModel generateCard(String animalName, Classes.Animal animal) {
-
-        // Create the request model.
-        GenerateTradingCardRequestModel request = new GenerateTradingCardRequestModel(animal);
-
-        // Call the interactor -> presenter -> return ViewModel
-        return interactor.generate(request);
+    public TradingCardViewModel generateCard(Animal animal) {
+        GenerateTradingCardRequestModel req = new GenerateTradingCardRequestModel(animal);
+        return interactor.generate(req);
     }
 }
