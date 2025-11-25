@@ -19,6 +19,7 @@ public class Animal {
     private double height;
     private String group;
     private String type;
+    private String slogan;
     private final AnimalConverter conv = new AnimalConverter();
 
     public Animal(String s){
@@ -40,6 +41,7 @@ public class Animal {
         setTaxonomy(taxonomyMap);
         setHabitat(characteristics.optString("habitat"));
 
+
         JSONArray locations = animal.optJSONArray("locations");
         String[] tempLoc = new String[locations.length()];
         for (int i = 0; i < locations.length(); i++) {
@@ -53,6 +55,7 @@ public class Animal {
         setDiet(characteristics.optString("diet"));
         setLifestyle(characteristics.optString("lifestyle"));
         setWeight(characteristics.optString("weight"));
+        setSlogan(characteristics.optString("slogan"));
         if (characteristics.optString("height").equals("")) {
             if (characteristics.optString("length").equals("")) {
                 setHeight("0cm");
@@ -73,7 +76,6 @@ public class Animal {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public String[] getLocation() {
         return location;
@@ -137,6 +139,14 @@ public class Animal {
 
     public void setMostDistinctiveFeature(String mostDistinctiveFeature) {
         this.mostDistinctiveFeature = mostDistinctiveFeature;
+    }
+
+    public String getSlogan() {
+        return slogan;
+    }
+
+    public void setSlogan(String slogan) {
+        this.slogan = slogan;
     }
 
     public double getLifespan() {

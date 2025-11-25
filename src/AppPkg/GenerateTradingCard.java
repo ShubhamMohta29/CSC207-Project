@@ -22,7 +22,7 @@ public class GenerateTradingCard extends JFrame {
 
     private TradingCardViewModel viewModel;
 
-    private JFrame previousScreen;   // ✅ NEW
+    private JFrame previousScreen;   // NEW
 
     // 2-argument constructor → supports going back previous screen
     public GenerateTradingCard(Animal animal, JFrame previousScreen) {
