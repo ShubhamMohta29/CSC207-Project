@@ -197,17 +197,21 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "Name: " + getName() + "\n"
-                + "Taxonomy: " + getTaxonomy() + "\n"
-                + "Habitat: " + convertedToString(getLocation()) + "\n"
-                + "Prey: " + convertedToString(getPrey()) + "\n"
-                + "Most Distinctive Feature: " + getMostDistinctiveFeature() + "\n"
-                + "Lifespan: " + getLifespan() + "\n"
-                + "Diet: " + getDiet() + "\n"
-                + "Lifestyle: " + getLifestyle() + "\n"
-                + "Weight: " + getWeight() + "\n"
-                + "Height: " + getHeight() + "\n"
-                + "Group: " + getGroup();
+        return "Name: " + checkEmpty(getName()) + "\n"
+                + "Taxonomy: " + checkEmpty(getTaxonomy()) + "\n"
+                + "Habitat: " + checkEmpty(convertedToString(getLocation())) + "\n"
+                + "Prey: " + checkEmpty(convertedToString(getPrey())) + "\n"
+                + "Most Distinctive Feature: " + checkEmpty(getMostDistinctiveFeature()) + "\n"
+                + "Lifespan: " + checkEmpty(getLifespan() + "") + "\n"
+                + "Diet: " + checkEmpty(getDiet()) + "\n"
+                + "Lifestyle: " + checkEmpty(getLifestyle()) + "\n"
+                + "Weight: " + checkEmpty(getWeight() + "") + "\n"
+                + "Height: " + checkEmpty(getHeight() + "") + "\n"
+                + "Group: " + checkEmpty(getGroup());
+    }
+
+    private String checkEmpty(String value) {
+        return (value == null || value.isEmpty()) ? "N/A" : value;
     }
 
     private String convertedToString(String[] preys) {
