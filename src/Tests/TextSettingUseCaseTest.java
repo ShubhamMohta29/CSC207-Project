@@ -14,7 +14,6 @@ public class TextSettingUseCaseTest {
 
         TextSettingDataAccess saves = new TextSettingDataAccess("TestSettings.csv");
         TextSettingInteractor config = new TextSettingInteractor("TestSettings.csv");
-        TextSettingOutput updater = new TextSettingOutput(config);
         String[] fonts = (new FontFetcher()).getFonts();
 
 
@@ -27,14 +26,14 @@ public class TextSettingUseCaseTest {
         panel.add(label2);
         frame.add(panel);
 
-        updater.updateALL(frame);
+        config.updateALL(frame);
 
         assertEquals("Arial", label1.getFont().getName());
         assertEquals(new Color(100, 50, 200), label1.getForeground());
 
         TextSettingRequest request = new TextSettingRequest("purple", 3, fonts[0]);
         config.editSettings(request);
-        updater.updateALL(frame);
+        config.updateALL(frame);
 
         assertEquals(fonts[0], label2.getFont().getName());
         assertEquals(new Color(70, 20, 124), label1.getForeground());

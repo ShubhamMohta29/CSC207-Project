@@ -9,13 +9,12 @@ import javax.swing.*;
 
 public class Favorites extends javax.swing.JFrame
 {
-    private final TextSettingInteractor config = new TextSettingInteractor("settings.csv");
-    private final TextSettingOutput textSettingOutput = new TextSettingOutput(config);
+    private final TextSettingController config = new TextSettingController("settings.csv");
 
     public Favorites()
     {
         initComponents();
-        textSettingOutput.updateALL(this);
+        config.updateALL(this);
     }
 
     @SuppressWarnings("unchecked")

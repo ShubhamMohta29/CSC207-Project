@@ -1,4 +1,5 @@
 package Classes.Settings.UIStrategy;
+
 import java.awt.*;
 
 public interface UIStyleStrategy {

@@ -1,7 +1,6 @@
 package AppPkg;
 
-import Classes.Settings.TextSettingInteractor;
-import Classes.Settings.TextSettingOutput;
+import Classes.Settings.TextSettingController;
 import Classes.Compatibility.usecases.CompareAnimalsInputBoundary;
 import Classes.Compatibility.usecases.CompareAnimalsOutputBoundary;
 import Classes.Compatibility.usecases.CompareAnimalsInteractor;
@@ -10,8 +9,7 @@ import Classes.Compatibility.data.AnimalDataAccess;
 
 public class Compatibility extends javax.swing.JFrame
 {
-    private final TextSettingInteractor config = new TextSettingInteractor("settings.csv");
-    private final TextSettingOutput textSettingOutput = new TextSettingOutput(config);
+    private final TextSettingController config = new TextSettingController("settings.csv");
 
     // Controller and Presenter are now part of this class for simplicity
     private final CompareAnimalsInputBoundary interactor;
@@ -259,7 +257,7 @@ public class Compatibility extends javax.swing.JFrame
     }
 
     private void updateLabelStyle(){
-        textSettingOutput.updateAll(this);
+        config.updateALL(this);
     }
 
     // Variables declaration

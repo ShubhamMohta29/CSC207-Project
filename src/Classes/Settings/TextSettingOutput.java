@@ -6,43 +6,45 @@ import Classes.Settings.UIStrategy.UIStyleStrategy;
 import javax.swing.*;
 import java.awt.*;
 
-public class TextSettingOutput {
-    private final TextSettingInteractor config;
-    private StrategyMap strategies;
+public class TextSettingOutput implements TextSettingOutputBoundary {
+    private final StrategyMap strategies;
+    private Color fg;
+    private Font font;
 
-    public TextSettingOutput(TextSettingInteractor config) {
-        this.config = config;
+    public TextSettingOutput(TextSetting config) {
+        this.fg = config.getTextColor();
+        this.font = config.getFont();
         this.strategies = new StrategyMap();
 
+    }
+
+    public void updateOutput(TextSetting config) {
+        fg = config.getTextColor();
+        font = config.getFont();
     }
 
     /**
      * Updates the style of *all* JComponents in the given frame
      * based on the provided color, size, and font style.
      */
-
-    public void updateAll(JFrame frame) {
-        Color fg = config.getColor();
-        Font font = config.getStyle();
+    @Override
+    public void presentSettingOutput(JFrame frame) {
 
         updateComponentsRecursively(frame.getContentPane(), fg, font);
-
         frame.revalidate();
         frame.pack();
     }
 
-    public void updateALL(JDialog dialog) {
-        Color fg = config.getColor();
-        Font font = config.getStyle();
+    @Override
+    public void presentSettingOutput(JDialog dialog) {
 
         updateComponentsRecursively(dialog.getContentPane(), fg, font);
         dialog.revalidate();
         dialog.pack();
     }
 
-    public void updateALL(Window window) {
-        Color fg = config.getColor();
-        Font font = config.getStyle();
+    @Override
+    public void presentSettingOutput(Window window) {
 
         updateComponentsRecursively(window, fg, font);
         window.revalidate();

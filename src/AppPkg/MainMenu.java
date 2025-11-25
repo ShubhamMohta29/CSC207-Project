@@ -2,21 +2,17 @@ package AppPkg;
 
 import Classes.APIClass;
 import Classes.Animal;
-import Classes.Filter.AnimalNamesProvider;
 import Classes.Filter.FuzzySearch.AnimalFuzzySearch;
 import Classes.Filter.FuzzySearch.FuzzySearchProvider;
-import Classes.Settings.TextSettingInteractor;
-import Classes.Settings.TextSettingOutput;
+import Classes.Settings.TextSettingController;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.swing.JOptionPane;
 import java.awt.*;
 
 public class  MainMenu extends javax.swing.JFrame
 {
-    private final TextSettingInteractor config = new TextSettingInteractor("settings.csv");
-    private final TextSettingOutput textSettingOutput = new TextSettingOutput(config);
+    private final TextSettingController config = new TextSettingController("settings.csv");
     private APIClass api = new APIClass();
     private FuzzySearchProvider fuzzyProvider = new AnimalFuzzySearch();
 
@@ -280,7 +276,7 @@ public class  MainMenu extends javax.swing.JFrame
     }//GEN-LAST:event_btnFavoritesActionPerformed
 
     private void updateLabelStyle(){
-        textSettingOutput.updateAll(this);
+        config.updateALL(this);
         lblGreeting1.setFont(
                 new Font(
                 config.getStyleName(),

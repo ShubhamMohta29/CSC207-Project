@@ -2,14 +2,9 @@ package AppPkg;
 
 import Classes.Settings.*;
 import Classes.Settings.TextSettingInteractor;
-import Classes.Settings.TextSettingOutput;
-
-import java.awt.*;
 
 public class Settings extends javax.swing.JFrame {
-    private final TextSettingInteractor config = new TextSettingInteractor("settings.csv");
-    private final TextSettingInput textSettingInput = new TextSettingInput(config);
-    private final TextSettingOutput textSettingOutput = new TextSettingOutput(config);
+    private final TextSettingController textSettingController = new TextSettingController("settings.csv");
 
     private String color = "black";
     private String style = "Arial";
@@ -19,7 +14,7 @@ public class Settings extends javax.swing.JFrame {
         initComponents();
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setupListeners();
-        textSettingOutput.updateAll(this);
+        textSettingController.updateALL(this);
 
     }
 
@@ -138,9 +133,8 @@ public class Settings extends javax.swing.JFrame {
 
     private void updateLabelStyle() {
         //automatic StyleUpdater
-        TextSettingRequest request = new TextSettingRequest(color, size, style);
-        textSettingInput.updateChangesAll(request);
-        textSettingOutput.updateALL(this);
+        textSettingController.updateChangesAll(color, size, style);
+        textSettingController.updateALL(this);
     }
 
     public static void main(String args[]) {
