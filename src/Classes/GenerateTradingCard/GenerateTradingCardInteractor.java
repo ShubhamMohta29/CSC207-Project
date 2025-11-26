@@ -157,10 +157,10 @@ public class GenerateTradingCardInteractor implements GenerateTradingCardInputBo
         }
 
         // last line
-        if (!line.isEmpty()) {
-            g.drawString(line.toString(), x, y);
-            y += lineHeight;
-        }
+//        if (!line.isEmpty()) {
+//            g.drawString(line.toString(), x, y);
+//            y += lineHeight;
+//        }
 
         y += 10;
         return y;
