@@ -5,30 +5,20 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TextSettingController {
-    private final TextSettingInputBoundary config;
+    private TextSettingInputBoundary config;
+    private TextSettingOutputBoundary presenter;
+    private final String filePath;
 
     public TextSettingController(String filePath) {
         this.config = new TextSettingInteractor(filePath);
+        this.presenter = new TextSettingPresenter((TextSettingInteractor) config);
+        this.filePath = filePath;
     }
 
-    public void updateChangesAll(String color, int size, String style) {
+    public void updateSettings(String color, int size, String style) {
         TextSettingRequest request = new TextSettingRequest(color, size, style);
         config.editSettings(request);
-    }
-
-    public void updateALL(Window obj) {
-        // Display the UI changes
-        config.updateALL(obj);
-    }
-
-    public void updateALL(JDialog obj) {
-        // Display the UI changes
-        config.updateALL(obj);
-    }
-
-    public void updateALL(JFrame obj) {
-        // Display the UI changes
-        config.updateALL(obj);
+        this.presenter = new TextSettingPresenter((TextSettingInteractor) config);
     }
 
     public Color getColor() {
@@ -45,6 +35,21 @@ public class TextSettingController {
 
     public Font getStyle() {
         return config.getStyle();
+    }
+
+    public void updateALL(Window obj) {
+        // Display the UI changes
+        presenter.presentSettingOutput(obj);
+    }
+
+    public void updateALL(JDialog obj) {
+        // Display the UI changes
+        presenter.presentSettingOutput(obj);
+    }
+
+    public void updateALL(JFrame obj) {
+        // Display the UI changes
+        presenter.presentSettingOutput(obj);
     }
 
 }

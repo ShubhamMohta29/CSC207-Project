@@ -6,14 +6,14 @@ import Classes.Settings.UIStrategy.UIStyleStrategy;
 import javax.swing.*;
 import java.awt.*;
 
-public class TextSettingOutput implements TextSettingOutputBoundary {
+public class TextSettingPresenter implements TextSettingOutputBoundary {
     private final StrategyMap strategies;
     private Color fg;
     private Font font;
 
-    public TextSettingOutput(TextSetting config) {
-        this.fg = config.getTextColor();
-        this.font = config.getFont();
+    public TextSettingPresenter(TextSettingInteractor config) {
+        this.fg = config.getColor();
+        this.font = config.getStyle();
         this.strategies = new StrategyMap();
 
     }

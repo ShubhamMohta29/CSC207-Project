@@ -4,10 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public interface TextSettingInputBoundary {
+    /**
+     * Handle all the request from controller
+     * @param request
+     */
     void editSettings(TextSettingRequest request);
-    void updateALL(Window obj);
-    void updateALL(JDialog obj);
-    void updateALL(JFrame obj);
     Color getColor();
     int getSize();
     String getStyleName();

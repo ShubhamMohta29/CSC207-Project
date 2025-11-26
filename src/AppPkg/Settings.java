@@ -134,7 +134,7 @@ public class Settings extends javax.swing.JFrame {
 
     private void updateLabelStyle() {
         //automatic StyleUpdater
-        textSettingController.updateChangesAll(color, size, style);
+        textSettingController.updateSettings(color, size, style);
         textSettingController.updateALL(this);
     }
 
