@@ -5,18 +5,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TextSettingController {
-    private final TextSettingInteractor config;
-    private final TextSettingInputBoundary interactor;
+    private final TextSettingInputBoundary config;
 
     public TextSettingController(String filePath) {
         this.config = new TextSettingInteractor(filePath);
-        this.interactor = config;
-
     }
 
     public void updateChangesAll(String color, int size, String style) {
         TextSettingRequest request = new TextSettingRequest(color, size, style);
-        interactor.editSettings(request);
+        config.editSettings(request);
     }
 
     public void updateALL(Window obj) {
