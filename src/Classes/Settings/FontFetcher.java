@@ -15,8 +15,12 @@ public class FontFetcher {
         Collections.addAll(availableFont, fontFamilies);
     }
 
-
+    /**
+     * Returns a list of font retrieved from local environment.
+     * @return str[]
+     */
     public String[] getFonts() {
+
         String[] list = this.availableFont.toArray(new String[availableFont.size()]);
         return list;
     }

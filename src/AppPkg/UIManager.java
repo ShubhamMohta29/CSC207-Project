@@ -8,7 +8,7 @@ import Classes.Settings.ViewModel;
 import javax.swing.*;
 import java.awt.*;
 
-public class UIChanger {
+public class UIManager {
 
     private final StrategyMap strategies;
     private final String filePath;
@@ -22,7 +22,7 @@ public class UIChanger {
      * - ViewModel
      * internally from the filePath.
      */
-    public UIChanger(String filePath) {
+    public UIManager(String filePath) {
 
         // Build the controller
         TextSettingController controller = new TextSettingController(filePath);

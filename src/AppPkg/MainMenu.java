@@ -13,7 +13,7 @@ import static Classes.Settings.SettingConstants.*;
 
 public class  MainMenu extends javax.swing.JFrame
 {
-    private final UIChanger config = new UIChanger(DEFAULT_SETTINGS_FILE);
+    private final UIManager config = new UIManager(DEFAULT_SETTINGS_FILE);
     private APIClass api = new APIClass();
     private FuzzySearchProvider fuzzyProvider = new AnimalFuzzySearch();
 

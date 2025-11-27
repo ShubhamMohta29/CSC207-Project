@@ -1,35 +1,76 @@
 package Classes.Settings;
 
 import java.awt.Color;
-import java.awt.Font;
 
 import static Classes.Settings.SettingConstants.*;
 
+/**
+ * Output model representing processed text settings for display.
+ * Stores color, font name, and font size.
+ */
 public class TextSettingOutput {
+
+    /**
+     * The text color.
+     */
     private final Color color;
+
+    /**
+     * The font name.
+     */
     private final String font;
+
+    /**
+     * The text size in points.
+     */
     private final int size;
 
-    public TextSettingOutput(Color color, String font, int size){
+    /**
+     * Constructs a TextSettingOutput with the given color, font, and size.
+     *
+     * @param color the text color
+     * @param font  the font name
+     * @param size  the font size
+     */
+    public TextSettingOutput(Color color, String font, int size) {
         this.color = color;
         this.font = font;
         this.size = size;
     }
 
-    public TextSettingOutput(){
+    /**
+     * Constructs a TextSettingOutput with default settings.
+     */
+    public TextSettingOutput() {
         this.color = DEFAULT_COLOR;
-        this.size = DEFAULT_FONT_SIZE;
         this.font = DEFAULT_FONT_NAME;
-
+        this.size = DEFAULT_FONT_SIZE;
     }
 
-    public Color getColor(){
+    /**
+     * Returns the text color.
+     *
+     * @return the color
+     */
+    public Color getColor() {
         return color;
     }
-    public String getFont(){
+
+    /**
+     * Returns the font name.
+     *
+     * @return the font
+     */
+    public String getFont() {
         return font;
     }
-    public int getSize(){ return size;}
 
-
+    /**
+     * Returns the text size.
+     *
+     * @return the size
+     */
+    public int getSize() {
+        return size;
+    }
 }

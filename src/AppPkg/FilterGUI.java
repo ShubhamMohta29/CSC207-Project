@@ -34,7 +34,7 @@ public class FilterGUI extends JFrame {
     private JButton btnReset;
     private JButton btnClose;
 
-    private final UIChanger config = new UIChanger(DEFAULT_SETTINGS_FILE);
+    private final UIManager config = new UIManager(DEFAULT_SETTINGS_FILE);
 
     private List<String> selectedTags;
     private final FilterController filterController;

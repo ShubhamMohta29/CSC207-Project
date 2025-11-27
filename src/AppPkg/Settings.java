@@ -6,7 +6,7 @@ import static Classes.Settings.SettingConstants.*;
 
 public class Settings extends javax.swing.JFrame {
     private final TextSettingController textSettingController = new TextSettingController(DEFAULT_SETTINGS_FILE);
-    private UIChanger config = new UIChanger(DEFAULT_SETTINGS_FILE);
+    private UIManager config = new UIManager(DEFAULT_SETTINGS_FILE);
 
     private int size = DEFAULT_FONT_SIZE;
     private String style = DEFAULT_FONT_NAME;
