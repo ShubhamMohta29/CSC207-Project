@@ -16,11 +16,6 @@ public class TextSettingInteractor implements TextSettingInputBoundary {
     private final TextSettingGateway settingFetcher;
 
     /**
-     * Presenter for outputting processed text settings.
-     */
-    private TextSettingOutputBoundary presenter;
-
-    /**
      * The current text setting configuration.
      */
     private final TextSetting config;
@@ -32,7 +27,6 @@ public class TextSettingInteractor implements TextSettingInputBoundary {
      */
     public TextSettingInteractor(String filePath) {
         this.settingFetcher = new TextSettingDataAccess(filePath);
-        this.presenter = new TextSettingPresenter();
         this.config = settingFetcher.load();
     }
 
