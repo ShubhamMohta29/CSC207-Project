@@ -1,7 +1,6 @@
 package AppPkg;
 
 import Classes.Animal;
-import Classes.Settings.TextSettingController;
 import Classes.add_favorite.AddFavoriteController;
 import Classes.add_favorite.AddFavoriteInputBoundary;
 import Classes.add_favorite.AddFavoriteInteractor;
@@ -13,7 +12,7 @@ import static Classes.Settings.SettingConstants.DEFAULT_SETTINGS_FILE;
 
 public class SuccesfulSearch extends javax.swing.JFrame
 {
-    private final TextSettingController config = new TextSettingController(DEFAULT_SETTINGS_FILE);
+    private final UIChanger config = new UIChanger(DEFAULT_SETTINGS_FILE);
     private Animal animal;
 
     public SuccesfulSearch(Animal animal)

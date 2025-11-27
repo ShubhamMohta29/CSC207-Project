@@ -4,7 +4,6 @@ import Classes.APIClass;
 import Classes.Animal;
 import Classes.Filter.FuzzySearch.AnimalFuzzySearch;
 import Classes.Filter.FuzzySearch.FuzzySearchProvider;
-import Classes.Settings.TextSettingController;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,7 +13,7 @@ import static Classes.Settings.SettingConstants.*;
 
 public class  MainMenu extends javax.swing.JFrame
 {
-    private final TextSettingController config = new TextSettingController(DEFAULT_SETTINGS_FILE);
+    private final UIChanger config = new UIChanger(DEFAULT_SETTINGS_FILE);
     private APIClass api = new APIClass();
     private FuzzySearchProvider fuzzyProvider = new AnimalFuzzySearch();
 
@@ -280,7 +279,7 @@ public class  MainMenu extends javax.swing.JFrame
     private void updateLabelStyle(){
         config.updateALL(this);
         lblGreeting1.setFont(
-                new Font(config.getStyleName(), DEFAULT_STYLE, HEADING_FONT_SIZE));
+                new Font(config.getFont().getName(), DEFAULT_STYLE, HEADING_FONT_SIZE));
     }
 
     public static void main(String args[])

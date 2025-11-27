@@ -7,26 +7,29 @@ import static Classes.Settings.SettingConstants.*;
 public class TextSettingInteractor implements TextSettingInputBoundary {
 
     private final TextSettingDataAccess settingFetcher;
+    private TextSettingOutputBoundary presenter;
+
     private final TextSetting config;
 
     public TextSettingInteractor(String filePath) {
         this.settingFetcher = new TextSettingDataAccess(filePath);
+        this.presenter = new TextSettingPresenter(new TextSettingOutput());
         this.config = settingFetcher.load();
 
     }
 
     @Override
-    public void editSettings(TextSettingRequest request) {
+    public void editSettings(TextSettingInput request) {
 
         // Color mapping
-        Color finalColor = switch (request.color.toLowerCase()) {
+        Color finalColor = switch (request.getColor().toLowerCase()) {
             case NAME_PURPLE -> PURPLE;
             case NAME_BLUE -> BLUE;
             case NAME_GREEN -> GREEN;
             default -> DEFAULT_COLOR;
         };
         // Size mapping
-        int finalSize = switch (request.size) {
+        int finalSize = switch (request.getSize()) {
             case 1 -> FONT_SIZE_ONE;
             case 2 -> FONT_SIZE_TWO;
             case 4 -> FONT_SIZE_FOUR;
@@ -38,27 +41,26 @@ public class TextSettingInteractor implements TextSettingInputBoundary {
         // Font Size
         config.setTextSize(finalSize);
         // String (font name)
-        config.setTextStyle(request.style);
+        config.setFontName(request.getStyle());
         // Save changes
         settingFetcher.save(config);
 
+        TextSettingOutput output = new TextSettingOutput(
+                config.getTextColor(),
+                config.getFontName(),
+                config.getTextSize());
+
+        presenter =  new TextSettingPresenter(output);
+
 
     }
 
-    // Optional getters if needed by presenter or UI
-    public Color getColor() {
-        return config.getTextColor();
-    }
+    public TextSettingPresenter getOutput(){
+        TextSettingOutput output = new TextSettingOutput(
+                config.getTextColor(),
+                config.getFontName(),
+                config.getTextSize());
 
-    public int getSize() {
-        return config.getTextSize();
-    }
-
-    public String getStyleName() {
-        return config.getFontName();
-    }
-
-    public Font getStyle() {
-        return config.getFont();
+        return new TextSettingPresenter(output);
     }
 }

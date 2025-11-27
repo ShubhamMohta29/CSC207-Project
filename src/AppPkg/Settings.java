@@ -6,6 +6,7 @@ import static Classes.Settings.SettingConstants.*;
 
 public class Settings extends javax.swing.JFrame {
     private final TextSettingController textSettingController = new TextSettingController(DEFAULT_SETTINGS_FILE);
+    private UIChanger config = new UIChanger(DEFAULT_SETTINGS_FILE);
 
     private int size = DEFAULT_FONT_SIZE;
     private String style = DEFAULT_FONT_NAME;
@@ -15,7 +16,7 @@ public class Settings extends javax.swing.JFrame {
         initComponents();
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setupListeners();
-        textSettingController.updateALL(this);
+        config.updateALL(this);
 
     }
 
@@ -135,7 +136,7 @@ public class Settings extends javax.swing.JFrame {
     private void updateLabelStyle() {
         //automatic StyleUpdater
         textSettingController.updateSettings(color, size, style);
-        textSettingController.updateALL(this);
+        config.updateALL(this);
     }
 
     public static void main(String args[]) {

@@ -1,5 +1,6 @@
 package Tests;
 
+import AppPkg.UIChanger;
 import Classes.Settings.*;
 import org.junit.jupiter.api.*;
 
@@ -15,6 +16,7 @@ public class TextSettingUseCaseTest {
     void testMainFlow_TextSettingsToFrame() {
 
         TextSettingController config = new TextSettingController("TestSettings.csv");
+        UIChanger update = new UIChanger("TestSettings.csv");
         String[] fonts = (new FontFetcher()).getFonts();
 
 
@@ -27,13 +29,13 @@ public class TextSettingUseCaseTest {
         panel.add(label2);
         frame.add(panel);
 
-        config.updateALL(frame);
+        update.updateALL(frame);
 
         assertEquals("Arial", label1.getFont().getName());
         assertEquals(new Color(100, 50, 200), label1.getForeground());
 
         config.updateSettings("purple", 3, fonts[0]);
-        config.updateALL(frame);
+        update.updateALL(frame);
 
         assertEquals(fonts[0], label2.getFont().getName());
         assertEquals(new Color(70, 20, 124), label1.getForeground());

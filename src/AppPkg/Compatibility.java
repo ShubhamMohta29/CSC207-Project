@@ -1,6 +1,5 @@
 package AppPkg;
 
-import Classes.Settings.TextSettingController;
 import Classes.Compatibility.usecases.CompareAnimalsInputBoundary;
 import Classes.Compatibility.usecases.CompareAnimalsOutputBoundary;
 import Classes.Compatibility.usecases.CompareAnimalsInteractor;
@@ -11,7 +10,7 @@ import static Classes.Settings.SettingConstants.DEFAULT_SETTINGS_FILE;
 
 public class Compatibility extends javax.swing.JFrame
 {
-    private final TextSettingController config = new TextSettingController(DEFAULT_SETTINGS_FILE);
+    private final UIChanger config = new UIChanger(DEFAULT_SETTINGS_FILE);
 
     // Controller and Presenter are now part of this class for simplicity
     private final CompareAnimalsInputBoundary interactor;

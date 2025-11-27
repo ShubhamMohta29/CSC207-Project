@@ -8,7 +8,6 @@ package AppPkg;
 import Classes.Filter.FilterController;
 import Classes.Filter.FilterViewModel;
 import Classes.Animal;
-import Classes.Settings.TextSettingController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,7 +34,7 @@ public class FilterGUI extends JFrame {
     private JButton btnReset;
     private JButton btnClose;
 
-    private final TextSettingController config = new TextSettingController(DEFAULT_SETTINGS_FILE);
+    private final UIChanger config = new UIChanger(DEFAULT_SETTINGS_FILE);
 
     private List<String> selectedTags;
     private final FilterController filterController;

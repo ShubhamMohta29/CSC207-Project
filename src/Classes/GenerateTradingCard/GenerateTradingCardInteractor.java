@@ -156,11 +156,11 @@ public class GenerateTradingCardInteractor implements GenerateTradingCardInputBo
             }
         }
 
-        // last line
-//        if (!line.isEmpty()) {
-//            g.drawString(line.toString(), x, y);
-//            y += lineHeight;
-//        }
+        //last line
+        if (!line.isEmpty()) {
+            g.drawString(line.toString(), x, y);
+            y += lineHeight;
+        }
 
         y += 10;
         return y;
@@ -197,7 +197,8 @@ public class GenerateTradingCardInteractor implements GenerateTradingCardInputBo
         return y;
     }
     private String sloganOrDefault(String s) {
-        if (s == null || s.trim().isEmpty() ||
+        if (s == null ||
+                s.trim().isEmpty() ||
                 s.equalsIgnoreCase("n/a") ||
                 s.equalsIgnoreCase("none") ||
                 s.equalsIgnoreCase("") ||

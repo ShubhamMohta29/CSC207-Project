@@ -4,9 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public interface TextSettingOutputBoundary {
-    void presentSettingOutput(JFrame frame);
-
-    void presentSettingOutput(JDialog dialog);
-
-    void presentSettingOutput(Window window);
+    Color getColor();
+    int getSize();
+    String getFont();
 }
