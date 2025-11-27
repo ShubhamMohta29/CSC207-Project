@@ -8,11 +8,11 @@ public class ViewModel {
     private final Color color;
     private final Font font;
 
-    public ViewModel(TextSettingOutput presenter){
-        this.color = presenter.getColor();
-        this.font = new Font (presenter.getFont(),
+    public ViewModel(Color color, String font, int size){
+        this.color = color;
+        this.font = new Font (font,
                     DEFAULT_STYLE,
-                    presenter.getSize());
+                    size);
     }
 
     public Color getColor(){
