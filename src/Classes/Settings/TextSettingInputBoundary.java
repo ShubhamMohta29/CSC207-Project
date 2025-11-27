@@ -7,5 +7,5 @@ public interface TextSettingInputBoundary {
      * @param request from controller
      */
     void editSettings(TextSettingInput request);
-    TextSettingPresenter getOutput();
+    TextSettingOutput getOutput();
 }

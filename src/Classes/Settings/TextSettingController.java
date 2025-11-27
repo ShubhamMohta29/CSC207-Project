@@ -17,7 +17,7 @@ public class TextSettingController {
     }
 
     public ViewModel getViewModel(){
-        TextSettingOutputBoundary presenter = config.getOutput();
+        TextSettingOutputBoundary presenter = new TextSettingPresenter(config.getOutput());
         TextSettingOutput output = new TextSettingOutput(
                 presenter.getColor(),
                 presenter.getFont(),

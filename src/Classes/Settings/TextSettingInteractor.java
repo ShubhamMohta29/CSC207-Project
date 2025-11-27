@@ -55,12 +55,12 @@ public class TextSettingInteractor implements TextSettingInputBoundary {
 
     }
 
-    public TextSettingPresenter getOutput(){
+    public TextSettingOutput getOutput(){
         TextSettingOutput output = new TextSettingOutput(
                 config.getTextColor(),
                 config.getFontName(),
                 config.getTextSize());
 
-        return new TextSettingPresenter(output);
+        return output;
     }
 }
