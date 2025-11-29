@@ -1,123 +1,93 @@
-
 package AppPkg;
 
+import java.awt.BorderLayout;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import Classes.Animal;
-import Classes.GenerateTradingCard.GenerateTradingCardInputBoundary;
-import Classes.GenerateTradingCard.GenerateTradingCardInteractor;
-import Classes.GenerateTradingCard.GenerateTradingCardRequestModel;
-import Classes.GenerateTradingCard.TradingCardPresenter;
+import Classes.GenerateTradingCard.CardAppearanceConstants;
+import Classes.GenerateTradingCard.TradingCardService;
 import Classes.GenerateTradingCard.TradingCardViewModel;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.io.File;
-
+/**
+ * UI window for viewing and exporting a generated trading card.
+ */
 public class GenerateTradingCard extends JFrame {
 
-    private JPanel imagePanel;
-    private JPanel bottomPanel;
-    private JButton btnCancel;
-    private JButton btnDownload;
+    private final TradingCardViewModel viewModel;
+    private final JFrame previousScreen;
 
-    private TradingCardViewModel viewModel;
-
-    private JFrame previousScreen;
-
-    public GenerateTradingCard(Animal animal, JFrame previousScreen) {
+    /**
+     * Opens trading card window with return navigation enabled.
+     * @param animal whose card is generated
+     * @param previousScreen screen to return to when clicking back
+     */
+    public GenerateTradingCard(final Animal animal, final JFrame previousScreen) {
         this.previousScreen = previousScreen;
-        runCleanArchitectureFlow(animal);
-        initComponents();
+        this.viewModel = new TradingCardService().create(animal);
+        buildUi();
     }
 
-    public GenerateTradingCard(Animal animal) {
+    /**
+     * Opens trading card window without previous screen link.
+     * @param animal whose card is generated
+     */
+    public GenerateTradingCard(final Animal animal) {
         this(animal, null);
     }
 
-    private void runCleanArchitectureFlow(Animal animal) {
-        TradingCardPresenter presenter = new TradingCardPresenter();
-        GenerateTradingCardInputBoundary interactor =
-                new GenerateTradingCardInteractor(presenter);
-
-        GenerateTradingCardRequestModel requestModel =
-                new GenerateTradingCardRequestModel(animal);
-
-        this.viewModel = interactor.generate(requestModel);
-    }
-
-    private void initComponents() {
+    /**
+     * Builds UI with TradingCardPanel callback-wired buttons.
+     */
+    private void buildUi() {
         setTitle("Trading Card");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setSize(500, 720);
+        setSize(CardAppearanceConstants.CARD_WIDTH, CardAppearanceConstants.CARD_HEIGHT);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // Panel that displays the generated card image
-        imagePanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                if (viewModel != null && viewModel.getImage() != null) {
-                    int imgW = viewModel.getImage().getWidth();
-                    int imgH = viewModel.getImage().getHeight();
-                    int x = (getWidth() - imgW) / 2;
-                    int y = (getHeight() - imgH) / 2;
-                    g.drawImage(viewModel.getImage(), x, y, null);
-                }
-            }
-        };
-        add(imagePanel, BorderLayout.CENTER);
+        final TradingCardPanel panel = new TradingCardPanel(
+                viewModel,
+                this::goBack,
+                this::saveImage
+        );
 
-        // Bottom panel with Cancel and Download buttons
-        bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        btnCancel = new JButton("Cancel");
-        btnDownload = new JButton("Download");
-
-        btnCancel.addActionListener(this::btnCancelActionPerformed);
-        btnDownload.addActionListener(this::btnDownloadActionPerformed);
-
-        bottomPanel.add(btnCancel);
-        bottomPanel.add(btnDownload);
-
-        add(bottomPanel, BorderLayout.SOUTH);
+        add(panel, BorderLayout.CENTER);
+        setVisible(true);
     }
 
-    // Go back to previous screen if provided, otherwise go to MainMenu
-    private void btnCancelActionPerformed(ActionEvent evt) {
+    /**
+     * Navigate back to previous window or Home.
+     */
+    private void goBack() {
         if (previousScreen != null) {
             previousScreen.setVisible(true);
-        } else {
+        }
+        else {
             new MainMenu().setVisible(true);
         }
-        this.dispose();
+        dispose();
     }
 
-    // Save the generated trading card image
-    private void btnDownloadActionPerformed(ActionEvent evt) {
-        if (viewModel == null || viewModel.getImage() == null) {
-            JOptionPane.showMessageDialog(this, "No image to save.");
-            return;
-        }
+    /**
+     * Writes generated PNG to user-selected path.
+     */
+    private void saveImage() {
+        final JFileChooser chooser = new JFileChooser();
+        chooser.setSelectedFile(new File(viewModel.getAnimalName().replace(" ", "_") + "_card.png"));
 
-        // Use PNG (lossless, supports transparency)
-        JFileChooser chooser = new JFileChooser();
-        chooser.setDialogTitle("Save Trading Card");
-
-        // Suggest default filename based on the animal name
-        String defaultName = "trading_card.png";
-        if (viewModel.getAnimalName() != null) {
-            defaultName = viewModel.getAnimalName().replace(" ", "_") + "_card.png";
-        }
-        chooser.setSelectedFile(new File(defaultName));
-
-        int result = chooser.showSaveDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File chosen = chooser.getSelectedFile();
+        if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             try {
-                javax.imageio.ImageIO.write(viewModel.getImage(), "png", chosen);
-                JOptionPane.showMessageDialog(this, "Card saved!");
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error saving card: " + e.getMessage());
+                ImageIO.write(viewModel.getImage(), "png", chooser.getSelectedFile());
+                JOptionPane.showMessageDialog(this, "Saved!");
+            }
+            catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
             }
         }
     }

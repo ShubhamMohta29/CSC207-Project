@@ -1,7 +1,8 @@
 package Classes.GenerateTradingCard;
 
-import Classes.Animal;
 import java.awt.image.BufferedImage;
+
+import Classes.Animal;
 
 public class GenerateTradingCardResponseModel {
 
@@ -21,3 +22,4 @@ public class GenerateTradingCardResponseModel {
         return animal;
     }
 }
+

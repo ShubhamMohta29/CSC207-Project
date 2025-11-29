@@ -4,7 +4,7 @@ public class TradingCardPresenter implements GenerateTradingCardOutputBoundary {
 
     @Override
     public TradingCardViewModel prepareSuccessView(GenerateTradingCardResponseModel response) {
-        TradingCardViewModel vm = new TradingCardViewModel();
+        final TradingCardViewModel vm = new TradingCardViewModel();
         vm.setImage(response.getImage());
         vm.setAnimalName(response.getAnimal().getName());
         return vm;
