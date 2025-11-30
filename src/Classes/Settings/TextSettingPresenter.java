@@ -1,8 +1,10 @@
 package Classes.Settings;
 
+import static Classes.Settings.SettingConstants.*;
+
 import java.awt.Color;
 
-import static Classes.Settings.SettingConstants.*;
+
 
 /**
  * Presenter for {@link TextSettingOutput} that implements {@link TextSettingOutputBoundary}.

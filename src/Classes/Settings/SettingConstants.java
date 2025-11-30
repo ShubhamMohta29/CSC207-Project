@@ -18,6 +18,7 @@ public final class SettingConstants {
     public static final int FONT_SIZE_FOUR = 16;
     public static final int FONT_SIZE_FIVE = 17;
     public static final int HEADING_FONT_SIZE = 36;
+
     public static final int ONE = 1;
     public static final int TWO = 2;
     public static final int FOUR = 4;
