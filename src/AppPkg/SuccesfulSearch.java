@@ -11,10 +11,11 @@ import Classes.add_favorite.FileFavoritesDataAccessObject;
 
 import java.awt.*;
 
+import static Classes.Settings.SettingConstants.DEFAULT_SETTINGS_FILE;
+
 public class SuccesfulSearch extends javax.swing.JFrame
 {
-    private final TextSettingInteractor config = new TextSettingInteractor("settings.csv");
-    private final TextSettingOutput textSettingOutput = new TextSettingOutput(config);
+    private final UIManager config = new UIManager(DEFAULT_SETTINGS_FILE);
     private Animal animal;
 
     public SuccesfulSearch(Animal animal)
@@ -158,7 +159,7 @@ public class SuccesfulSearch extends javax.swing.JFrame
     }
 
     private void updateLabelStyle(){
-        textSettingOutput.updateAll(this);
+        config.updateALL(this);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

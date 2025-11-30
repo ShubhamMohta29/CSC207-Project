@@ -1,67 +1,65 @@
 package Classes.Settings;
 
-import Classes.Settings.UIStrategy.StrategyMap;
-import Classes.Settings.UIStrategy.UIStyleStrategy;
+import java.awt.Color;
 
-import javax.swing.*;
-import java.awt.*;
-
+/**
+ * Output model representing processed text settings for display.
+ * Stores color, font name, and font size.
+ */
 public class TextSettingOutput {
-    private final TextSettingInteractor config;
-    private StrategyMap strategies;
 
-    public TextSettingOutput(TextSettingInteractor config) {
-        this.config = config;
-        this.strategies = new StrategyMap();
+    /**
+     * The text color.
+     */
+    private final Color color;
 
+    /**
+     * The font name.
+     */
+    private final String font;
+
+    /**
+     * The text size in points.
+     */
+    private final int size;
+
+    /**
+     * Constructs a TextSettingOutput with the given color, font, and size.
+     *
+     * @param color the text color
+     * @param font  the font name
+     * @param size  the font size
+     */
+    public TextSettingOutput(Color color, String font, int size) {
+        this.color = color;
+        this.font = font;
+        this.size = size;
     }
 
     /**
-     * Updates the style of *all* JComponents in the given frame
-     * based on the provided color, size, and font style.
+     * Returns the text color.
+     *
+     * @return the color
      */
-
-    public void updateAll(JFrame frame) {
-        Color fg = config.getColor();
-        Font font = config.getStyle();
-
-        updateComponentsRecursively(frame.getContentPane(), fg, font);
-
-        frame.revalidate();
-        frame.pack();
-    }
-
-    public void updateALL(JDialog dialog) {
-        Color fg = config.getColor();
-        Font font = config.getStyle();
-
-        updateComponentsRecursively(dialog.getContentPane(), fg, font);
-        dialog.revalidate();
-        dialog.pack();
-    }
-
-    public void updateALL(Window window) {
-        Color fg = config.getColor();
-        Font font = config.getStyle();
-
-        updateComponentsRecursively(window, fg, font);
-        window.revalidate();
-        window.pack();
+    public Color getColor() {
+        return color;
     }
 
     /**
-     * Recursively traverses through all components in a container
-     * and applies the given color and font.
+     * Returns the font name.
+     *
+     * @return the font
      */
-    private void updateComponentsRecursively(Container container, Color c, Font font) {
-        for (Component comp : container.getComponents()) {
+    public String getFont() {
+        return font;
+    }
 
-            UIStyleStrategy strategy = this.strategies.getStrategy(comp.getClass());
-            strategy.apply(comp, c, font);
-
-            if (comp instanceof Container) {
-                updateComponentsRecursively((Container) comp, c, font);
-            }
-        }
+    /**
+     * Returns the text size.
+     *
+     * @return the size
+     */
+    public int getSize() {
+        return size;
     }
 }

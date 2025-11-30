@@ -13,11 +13,11 @@ import org.json.JSONObject;
 
 import java.awt.*;
 
-public class MainMenu extends javax.swing.JFrame
-{
-    private final TextSettingInteractor config = new TextSettingInteractor("settings.csv");
-    private final TextSettingOutput textSettingOutput = new TextSettingOutput(config);
+import static Classes.Settings.SettingConstants.*;
 
+public class  MainMenu extends javax.swing.JFrame
+{
+    private final UIManager config = new UIManager(DEFAULT_SETTINGS_FILE);
     private APIClass api = new APIClass();
     private FuzzySearchProvider fuzzyProvider = new AnimalFuzzySearch();
 
@@ -218,6 +218,7 @@ public class MainMenu extends javax.swing.JFrame
             new MultiSuccesfulSearch(res.animals).setVisible(true);
             this.dispose();
         }
+
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnFilterActionPerformed
@@ -240,13 +241,9 @@ public class MainMenu extends javax.swing.JFrame
     }//GEN-LAST:event_btnFavoritesActionPerformed
 
     private void updateLabelStyle(){
-        textSettingOutput.updateAll(this);
+        config.updateALL(this);
         lblGreeting1.setFont(
-                new Font(
-                        config.getStyleName(),
-                        0,
-                        36
-                ));
+                new Font(config.getFont().getName(), DEFAULT_STYLE, HEADING_FONT_SIZE));
     }
 
     public static void main(String args[])

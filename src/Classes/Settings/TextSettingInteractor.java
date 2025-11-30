@@ -1,58 +1,77 @@
 package Classes.Settings;
-import java.awt.*;
 
+import java.awt.Color;
+
+import static Classes.Settings.SettingConstants.*;
+
+/**
+ * Interactor implementing {@link TextSettingInputBoundary}.
+ * Handles business logic for editing and retrieving text settings.
+ */
 public class TextSettingInteractor implements TextSettingInputBoundary {
 
-    private final TextSettingDataAccess settingFetcher;
-    private TextSetting configuration;
+    /**
+     * Data access object for loading and saving text settings.
+     */
+    private final TextSettingGateway settingFetcher;
 
+    /**
+     * The current text setting configuration.
+     */
+    private final TextSetting config;
+
+    /**
+     * Creates a new interactor with the specified settings file path.
+     *
+     * @param filePath path to the settings file
+     */
     public TextSettingInteractor(String filePath) {
         this.settingFetcher = new TextSettingDataAccess(filePath);
-        this.configuration = settingFetcher.load();
+        this.config = settingFetcher.load();
     }
 
+    /**
+     * Updates text settings based on the input request.
+     * Maps color and size inputs to predefined constants, updates the config,
+     * saves it, and refreshes the presenter.
+     *
+     * @param request the {@link TextSettingInput} containing new values
+     */
     @Override
-    public void editSettings(TextSettingRequest request) {
-
-        // Color mapping
-        switch (request.color.toLowerCase()) {
-            case "purple" -> configuration.setTextColor(new Color(70, 20, 124));
-            case "blue" -> configuration.setTextColor(new Color(0, 81, 161));
-            case "green" -> configuration.setTextColor(new Color(28, 101, 3));
-            default -> configuration.setTextColor(Color.BLACK);
-        }
-
-        // Size mapping
-        int finalSize = switch (request.size) {
-            case 1 -> 13;
-            case 2 -> 14;
-            case 4 -> 16;
-            case 5 -> 17;
-            default -> 15;
+    public void editSettings(TextSettingInput request) {
+        Color finalColor = switch (request.getColor().toLowerCase()) {
+            case NAME_PURPLE -> PURPLE;
+            case NAME_BLUE -> BLUE;
+            case NAME_GREEN -> GREEN;
+            default -> DEFAULT_COLOR;
         };
-        configuration.setTextSize(finalSize);
 
-        // Style (font name)
-        configuration.setTextStyle(request.style);
+        int finalSize = switch (request.getSize()) {
+            case 1 -> FONT_SIZE_ONE;
+            case 2 -> FONT_SIZE_TWO;
+            case 4 -> FONT_SIZE_FOUR;
+            case 5 -> FONT_SIZE_FIVE;
+            default -> DEFAULT_FONT_SIZE;
+        };
 
-        // Save changes
-        settingFetcher.save(configuration);
+        config.setTextColor(finalColor);
+        config.setTextSize(finalSize);
+        config.setFontName(request.getStyle());
+
+        settingFetcher.save(config);
     }
 
-    // Optional getters if needed by presenter or UI
-    public Color getColor() {
-        return configuration.getTextColor();
+
+    public Color getTextColor() {
+        return config.getTextColor();
     }
 
-    public int getSize() {
-        return configuration.getTextSize();
+    public String getFontName() {
+        return config.getFontName();
     }
 
-    public String getStyleName() {
-        return configuration.getFontName();
+    public int getTextSize() {
+        return config.getTextSize();
     }
 
-    public Font getStyle() {
-        return configuration.getFont();
-    }
 }

@@ -1,4 +1,4 @@
-package Classes.Settings.UIStrategy;
+package AppPkg.UIStrategy;
 
 import javax.swing.*;
 import java.awt.*;
