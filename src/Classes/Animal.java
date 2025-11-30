@@ -3,15 +3,18 @@ package Classes;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
-//Important Fields
-public class Animal {
+/**
+ * Represents an animal with various characteristics.
+ * Parses animal data from JSON format.
+ */
+public final class Animal {
+    private final AnimalConverter conv = new AnimalConverter();
     private String name;
     private java.util.Map<String, String> taxonomy;
     private String habitat;
     private String[] location;
     private String[] prey;
-    private String mostDistinctiveFeature; // or slogan
+    private String mostDistinctiveFeature;
     private double lifespan;
     private String diet;
     private String lifestyle;
@@ -19,29 +22,33 @@ public class Animal {
     private double height;
     private String group;
     private String type;
-    private final AnimalConverter conv = new AnimalConverter();
 
-    public Animal(String s){
-        //adding a null/empty check
-        if (s == null || s.trim().isEmpty() || s.equals("[]")) {
-            throw new IllegalArgumentException("Cannot create Animal from null, empty, or empty array string");
+    /**
+     * Constructs an Animal from JSON string data.
+     *
+     * @param str the JSON string containing animal data
+     */
+    public Animal(final String str) {
+        if (str == null || str.trim().isEmpty() || "[]".equals(str)) {
+            throw new IllegalArgumentException(
+                    "Cannot create Animal from null, empty, or empty array string");
         }
-        //Remove this comement
-        JSONArray obj = new JSONArray(s);
-        JSONObject animal = obj.optJSONObject(0);
-        JSONObject characteristics = animal.optJSONObject("characteristics");
-        setName(animal.optString("name"));
-        JSONObject taxonomyObj = animal.optJSONObject("taxonomy");
 
-        java.util.Map<String, String> taxonomyMap = new java.util.HashMap<>();
-        for (String key : taxonomyObj.keySet()) {
+        final JSONArray obj = new JSONArray(str);
+        final JSONObject animal = obj.optJSONObject(0);
+        final JSONObject characteristics = animal.optJSONObject("characteristics");
+        setName(animal.optString("name"));
+        final JSONObject taxonomyObj = animal.optJSONObject("taxonomy");
+
+        final java.util.Map<String, String> taxonomyMap = new java.util.HashMap<>();
+        for (final String key : taxonomyObj.keySet()) {
             taxonomyMap.put(key, taxonomyObj.optString(key));
         }
         setTaxonomy(taxonomyMap);
         setHabitat(characteristics.optString("habitat"));
 
-        JSONArray locations = animal.optJSONArray("locations");
-        String[] tempLoc = new String[locations.length()];
+        final JSONArray locations = animal.optJSONArray("locations");
+        final String[] tempLoc = new String[locations.length()];
         for (int i = 0; i < locations.length(); i++) {
             tempLoc[i] = locations.get(i).toString();
         }
@@ -59,7 +66,7 @@ public class Animal {
             }
             setHeight(characteristics.optString("length"));
         }
-        else{
+        else {
             setHeight(characteristics.optString("height"));
         }
         setGroup(characteristics.optString("group"));
@@ -70,46 +77,53 @@ public class Animal {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
-
 
     public String[] getLocation() {
         return location;
     }
 
-    public void setLocation(String[] location) {
+    public void setLocation(final String[] location) {
         this.location = location;
     }
 
-//    public java.util.Map<String, String> getTaxonomy() {
-//        return taxonomy;
-//    }
-
+    /**
+     * Gets the taxonomy information as a formatted string.
+     *
+     * @return formatted taxonomy string
+     */
     public String getTaxonomy() {
-        String kingdom = taxonomy.getOrDefault("kingdom", "Unknown");
-        String phylum = taxonomy.getOrDefault("phylum", "Unknown");
-        String clazz = taxonomy.getOrDefault("class", "Unknown");
-        String order = taxonomy.getOrDefault("order", "Unknown");
-        String family = taxonomy.getOrDefault("family", "Unknown");
-        String genus = taxonomy.getOrDefault("genus", "Unknown");
-        String scientificName = taxonomy.getOrDefault("scientific_name", "Unknown");
+        final String unknown = "Unknown";
+        final String comma = ", ";
+        final String kingdom = taxonomy.getOrDefault("kingdom", unknown);
+        final String phylum = taxonomy.getOrDefault("phylum", unknown);
+        final String clazz = taxonomy.getOrDefault("class", unknown);
+        final String order = taxonomy.getOrDefault("order", unknown);
+        final String family = taxonomy.getOrDefault("family", unknown);
+        final String genus = taxonomy.getOrDefault("genus", unknown);
+        final String scientificName = taxonomy.getOrDefault("scientific_name", unknown);
 
-        return  "Kingdom: " + kingdom + ", "
-                + "Phylum: " + phylum + ", "
-                + "Class: " + clazz + ", "
-                + "Order: " + order + ", "
-                + "Family: " + family + ", "
-                + "Genus: " + genus + ", "
+        return "Kingdom: " + kingdom + comma
+                + "Phylum: " + phylum + comma
+                + "Class: " + clazz + comma
+                + "Order: " + order + comma
+                + "Family: " + family + comma
+                + "Genus: " + genus + comma
                 + "Scientific Name: " + scientificName;
     }
 
+    /**
+     * Gets the scientific name from taxonomy.
+     *
+     * @return the scientific name
+     */
     public String getScientificName() {
         return taxonomy.getOrDefault("scientific_name", "Unknown");
     }
 
-    public void setTaxonomy(java.util.Map<String, String> taxonomy) {
+    public void setTaxonomy(final java.util.Map<String, String> taxonomy) {
         this.taxonomy = taxonomy;
     }
 
@@ -117,7 +131,7 @@ public class Animal {
         return habitat;
     }
 
-    public void setHabitat(String habitat) {
+    public void setHabitat(final String habitat) {
         this.habitat = habitat;
     }
 
@@ -125,9 +139,13 @@ public class Animal {
         return prey;
     }
 
-
-    public void setPrey(String preyString) {
-        String[] parts = preyString.split(",\\s*");
+    /**
+     * Sets the prey from a comma-separated string.
+     *
+     * @param preyString comma-separated prey types
+     */
+    public void setPrey(final String preyString) {
+        final String[] parts = preyString.split(",\\s*");
         this.prey = parts;
     }
 
@@ -135,7 +153,7 @@ public class Animal {
         return mostDistinctiveFeature;
     }
 
-    public void setMostDistinctiveFeature(String mostDistinctiveFeature) {
+    public void setMostDistinctiveFeature(final String mostDistinctiveFeature) {
         this.mostDistinctiveFeature = mostDistinctiveFeature;
     }
 
@@ -143,7 +161,7 @@ public class Animal {
         return lifespan;
     }
 
-    public void setLifespan(String lifespan) {
+    public void setLifespan(final String lifespan) {
         this.lifespan = conv.parseAverageLifespanYears(lifespan);
     }
 
@@ -151,7 +169,7 @@ public class Animal {
         return diet;
     }
 
-    public void setDiet(String diet) {
+    public void setDiet(final String diet) {
         this.diet = diet;
     }
 
@@ -159,7 +177,7 @@ public class Animal {
         return lifestyle;
     }
 
-    public void setLifestyle(String lifestyle) {
+    public void setLifestyle(final String lifestyle) {
         this.lifestyle = lifestyle;
     }
 
@@ -167,7 +185,7 @@ public class Animal {
         return weight;
     }
 
-    public void setWeight(String weight) {
+    public void setWeight(final String weight) {
         this.weight = conv.parseAverageWeightKg(weight);
     }
 
@@ -175,7 +193,7 @@ public class Animal {
         return height;
     }
 
-    public void setHeight(String height) {
+    public void setHeight(final String height) {
         this.height = conv.parseAverageHeightCm(height);
     }
 
@@ -183,15 +201,15 @@ public class Animal {
         return group;
     }
 
-    public void setGroup(String group) {
+    public void setGroup(final String group) {
         this.group = group;
     }
 
-    public void setType(String type){
+    public void setType(final String type) {
         this.type = type;
     }
 
-    public String getType(){
+    public String getType() {
         return this.type;
     }
 
@@ -210,9 +228,9 @@ public class Animal {
                 + "Group: " + getGroup();
     }
 
-    private String convertedToString(String[] preys) {
+    private String convertedToString(final String[] preys) {
         String out = "";
-        for (String x : preys) {
+        for (final String x : preys) {
             out += x + ", ";
         }
         out.trim();
