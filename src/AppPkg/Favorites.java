@@ -117,7 +117,9 @@ public class Favorites extends javax.swing.JFrame
                 animalName = animalName.replace(" ", "%20");
             }
             APIClass apiClass = new APIClass();
-            Animal animal = factory.fromJsonArrayString(animalName);
+            String jsonResponse = apiClass.getAnimalData(animalName);
+
+            Animal animal = factory.fromJsonArrayString(jsonResponse);
             new SuccesfulSearch(animal).setVisible(true);
             this.dispose();
         }
