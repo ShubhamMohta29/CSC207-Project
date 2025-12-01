@@ -1,17 +1,24 @@
 package Classes.ViewSavedCards;
 
+import Classes.retrieveInfo.Animal;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class LoadSavedCardsResponseModel {
-    private final List<String> cardNames;
-    private final List<BufferedImage> cardImages;
 
-    public LoadSavedCardsResponseModel(List<String> names, List<BufferedImage> images) {
-        this.cardNames = names;
-        this.cardImages = images;
+    private final List<Animal> animals;
+    private final List<BufferedImage> images;
+
+    public LoadSavedCardsResponseModel(List<Animal> animals, List<BufferedImage> images) {
+        this.animals = animals;
+        this.images  = images;
     }
 
-    public List<String> getCardNames() { return cardNames; }
-    public List<BufferedImage> getCardImages() { return cardImages; }
+    public List<Animal> getAnimals() {
+        return animals;
+    }
+
+    public List<BufferedImage> getImages() {
+        return images;
+    }
 }
