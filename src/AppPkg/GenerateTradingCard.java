@@ -13,9 +13,10 @@ import Classes.retrieveInfo.Animal;
 import Classes.GenerateTradingCard.CardAppearanceConstants;
 import Classes.GenerateTradingCard.TradingCardService;
 import Classes.GenerateTradingCard.TradingCardViewModel;
+import Classes.SaveCard.*;
 
 /**
- * UI window for viewing and exporting a generated trading card.
+ * UI window for viewing, saving, and downloading a generated trading card.
  */
 public class GenerateTradingCard extends JFrame {
 
@@ -23,9 +24,7 @@ public class GenerateTradingCard extends JFrame {
     private final JFrame previousScreen;
 
     /**
-     * Opens trading card window with return navigation enabled.
-     * @param animal whose card is generated
-     * @param previousScreen screen to return to when clicking back
+     * Opens trading card window with action buttons at the bottom.
      */
     public GenerateTradingCard(final Animal animal, final JFrame previousScreen) {
         this.previousScreen = previousScreen;
@@ -33,17 +32,12 @@ public class GenerateTradingCard extends JFrame {
         buildUi();
     }
 
-    /**
-     * Opens trading card window without previous screen link.
-     * @param animal whose card is generated
-     */
+    /** Opens card window without return screen link. */
     public GenerateTradingCard(final Animal animal) {
         this(animal, null);
     }
 
-    /**
-     * Builds UI with TradingCardPanel callback-wired buttons.
-     */
+    /** UI: image + buttons (Back, Download, Save Card). */
     private void buildUi() {
         setTitle("Trading Card");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -51,44 +45,48 @@ public class GenerateTradingCard extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        final TradingCardPanel panel = new TradingCardPanel(
+        add(new TradingCardPanel(
                 viewModel,
                 this::goBack,
-                this::saveImage
-        );
+                this::saveImage,
+                this::saveCard
+        ), BorderLayout.CENTER);
 
-        add(panel, BorderLayout.CENTER);
         setVisible(true);
     }
 
-    /**
-     * Navigate back to previous window or Home.
-     */
+    /** Return to previous screen. */
     private void goBack() {
-        if (previousScreen != null) {
-            previousScreen.setVisible(true);
-        }
-        else {
-            new MainMenu().setVisible(true);
-        }
+        if (previousScreen != null) previousScreen.setVisible(true);
+        else new MainMenu().setVisible(true);
         dispose();
     }
 
-    /**
-     * Writes generated PNG to user-selected path.
-     */
+    /** Write PNG to a location of user's choice. */
     private void saveImage() {
-        final JFileChooser chooser = new JFileChooser();
+        JFileChooser chooser = new JFileChooser();
         chooser.setSelectedFile(new File(viewModel.getAnimalName().replace(" ", "_") + "_card.png"));
 
         if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             try {
                 ImageIO.write(viewModel.getImage(), "png", chooser.getSelectedFile());
-                JOptionPane.showMessageDialog(this, "Saved!");
-            }
-            catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Downloaded!");
+            } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
             }
         }
+    }
+
+    /** Saves card internally using SaveCard use case. */
+    private void saveCard() {
+        SaveCardController controller = new SaveCardController(
+                new SaveCardInteractor(
+                        new FileSystemCardDataAccess(),
+                        new SaveCardPresenter()
+                )
+        );
+
+        controller.save(viewModel.getAnimalName(), viewModel.getImage());
+        JOptionPane.showMessageDialog(this, "Card saved to library!");
     }
 }
