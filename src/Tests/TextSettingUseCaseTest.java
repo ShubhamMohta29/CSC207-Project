@@ -24,12 +24,12 @@ public class TextSettingUseCaseTest {
         data.save(new TextSetting(12, Color.BLACK,"Arial" ));
     }
 
+    /**
+     * Tests full main flow:
+     * Controller.updateSettings(...) → saved → UIManager.updateALL(...)
+     */
     @Test
     void testMainFlow_TextSettingsAppliedToFrame() {
-        /**
-         * Tests full main flow:
-         * Controller.updateSettings(...) → saved → UIManager.updateALL(...)
-         */
 
         TextSettingController controller = new TextSettingController("TestSettings.csv");
         UIManager uiManager = new UIManager("TestSettings.csv");

@@ -32,9 +32,7 @@ public class TextSettingInput {
      * @param style the font name or style
      */
     public TextSettingInput(String color, int size, String style) {
-        if (color == null || size == 0 || style == null) {
-            return;
-        }
+
         this.color = color;
         this.size = size;
         this.style = style;

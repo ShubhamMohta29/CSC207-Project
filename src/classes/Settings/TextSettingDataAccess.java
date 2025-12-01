@@ -84,8 +84,8 @@ public class TextSettingDataAccess implements TextSettingGateway {
                     setting.getTextColor().getBlue(),
                     setting.getFontName()));
         }
-        catch (IOException e) {
-            System.err.println(FAILED_TO_SAVE + e.getMessage());
+        catch (IOException ex) {
+            System.err.println(FAILED_TO_SAVE + ex.getMessage());
         }
     }
 

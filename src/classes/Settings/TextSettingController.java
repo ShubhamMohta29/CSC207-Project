@@ -51,12 +51,6 @@ public class TextSettingController {
                 config.getTextSize()
         );
 
-        presenter.updateUI(output);
-
-        return new ViewModel(
-                presenter.getColor(),
-                presenter.getFont(),
-                presenter.getSize()
-        );
+        return presenter.updateView(output);
     }
 }

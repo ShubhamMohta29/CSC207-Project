@@ -29,5 +29,10 @@ public interface TextSettingOutputBoundary {
      */
     String getFont();
 
-    void updateUI(TextSettingOutput output);
+    /**
+     * Returns the view model.
+     * @param output ViewModel for UI manager
+     * @return ViewModel
+     */
+    ViewModel updateView(TextSettingOutput output);
 }

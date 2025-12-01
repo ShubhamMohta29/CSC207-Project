@@ -4,6 +4,8 @@ import java.awt.Color;
 
 import static classes.Settings.SettingConstants.*;
 
+import java.awt.Color;
+
 /**
  * Interactor implementing {@link TextSettingInputBoundary}.
  * Handles business logic for editing and retrieving text settings.
@@ -23,7 +25,7 @@ public class TextSettingInteractor implements TextSettingInputBoundary {
     /**
      * Creates a new interactor with the specified settings file path.
      *
-     * @param filePath path to the settings file
+     * @param filePath the path to the settings file
      */
     public TextSettingInteractor(String filePath) {
         this.settingFetcher = new TextSettingDataAccess(filePath);
@@ -31,11 +33,17 @@ public class TextSettingInteractor implements TextSettingInputBoundary {
     }
 
     /**
-     * Updates text settings based on the input request.
-     * Maps color and size inputs to predefined constants, updates the config,
-     * saves it, and refreshes the presenter.
+     * Updates the current text settings based on the provided request model.
      *
-     * @param request the {@link TextSettingInput} containing new values
+     * <p>This method:
+     * <ul>
+     *     <li>Maps color names to predefined color constants</li>
+     *     <li>Maps size constants to actual font size values</li>
+     *     <li>Updates the in-memory {@link TextSetting} configuration</li>
+     *     <li>Saves the updated configuration using the gateway</li>
+     * </ul>
+     *
+     * @param request a {@link TextSettingInput} containing the new text settings
      */
     @Override
     public void editSettings(TextSettingInput request) {
@@ -47,10 +55,10 @@ public class TextSettingInteractor implements TextSettingInputBoundary {
         };
 
         int finalSize = switch (request.getSize()) {
-            case 1 -> FONT_SIZE_ONE;
-            case 2 -> FONT_SIZE_TWO;
-            case 4 -> FONT_SIZE_FOUR;
-            case 5 -> FONT_SIZE_FIVE;
+            case ONE -> FONT_SIZE_ONE;
+            case TWO -> FONT_SIZE_TWO;
+            case FOUR -> FONT_SIZE_FOUR;
+            case FIVE -> FONT_SIZE_FIVE;
             default -> DEFAULT_FONT_SIZE;
         };
 
@@ -61,15 +69,29 @@ public class TextSettingInteractor implements TextSettingInputBoundary {
         settingFetcher.save(config);
     }
 
-
+    /**
+     * Returns the current text color.
+     *
+     * @return the configured {@link Color}
+     */
     public Color getTextColor() {
         return config.getTextColor();
     }
 
+    /**
+     * Returns the currently configured font name.
+     *
+     * @return a {@link String} representing the font name
+     */
     public String getFontName() {
         return config.getFontName();
     }
 
+    /**
+     * Returns the current text size.
+     *
+     * @return the numeric font size
+     */
     public int getTextSize() {
         return config.getTextSize();
     }

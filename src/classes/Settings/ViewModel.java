@@ -1,9 +1,9 @@
 package classes.Settings;
 
+import static classes.Settings.SettingConstants.DEFAULT_STYLE;
+
 import java.awt.Color;
 import java.awt.Font;
-
-import static classes.Settings.SettingConstants.DEFAULT_STYLE;
 
 /**
  * View model representing text settings for display in the UI.

@@ -4,6 +4,8 @@ import java.awt.Color;
 
 import static classes.Settings.SettingConstants.*;
 
+import java.awt.Color;
+
 /**
  * Presenter for {@link TextSettingOutput} that implements {@link TextSettingOutputBoundary}.
  * Provides access to display-ready text settings: color, font, and size.
@@ -11,22 +13,23 @@ import static classes.Settings.SettingConstants.*;
 public class TextSettingPresenter implements TextSettingOutputBoundary {
 
     /**
-     * The text color.
+     * The text color currently prepared for display.
      */
     private Color fg;
 
     /**
-     * The font name.
+     * The font name currently prepared for display.
      */
     private String font;
 
     /**
-     * The text size in points.
+     * The text size currently prepared for display.
      */
     private int size;
 
     /**
-     * Constructs a presenter using the given output configuration.
+     * Constructs a presenter initialized with default text settings.
+     * These default values match the application's defined fallback settings.
      */
     TextSettingPresenter() {
         this.fg = DEFAULT_COLOR;
@@ -34,16 +37,32 @@ public class TextSettingPresenter implements TextSettingOutputBoundary {
         this.size = DEFAULT_FONT_SIZE;
     }
 
-    public void updateUI(TextSettingOutput output) {
+    /**
+     * Updates the presenter with new output data and returns a view model containing
+     * the UI-ready values.
+     *
+     * <p>This method:
+     * <ul>
+     *     <li>Extracts color, font, and size from the {@link TextSettingOutput}</li>
+     *     <li>Updates the presenter’s internal state</li>
+     *     <li>Creates and returns a new {@link ViewModel} for UI rendering</li>
+     * </ul>
+     *
+     * @param output the output data from the interactor containing updated text settings
+     * @return a {@link ViewModel} containing display-ready values
+     */
+    public ViewModel updateView(TextSettingOutput output) {
         this.fg = output.getColor();
         this.font = output.getFont();
         this.size = output.getSize();
+
+        return new ViewModel(fg, font, size);
     }
 
     /**
-     * Returns the text color.
+     * Returns the currently stored text color.
      *
-     * @return the color
+     * @return the text color prepared by the presenter
      */
     @Override
     public Color getColor() {
@@ -51,9 +70,9 @@ public class TextSettingPresenter implements TextSettingOutputBoundary {
     }
 
     /**
-     * Returns the font name.
+     * Returns the currently stored font name.
      *
-     * @return the font
+     * @return the font name prepared by the presenter
      */
     @Override
     public String getFont() {
@@ -61,9 +80,9 @@ public class TextSettingPresenter implements TextSettingOutputBoundary {
     }
 
     /**
-     * Returns the text size.
+     * Returns the currently stored font size.
      *
-     * @return the size
+     * @return the text size prepared by the presenter
      */
     @Override
     public int getSize() {

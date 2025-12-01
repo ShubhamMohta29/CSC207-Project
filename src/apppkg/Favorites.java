@@ -138,7 +138,6 @@ public class Favorites extends javax.swing.JFrame
         }
     }
 
-
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {
         final AddFavoriteInputBoundary addFavoriteInteractor = new AddFavoriteInteractor(favoritesDataAccessObject);
         AddFavoriteController addFavoriteController = new AddFavoriteController(addFavoriteInteractor);
