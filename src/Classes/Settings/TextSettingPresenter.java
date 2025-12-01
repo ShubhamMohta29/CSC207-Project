@@ -1,7 +1,5 @@
 package Classes.Settings;
 
-import static Classes.Settings.SettingConstants.*;
-
 import java.awt.Color;
 
 /**
@@ -29,9 +27,9 @@ public class TextSettingPresenter implements TextSettingOutputBoundary {
      * These default values match the application's defined fallback settings.
      */
     TextSettingPresenter() {
-        this.fg = DEFAULT_COLOR;
-        this.font = DEFAULT_FONT_NAME;
-        this.size = DEFAULT_FONT_SIZE;
+        this.fg = SettingConstants.DEFAULT_COLOR;
+        this.font = SettingConstants.DEFAULT_FONT_NAME;
+        this.size = SettingConstants.DEFAULT_FONT_SIZE;
     }
 
     /**

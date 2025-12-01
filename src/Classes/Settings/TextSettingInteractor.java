@@ -1,7 +1,5 @@
 package Classes.Settings;
 
-import static Classes.Settings.SettingConstants.*;
-
 import java.awt.Color;
 
 /**
@@ -39,18 +37,18 @@ public class TextSettingInteractor implements TextSettingInputBoundary {
     @Override
     public void editSettings(TextSettingInput request) {
         Color finalColor = switch (request.getColor().toLowerCase()) {
-            case NAME_PURPLE -> PURPLE;
-            case NAME_BLUE -> BLUE;
-            case NAME_GREEN -> GREEN;
-            default -> DEFAULT_COLOR;
+            case SettingConstants.NAME_PURPLE -> SettingConstants.PURPLE;
+            case SettingConstants.NAME_BLUE -> SettingConstants.BLUE;
+            case SettingConstants.NAME_GREEN -> SettingConstants.GREEN;
+            default -> SettingConstants.DEFAULT_COLOR;
         };
 
         int finalSize = switch (request.getSize()) {
-            case ONE -> FONT_SIZE_ONE;
-            case TWO -> FONT_SIZE_TWO;
-            case FOUR -> FONT_SIZE_FOUR;
-            case FIVE -> FONT_SIZE_FIVE;
-            default -> DEFAULT_FONT_SIZE;
+            case SettingConstants.ONE -> SettingConstants.FONT_SIZE_ONE;
+            case SettingConstants.TWO -> SettingConstants.FONT_SIZE_TWO;
+            case SettingConstants.FOUR -> SettingConstants.FONT_SIZE_FOUR;
+            case SettingConstants.FIVE -> SettingConstants.FONT_SIZE_FIVE;
+            default -> SettingConstants.DEFAULT_FONT_SIZE;
         };
 
         config.setTextColor(finalColor);

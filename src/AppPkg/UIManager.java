@@ -16,46 +16,69 @@ public class UIManager {
     private Font font;
 
     /**
-     * UIChanger now builds:
-     * - Controller
-     * - Presenter
-     * - ViewModel
-     * internally from the filePath.
+     * UIManager builds the controller + presenter + view model using the filePath.
      */
     public UIManager(String filePath) {
 
-        // Build the controller
+        // Build controller to load stored settings
         TextSettingController controller = new TextSettingController(filePath);
-
         ViewModel viewModel = controller.getViewModel();
 
-        // Store UI-ready values
-        this.filePath= filePath;
+        // Store UI-ready settings
+        this.filePath = filePath;
         this.fg = viewModel.getColor();
         this.font = viewModel.getFont();
+
         this.strategies = new StrategyMap();
     }
 
-    public  Font getFont(){
+    public Font getFont() {
         return font;
     }
 
+    /**
+     * Updates ALL components in this JFrame, applying new UI settings.
+     * Automatically wraps the content in a scroll panel if fonts or layout exceed space.
+     */
     public void updateALL(JFrame frame) {
-        TextSettingController controller = new TextSettingController(filePath);
 
-        // Build the ViewModel from presenter
+        // Rebuild controller + view model so we get newest settings
+        TextSettingController controller = new TextSettingController(filePath);
         ViewModel viewModel = controller.getViewModel();
 
-        // Store UI-ready values
         this.fg = viewModel.getColor();
         this.font = viewModel.getFont();
-        updateComponentsRecursively(frame.getContentPane(), fg, font);
-        frame.revalidate();
+
+        // -------------------------------
+        // NEW: install scroll pane if not installed yet
+        // -------------------------------
+        if (!(frame.getContentPane() instanceof JScrollPane)) {
+
+            Container original = frame.getContentPane();
+            JScrollPane scroll = new JScrollPane(original);
+
+            // cleaner UI
+            scroll.setBorder(null);
+            scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+            frame.setContentPane(scroll);
+        }
+
+        // Get actual content to update (inside the scroll viewport)
+        JScrollPane scrollPane = (JScrollPane) frame.getContentPane();
+        Container content = (Container) scrollPane.getViewport().getView();
+
+        // Recursively apply the new UI settings
+        updateComponentsRecursively(content, fg, font);
+
+        // Refresh UI
+        content.revalidate();
         frame.pack();
     }
 
     /**
-     * Recursively applies styling to all components.
+     * Recursively applies fonts + colors using strategy map.
      */
     private void updateComponentsRecursively(Container container, Color c, Font font) {
         for (Component comp : container.getComponents()) {

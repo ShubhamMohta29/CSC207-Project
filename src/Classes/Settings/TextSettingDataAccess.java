@@ -1,7 +1,5 @@
 package Classes.Settings;
 
-import static Classes.Settings.SettingConstants.*;
-
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -40,7 +38,7 @@ public class TextSettingDataAccess implements TextSettingGateway {
         File file = new File(filePath);
 
         if (!file.exists()) {
-            System.out.println(FILE_NOT_FOUND);
+            System.out.println(SettingConstants.FILE_NOT_FOUND);
             TextSetting defaultSetting = getDefaultSetting();
             save(defaultSetting);
             return defaultSetting;
@@ -64,7 +62,7 @@ public class TextSettingDataAccess implements TextSettingGateway {
             return new TextSetting(size, new Color(r, g, b), fontName);
         }
         catch (IOException | NumberFormatException exception) {
-            System.err.println(FAILED_TO_LOAD + exception.getMessage());
+            System.err.println(SettingConstants.FAILED_TO_LOAD + exception.getMessage());
             return getDefaultSetting();
         }
     }
@@ -76,8 +74,8 @@ public class TextSettingDataAccess implements TextSettingGateway {
      */
     public void save(TextSetting setting) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            bw.write(SAVE_SETTING_HEADER_REGEX);
-            bw.write(String.format(SAVE_SETTING_INFO_FORMAT,
+            bw.write(SettingConstants.SAVE_SETTING_HEADER_REGEX);
+            bw.write(String.format(SettingConstants.SAVE_SETTING_INFO_FORMAT,
                     setting.getTextSize(),
                     setting.getTextColor().getRed(),
                     setting.getTextColor().getGreen(),
@@ -85,7 +83,7 @@ public class TextSettingDataAccess implements TextSettingGateway {
                     setting.getFontName()));
         }
         catch (IOException ex) {
-            System.err.println(FAILED_TO_SAVE + ex.getMessage());
+            System.err.println(SettingConstants.FAILED_TO_SAVE + ex.getMessage());
         }
     }
 
@@ -95,6 +93,10 @@ public class TextSettingDataAccess implements TextSettingGateway {
      * @return a default {@link TextSetting}
      */
     private TextSetting getDefaultSetting() {
-        return new TextSetting(DEFAULT_FONT_SIZE, ERROR_COLOR, DEFAULT_FONT_NAME);
+        return new TextSetting(
+                SettingConstants.DEFAULT_FONT_SIZE,
+                SettingConstants.ERROR_COLOR,
+                SettingConstants.DEFAULT_FONT_NAME
+        );
     }
 }

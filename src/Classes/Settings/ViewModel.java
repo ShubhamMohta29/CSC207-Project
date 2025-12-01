@@ -1,7 +1,5 @@
 package Classes.Settings;
 
-import static Classes.Settings.SettingConstants.DEFAULT_STYLE;
-
 import java.awt.Color;
 import java.awt.Font;
 
@@ -31,7 +29,7 @@ public class ViewModel {
      */
     public ViewModel(Color color, String font, int size) {
         this.color = color;
-        this.font = new Font(font, DEFAULT_STYLE, size);
+        this.font = new Font(font, SettingConstants.DEFAULT_STYLE, size);
     }
 
     /**
