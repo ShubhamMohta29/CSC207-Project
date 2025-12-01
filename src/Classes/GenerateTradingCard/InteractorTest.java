@@ -87,3 +87,5 @@ class GenerateTradingCardInteractorTest {
         assertNotNull(presenter.received.getImage());
     }
 }
+
+
