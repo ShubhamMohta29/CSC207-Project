@@ -1,33 +1,31 @@
 package Classes.Compatibility.data;
 
-import Classes.retrieveInfo.APIClass;
-import Classes.retrieveInfo.Animal;
-import Classes.retrieveInfo.AnimalFactory;
+import Classes.APIClass;
+import Classes.Animal;
 import Classes.Compatibility.usecases.AnimalDataAccessInterface;
 
+/**
+ * Data access implementation for retrieving animal data.
+ * Uses APIClass to fetch animal information.
+ */
 public class AnimalDataAccess implements AnimalDataAccessInterface {
     private final APIClass api;
-    private final AnimalFactory factory;
 
+    /**
+     * Constructs a new AnimalDataAccess with a new APIClass instance.
+     */
     public AnimalDataAccess() {
         this.api = new APIClass();
-        this.factory = new AnimalFactory();
     }
 
     @Override
-    public Animal getAnimalByName(String name) {
-        String animalData = api.getAnimalData(name);
+    public Animal getAnimalByName(final String name) {
+        final String animalData = api.getAnimalData(name);
 
-        if (animalData == null || animalData.trim().isEmpty() || animalData.equals("[]")) {
+        if (animalData == null || "[]".equals(animalData)) {
             return null;
         }
 
-        // Convert JSON from API into a proper Animal object
-        try {
-            return factory.fromJsonArrayString(animalData);
-        } catch (Exception e) {
-            // API response was not parseable or invalid → treat as no result
-            return null;
-        }
+        return new Animal(animalData);
     }
 }
