@@ -6,5 +6,9 @@ package Classes.Filter;
 
 public interface FilterOutputBoundary {
 
+    /**
+     * Command to presenter.
+     * @param output the filter output object
+     */
     void present(FilterOutput output);
 }

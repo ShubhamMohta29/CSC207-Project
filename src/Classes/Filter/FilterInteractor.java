@@ -4,218 +4,104 @@
  */
 package Classes.Filter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import Classes.Filter.FilterHelpers.*;
 import Classes.retrieveInfo.APIClass;
 import Classes.retrieveInfo.Animal;
 import Classes.retrieveInfo.AnimalFactory;
 
-import java.util.*;
-
 public class FilterInteractor implements FilterInputBoundary {
 
-    //field declarations
-    private final AnimalNamesProviderI nameProviderObj;
+    private final AnimalNamesProviderI nameProvider;
     private final FilterOutputBoundary outputBoundary;
-    private final APIClass animalProviderObj;
+    private final APIClass animalProvider;
     private final AnimalFactory factory;
+    private final CandidateCache cache;
+    private final PaginationHelper paginator;
 
-    //specifically for caching logic
-    private List<String> cachedCandidates = new ArrayList<>();
-    private FilterInput cachedInput;
-
-    /*
-    constructor
-     */
-    public FilterInteractor(AnimalNamesProviderI nameProviderObj, FilterOutputBoundary outputBoundary, APIClass
-            animalProviderObj) {
-        this.nameProviderObj = nameProviderObj;
+    public FilterInteractor(AnimalNamesProviderI nameProvider,
+                            FilterOutputBoundary outputBoundary,
+                            APIClass animalProvider,
+                            CandidateCache cache,
+                            PaginationHelper paginator) {
+        this.nameProvider = nameProvider;
         this.outputBoundary = outputBoundary;
-        this.animalProviderObj = animalProviderObj;
+        this.animalProvider = animalProvider;
+        this.cache = cache;
+        this.paginator = paginator;
         this.factory = new AnimalFactory();
     }
 
-    /*
-    Returns the list of animals provided by the LLM  --> necessary for pagination logic
-     */
-    private List<String> getCachedCandidates() {
-        if (cachedCandidates == null || cachedCandidates.isEmpty()) {
-            System.out.println("Warning: No cached candidates available");
-            return new ArrayList<>(); // Return empty list as fallback
-        }
-        return cachedCandidates;
-    }
-
-    /*
-    Helper to check if a list is null or empty
-     */
-    private boolean isEmptyOrNull(List<?> list) {
-        return list == null || list.isEmpty();
-    }
-
-    /*
-    Core business logic: filter animals
+    /**
+     * Main business logic.
+     * @param input filter request object
+     * @return the filter object output
      */
     @Override
     public FilterOutput filterAnimals(FilterInput input) {
-        List<Animal> filterResults = new ArrayList<>();
-        int pageSize = input.getPageSize();
-        System.out.println("im in the filter interactor now");
+        // Fetch candidates (either fresh or cached)
+        List<String> candidates = (input.getCursor() == null)
+                ? nameProvider.getCandidateNames(input)
+                : cache.get();
 
-        List<String> allCandidateAnimals = fetchCandidates(input);
+        if (input.getCursor() == null) cache.store(candidates, input);
 
-        if (isEmptyOrNull(allCandidateAnimals)) {
-            System.out.println("my api didn't return anything");
-            FilterOutput emptyResp = new FilterOutput(filterResults, false, null);
+        if (candidates.isEmpty()) {
+            final FilterOutput emptyResp = new FilterOutput(new ArrayList<>(), false, null);
             outputBoundary.present(emptyResp);
             return emptyResp;
         }
 
-        // Pagination calculation
-        int startIndex = getStartIndex(input);
-        System.out.println("Starting from index: " + startIndex + " of " + allCandidateAnimals.size());
+        final int startIndex = paginator.getStartIndex(input);
+        final List<Animal> results = new ArrayList<>();
+        final int processed = processCandidates(input, candidates, results, startIndex);
 
-        // Process candidates with pagination and filter
-        int buffer = 1; // small buffer to ensure we fetch enough matches
-        int candidatesProcessed = processCandidates(input, allCandidateAnimals, filterResults, pageSize, startIndex, buffer);
-
-        // Determine next cursor using pagination helper
-        PaginationInfo pageInfo = calculatePagination(input, allCandidateAnimals.size(), candidatesProcessed);
-
-        FilterOutput output = new FilterOutput(filterResults, pageInfo.hasMore, pageInfo.nextCursor);
+        final PaginationHelper.PaginationInfo pageInfo = paginator.calculatePagination(input, candidates.size(), processed);
+        FilterOutput output = new FilterOutput(results, pageInfo.hasMore, pageInfo.nextCursor);
         outputBoundary.present(output);
         return output;
     }
 
-    /*
-    Fetch candidates from LLM or cache
-     */
-    private List<String> fetchCandidates(FilterInput input) {
-        List<String> allCandidateAnimals;
-        if (input.getCursor() == null) {
-            // First call - get fresh candidates
-            allCandidateAnimals = nameProviderObj.getCandidateNames(input);
-            cachedCandidates = allCandidateAnimals;
-            cachedInput = input;
-            System.out.println("First call - Candidate animals: " + allCandidateAnimals);
-        } else {
-            // Load More call - use cached candidates
-            allCandidateAnimals = getCachedCandidates();
-            System.out.println("Load More - Using cached candidates: " + allCandidateAnimals);
-        }
-        return allCandidateAnimals;
-    }
-
-    /*
-    Calculate starting index for pagination
-     */
-    private int getStartIndex(FilterInput input) {
-        int startIndex = 0;
-        if (input.getCursor() != null) {
-            try {
-                startIndex = Integer.parseInt(input.getCursor());
-            } catch (NumberFormatException e) {
-                startIndex = 0;
-            }
-        }
-        return startIndex;
-    }
-
-    /*
-    Processes candidate strings into Animal objects, applies filters, and populates results
-     */
-    private int processCandidates(FilterInput input, List<String> allCandidateAnimals,
-                                  List<Animal> filterResults, int pageSize, int startIndex, int buffer) {
-        int targetFetchCount = pageSize + buffer;
+    private int processCandidates(FilterInput input, List<String> candidates, List<Animal> results, int startIndex) {
+        final int pageSize = input.getPageSize();
+        final int buffer = 1;
+        // small buffer to ensure enough filtered results
         int processedCount = 0;
+        // how many results matched filters
         int candidatesProcessed = 0;
+        // how many candidates we looked at
 
-        for (int i = startIndex; i < allCandidateAnimals.size() && processedCount < targetFetchCount; i++) {
-            String candidate = allCandidateAnimals.get(i);
-            System.out.println("Processing candidate #" + i + ": " + candidate);
+        // Build dynamic filter chain
+        List<AnimalFilter> filters = new ArrayList<>();
+        filters.add(new GroupFilter(input.getGroups()));
+        filters.add(new LocationFilter(input.getLocations()));
+        filters.add(new DietFilter(input.getDiets()));
+        filters.add(new LifespanFilter(input.getMinLifespan(), input.getMaxLifespan()));
+
+        for (int i = startIndex; i < candidates.size() && processedCount < pageSize + buffer; i++) {
             candidatesProcessed++;
-
-            String data = animalProviderObj.getAnimalData(candidate);
+            final String data = animalProvider.getAnimalData(candidates.get(i));
             if (data == null || data.trim().isEmpty() || data.equals("[]")) {
-                System.out.println("Skipping animal - no data returned for: " + candidate);
                 continue;
             }
 
-            System.out.println("Data received for: " + candidate);
-
             try {
-                Animal a = factory.fromJsonArrayString(data);
-                if (matchesFilters(a, input)) {
-                    System.out.println("It matched my filter: " + a.getName());
-                    filterResults.add(a);
+                final Animal a = factory.fromJsonArrayString(data);
+                final boolean match = filters.stream().allMatch(f -> f.matches(a));
+                if (match) {
+                    results.add(a);
                     processedCount++;
                 }
-            } catch (Exception e) {
-                System.out.println("Failed to create Animal from data for: " + candidate);
+            }
+            catch (Exception e) {
+                // skip invalid animal
             }
         }
 
-        System.out.println("Successfully processed " + filterResults.size() + " animals from index " + startIndex);
-        System.out.println("Candidates processed this batch: " + candidatesProcessed);
+        // return the number of candidates scanned, not the number of results
         return candidatesProcessed;
-    }
-
-    /*
-    Private method to check if each animal matches the requested filter
-     */
-    private boolean matchesFilters(Animal a, FilterInput request) {
-        // Group filter
-        if (!isEmptyOrNull(request.getGroups()) &&
-                (!request.getGroups().contains(a.getGroup()) && !request.getGroups().contains(a.getType()))) return false;
-
-        // Location filter
-        if (!isEmptyOrNull(request.getLocations())) {
-            boolean locationMatch = false;
-            for (String location : request.getLocations()) {
-                if (Arrays.asList(a.getLocation()).contains(location)) {
-                    locationMatch = true;
-                    break;
-                }
-            }
-            if (!locationMatch) return false;
-        }
-
-        // Diet filter
-        if (!isEmptyOrNull(request.getDiets()) && !request.getDiets().contains(a.getDiet())) return false;
-
-        // Lifespan filter
-        if (request.getMinLifespan() != null && a.getLifespan() < request.getMinLifespan()) return false;
-        if (request.getMaxLifespan() != null && a.getLifespan() > request.getMaxLifespan()) return false;
-
-        return true;
-    }
-
-    /*
-     * Pagination helper: calculates next cursor and whether there are more results
-     */
-    private PaginationInfo calculatePagination(FilterInput input, int totalCandidates, int fetchedCount) {
-        int startIndex = getStartIndex(input);
-        int nextIndex = startIndex + fetchedCount;
-        boolean hasMore = nextIndex < totalCandidates;
-        String nextCursor = hasMore ? String.valueOf(nextIndex) : null;
-
-        System.out.println("Pagination - startIndex: " + startIndex + ", nextIndex: " + nextIndex +
-                ", hasMore: " + hasMore + ", nextCursor: " + nextCursor);
-
-        return new PaginationInfo(startIndex, nextCursor, hasMore);
-    }
-
-    /*
-     * Simple helper DTO (data transfer object) to hold pagination info
-     */
-    private static class PaginationInfo {
-        int startIndex;
-        String nextCursor;
-        boolean hasMore;
-
-        PaginationInfo(int startIndex, String nextCursor, boolean hasMore) {
-            this.startIndex = startIndex;
-            this.nextCursor = nextCursor;
-            this.hasMore = hasMore;
-        }
     }
 
 }

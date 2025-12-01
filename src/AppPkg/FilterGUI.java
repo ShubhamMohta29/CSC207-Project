@@ -5,16 +5,15 @@
 
 package AppPkg;
 
-import Classes.Filter.FilterController;
-import Classes.Filter.FilterViewModel;
-import Classes.retrieveInfo.Animal;
-import Classes.Settings.TextSettingInteractor;
-import Classes.Settings.TextSettingOutput;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import Classes.Filter.FilterController;
+import Classes.Filter.FilterViewModel;
+import Classes.Filter.FilterConstants;
+import Classes.retrieveInfo.Animal;
 
 import static Classes.Settings.SettingConstants.DEFAULT_SETTINGS_FILE;
 
@@ -63,8 +62,14 @@ public class FilterGUI extends JFrame {
     }
 
     private void initComponents() {
-        setLayout(new BorderLayout(8, 8));
-        setPreferredSize(new Dimension(500, 600));
+        setLayout(new BorderLayout(
+                FilterConstants.BORDER_LAYOUT_HGAP,
+                FilterConstants.BORDER_LAYOUT_VGAP
+        ));
+        setPreferredSize(new Dimension(
+                FilterConstants.FILTER_WINDOW_WIDTH,
+                FilterConstants.FILTER_WINDOW_HEIGHT
+        ));
 
         createTopPanel();
         createFiltersPanel();
@@ -81,19 +86,32 @@ public class FilterGUI extends JFrame {
     }
 
     private void createTopPanel() {
-        JLabel lblHeading = new JLabel("Filter By...", SwingConstants.LEFT);
-        lblHeading.setFont(new Font("Tahoma", Font.BOLD, 15));
+        JLabel lblHeading = new JLabel(
+                FilterConstants.FILTER_BY_TITLE,
+                FilterConstants.HEADING_ALIGNMENT
+        );
+        lblHeading.setFont(new Font(
+                FilterConstants.FONT_NAME,
+                FilterConstants.HEADING_FONT_STYLE,
+                FilterConstants.HEADING_FONT_SIZE
+        ));
 
-        tagsTextArea = new JTextArea(1, 5);
+        tagsTextArea = new JTextArea(
+                FilterConstants.TAG_TEXT_AREA_ROWS,
+                FilterConstants.TAG_TEXT_AREA_COLUMNS
+        );
         tagsTextArea.setEditable(false);
-        tagsTextArea.setLineWrap(true);
-        tagsTextArea.setWrapStyleWord(true);
+        tagsTextArea.setLineWrap(FilterConstants.LINE_WRAP);
+        tagsTextArea.setWrapStyleWord(FilterConstants.WRAP_STYLE_WORD);
 
         JScrollPane tagScroll = new JScrollPane(tagsTextArea);
-        tagScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        tagScroll.setPreferredSize(new Dimension(6, 45));
+        tagScroll.setVerticalScrollBarPolicy(FilterConstants.VERTICAL_SCROLLBAR_POLICY);
+        tagScroll.setPreferredSize(FilterConstants.TAG_SCROLL_PREFERRED_SIZE);
 
-        topPanel = new JPanel(new BorderLayout(3,3));
+        topPanel = new JPanel(new BorderLayout(
+                FilterConstants.GRID_INSET_SIZE,
+                FilterConstants.GRID_INSET_SIZE
+        ));
         topPanel.add(lblHeading, BorderLayout.NORTH);
         topPanel.add(tagScroll, BorderLayout.SOUTH);
     }
@@ -102,11 +120,25 @@ public class FilterGUI extends JFrame {
         pnlFilters = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(3,3,3,3);
+        gbc.insets = new Insets(
+                FilterConstants.GRID_INSET_SIZE,
+                FilterConstants.GRID_INSET_SIZE,
+                FilterConstants.GRID_INSET_SIZE,
+                FilterConstants.GRID_INSET_SIZE
+        );
 
-        gbc.gridy = 0; pnlFilters.add(createCheckboxPanel("Group", new String[]{"Mammal","Bird","Reptile","Amphibian","Fish","Insect"}), gbc);
-        gbc.gridy = 1; pnlFilters.add(createCheckboxPanel("Location", new String[]{"Africa","Asia","Europe","North America","South America","Australia","Antarctica"}), gbc);
-        gbc.gridy = 2; pnlFilters.add(createCheckboxPanel("Diet", new String[]{"Herbivore","Carnivore","Omnivore","Insectivore"}), gbc);
+        gbc.gridy = 0; pnlFilters.add(createCheckboxPanel(
+                FilterConstants.GROUP_TITLE,
+                FilterConstants.GROUP_OPTIONS
+        ), gbc);
+        gbc.gridy = 1; pnlFilters.add(createCheckboxPanel(
+                FilterConstants.LOCATION_TITLE,
+                FilterConstants.LOCATION_OPTIONS
+        ), gbc);
+        gbc.gridy = 2; pnlFilters.add(createCheckboxPanel(
+                FilterConstants.DIET_TITLE,
+                FilterConstants.DIET_OPTIONS
+        ), gbc);
         gbc.gridy = 3; pnlFilters.add(createRangeSliderPanel(), gbc);
 
         filtersScroll = new JScrollPane(pnlFilters);
@@ -116,9 +148,9 @@ public class FilterGUI extends JFrame {
         resultsPanel = new JPanel();
         resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
         resultsScroll = new JScrollPane(resultsPanel);
-        resultsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        resultsScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        resultsScroll.setPreferredSize(new Dimension(300, 200));
+        resultsScroll.setVerticalScrollBarPolicy(FilterConstants.VERTICAL_SCROLLBAR_POLICY);
+        resultsScroll.setHorizontalScrollBarPolicy(FilterConstants.HORIZONTAL_SCROLLBAR_POLICY);
+        resultsScroll.setPreferredSize(FilterConstants.RESULTS_SCROLL_PREFERRED_SIZE);
 
         btnLoadMore = new JButton("Load More");
         btnLoadMore.setEnabled(false);
@@ -130,8 +162,8 @@ public class FilterGUI extends JFrame {
 
     private void createMainContentPanel() {
         mainContentPanel = new JPanel(new CardLayout());
-        mainContentPanel.add(filtersScroll, "FILTERS");
-        mainContentPanel.add(resultsContainer, "RESULTS");
+        mainContentPanel.add(filtersScroll, FilterConstants.CARD_FILTERS);
+        mainContentPanel.add(resultsContainer, FilterConstants.CARD_RESULTS);
     }
 
     private void createButtonsPanel() {
@@ -139,7 +171,11 @@ public class FilterGUI extends JFrame {
         btnReset = new JButton("Reset");
         btnClose = new JButton("Close");
 
-        buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        buttonPanel = new JPanel(new FlowLayout(
+                FilterConstants.FLOW_LAYOUT_ALIGNMENT,
+                FilterConstants.FLOW_LAYOUT_HGAP,
+                FilterConstants.FLOW_LAYOUT_VGAP
+        ));
         updateButtonPanel(btnReset, btnApply, btnClose);
     }
 
@@ -158,43 +194,87 @@ public class FilterGUI extends JFrame {
     }
 
     private JPanel createCheckboxPanel(String title, String[] options) {
-        JPanel panel = new JPanel(new GridLayout(0,3,1,1));
+        JPanel panel = new JPanel(new GridLayout(
+                0,
+                FilterConstants.CHECKBOX_GRID_COLUMNS,
+                1,
+                1
+        ));
         panel.setBorder(BorderFactory.createTitledBorder(title));
 
         JCheckBox[] checkboxes = new JCheckBox[options.length];
         for (int i=0; i<options.length; i++) {
             String option = options[i];
             JCheckBox cb = new JCheckBox(option);
-            cb.addItemListener(e -> { if(cb.isSelected()) selectedTags.add(option); else selectedTags.remove(option); updateTagLabel(); });
+            cb.addItemListener(e -> {
+                if(cb.isSelected()) selectedTags.add(option);
+                else selectedTags.remove(option);
+                updateTagLabel();
+            });
             checkboxes[i] = cb;
             panel.add(cb);
         }
 
         switch(title){
-            case "Group" -> groupCheckboxes = checkboxes;
-            case "Location" -> locationCheckboxes = checkboxes;
-            case "Diet" -> dietCheckboxes = checkboxes;
+            case FilterConstants.GROUP_TITLE -> groupCheckboxes = checkboxes;
+            case FilterConstants.LOCATION_TITLE -> locationCheckboxes = checkboxes;
+            case FilterConstants.DIET_TITLE -> dietCheckboxes = checkboxes;
         }
         return panel;
     }
 
     private JPanel createRangeSliderPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createTitledBorder("Lifespan Range (years)"));
+        panel.setBorder(BorderFactory.createTitledBorder(FilterConstants.LIFESPAN_TITLE));
 
-        minLifespanSlider = new JSlider(0,100,0);
-        maxLifespanSlider = new JSlider(0,100,100);
-        configureSlider(minLifespanSlider); configureSlider(maxLifespanSlider);
+        minLifespanSlider = new JSlider(
+                FilterConstants.MIN_LIFESPAN,
+                FilterConstants.MAX_LIFESPAN,
+                FilterConstants.DEFAULT_MIN_LIFESPAN
+        );
+        maxLifespanSlider = new JSlider(
+                FilterConstants.MIN_LIFESPAN,
+                FilterConstants.MAX_LIFESPAN,
+                FilterConstants.DEFAULT_MAX_LIFESPAN
+        );
+        configureSlider(minLifespanSlider);
+        configureSlider(maxLifespanSlider);
 
-        lblLifespanRange = new JLabel("Range: 0 - 100 years", JLabel.CENTER);
-        lblLifespanRange.setFont(new Font("Tahoma", Font.BOLD, 9));
+        lblLifespanRange = new JLabel(
+                String.format(
+                        FilterConstants.RANGE_TEXT_FORMAT,
+                        FilterConstants.DEFAULT_MIN_LIFESPAN,
+                        FilterConstants.DEFAULT_MAX_LIFESPAN
+                ),
+                FilterConstants.RANGE_LABEL_ALIGNMENT
+        );
+        lblLifespanRange.setFont(new Font(
+                FilterConstants.FONT_NAME,
+                FilterConstants.RANGE_LABEL_FONT_STYLE,
+                FilterConstants.RANGE_LABEL_FONT_SIZE
+        ));
 
-        minLifespanSlider.addChangeListener(e -> { if(minLifespanSlider.getValue()>maxLifespanSlider.getValue()) minLifespanSlider.setValue(maxLifespanSlider.getValue()); updateRangeDisplay(); });
-        maxLifespanSlider.addChangeListener(e -> { if(maxLifespanSlider.getValue()<minLifespanSlider.getValue()) maxLifespanSlider.setValue(minLifespanSlider.getValue()); updateRangeDisplay(); });
+        minLifespanSlider.addChangeListener(e -> {
+            if(minLifespanSlider.getValue() > maxLifespanSlider.getValue())
+                minLifespanSlider.setValue(maxLifespanSlider.getValue());
+            updateRangeDisplay();
+        });
+        maxLifespanSlider.addChangeListener(e -> {
+            if(maxLifespanSlider.getValue() < minLifespanSlider.getValue())
+                maxLifespanSlider.setValue(minLifespanSlider.getValue());
+            updateRangeDisplay();
+        });
 
-        JPanel slidersPanel = new JPanel(new GridLayout(2,2,3,3));
-        slidersPanel.add(new JLabel("Minimum:")); slidersPanel.add(minLifespanSlider);
-        slidersPanel.add(new JLabel("Maximum:")); slidersPanel.add(maxLifespanSlider);
+        JPanel slidersPanel = new JPanel(new GridLayout(
+                FilterConstants.SLIDERS_GRID_ROWS,
+                FilterConstants.SLIDERS_GRID_COLUMNS,
+                FilterConstants.SLIDERS_GRID_HGAP,
+                FilterConstants.SLIDERS_GRID_VGAP
+        ));
+        slidersPanel.add(new JLabel(FilterConstants.MIN_LABEL));
+        slidersPanel.add(minLifespanSlider);
+        slidersPanel.add(new JLabel(FilterConstants.MAX_LABEL));
+        slidersPanel.add(maxLifespanSlider);
 
         panel.add(slidersPanel, BorderLayout.CENTER);
         panel.add(lblLifespanRange, BorderLayout.SOUTH);
@@ -204,48 +284,85 @@ public class FilterGUI extends JFrame {
     private void configureSlider(JSlider slider){
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
-        slider.setMajorTickSpacing(15);
-        slider.setMinorTickSpacing(5);
+        slider.setMajorTickSpacing(FilterConstants.SLIDER_MAJOR_TICK_SPACING);
+        slider.setMinorTickSpacing(FilterConstants.SLIDER_MINOR_TICK_SPACING);
     }
 
-    private void updateRangeDisplay() { lblLifespanRange.setText("Range: " + minLifespanSlider.getValue() + " - " + maxLifespanSlider.getValue() + " years"); }
+    private void updateRangeDisplay() {
+        lblLifespanRange.setText(
+                String.format(
+                        FilterConstants.RANGE_TEXT_FORMAT,
+                        minLifespanSlider.getValue(),
+                        maxLifespanSlider.getValue()
+                )
+        );
+    }
 
-    private void updateTagLabel() { tagsTextArea.setText(selectedTags.isEmpty() ? "No filters selected" : String.join(", ", selectedTags)); }
+    private void updateTagLabel() {
+        tagsTextArea.setText(
+                selectedTags.isEmpty() ?
+                        FilterConstants.NO_FILTERS_TEXT :
+                        String.join(", ", selectedTags)
+        );
+    }
 
     private List<String> getSelectedGroups() { return getSelectedFromArray(groupCheckboxes); }
     private List<String> getSelectedLocations() { return getSelectedFromArray(locationCheckboxes); }
     private List<String> getSelectedDiets() { return getSelectedFromArray(dietCheckboxes); }
-    private List<String> getSelectedFromArray(JCheckBox[] arr) { List<String> selected = new ArrayList<>(); for(JCheckBox cb: arr) if(cb.isSelected()) selected.add(cb.getText()); return selected; }
+    private List<String> getSelectedFromArray(JCheckBox[] arr) {
+        List<String> selected = new ArrayList<>();
+        for(JCheckBox cb: arr) if(cb.isSelected()) selected.add(cb.getText());
+        return selected;
+    }
 
     private void showResultsView() {
-        ((CardLayout) mainContentPanel.getLayout()).show(mainContentPanel, "RESULTS");
+        ((CardLayout) mainContentPanel.getLayout()).show(
+                mainContentPanel,
+                FilterConstants.CARD_RESULTS
+        );
         updateButtonPanel(btnReset, filterViewModel.hasMore() ? btnLoadMore : null, btnClose);
-        setTitle("Filter Results");
-        setPreferredSize(new Dimension(300, 400));
+        setTitle(FilterConstants.RESULTS_WINDOW_TITLE);
+        setPreferredSize(new Dimension(
+                FilterConstants.RESULTS_WINDOW_WIDTH,
+                FilterConstants.RESULTS_WINDOW_HEIGHT
+        ));
         pack();
     }
 
     private void showFiltersView() {
-        ((CardLayout) mainContentPanel.getLayout()).show(mainContentPanel, "FILTERS");
+        ((CardLayout) mainContentPanel.getLayout()).show(
+                mainContentPanel,
+                FilterConstants.CARD_FILTERS
+        );
         updateButtonPanel(btnReset, btnApply, btnClose);
-        setTitle("Filter Animals");
-        setPreferredSize(new Dimension(500, 600));
+        setTitle(FilterConstants.FILTER_WINDOW_TITLE);
+        setPreferredSize(new Dimension(
+                FilterConstants.FILTER_WINDOW_WIDTH,
+                FilterConstants.FILTER_WINDOW_HEIGHT
+        ));
         pack();
     }
 
     private void resetFilters() {
-        selectedTags.clear(); setSelectedAll(groupCheckboxes,false); setSelectedAll(locationCheckboxes,false); setSelectedAll(dietCheckboxes,false);
-        minLifespanSlider.setValue(0); maxLifespanSlider.setValue(100); updateTagLabel(); updateRangeDisplay();
+        selectedTags.clear();
+        setSelectedAll(groupCheckboxes,false);
+        setSelectedAll(locationCheckboxes,false);
+        setSelectedAll(dietCheckboxes,false);
+        minLifespanSlider.setValue(FilterConstants.DEFAULT_MIN_LIFESPAN);
+        maxLifespanSlider.setValue(FilterConstants.DEFAULT_MAX_LIFESPAN);
+        updateTagLabel();
+        updateRangeDisplay();
 
-        resultsPanel.removeAll(); resultsPanel.revalidate(); allLoadedAnimals.clear(); resultsPanel.repaint();
+        resultsPanel.removeAll();
+        resultsPanel.revalidate();
+        allLoadedAnimals.clear();
+        resultsPanel.repaint();
         btnLoadMore.setEnabled(false);
     }
 
-    private void setSelectedAll(JCheckBox[] arr, boolean selected){ for(JCheckBox cb: arr) cb.setSelected(selected); }
-
-    // =========================================================
-    // RESULTS UPDATE METHODS
-    // =========================================================
+    private void setSelectedAll(JCheckBox[] arr, boolean selected){
+        for(JCheckBox cb: arr) cb.setSelected(selected);
+    }
 
     private void updateResultsFromViewModel() {
         System.out.println("Updating results from view model");
@@ -293,12 +410,21 @@ public class FilterGUI extends JFrame {
 
     private void showNoResultsMessage() {
         JPanel noResultsPanel = new JPanel(new BorderLayout());
-        JLabel noResultsLabel = new JLabel("No animals found matching your filters. Try different criteria.");
-        noResultsLabel.setForeground(Color.RED);
-        noResultsLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        noResultsLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+        JLabel noResultsLabel = new JLabel(FilterConstants.NO_RESULTS_MESSAGE);
+        noResultsLabel.setForeground(FilterConstants.NO_RESULTS_COLOR);
+        noResultsLabel.setHorizontalAlignment(FilterConstants.NO_RESULTS_ALIGNMENT);
+        noResultsLabel.setFont(new Font(
+                FilterConstants.FONT_NAME,
+                FilterConstants.HEADING_FONT_STYLE,
+                FilterConstants.RESULTS_FONT_SIZE
+        ));
         noResultsPanel.add(noResultsLabel, BorderLayout.CENTER);
-        noResultsPanel.setBorder(BorderFactory.createEmptyBorder(50, 10, 50, 10));
+        noResultsPanel.setBorder(BorderFactory.createEmptyBorder(
+                FilterConstants.EMPTY_BORDER_TOP,
+                FilterConstants.EMPTY_BORDER_LEFT,
+                FilterConstants.EMPTY_BORDER_BOTTOM,
+                FilterConstants.EMPTY_BORDER_RIGHT
+        ));
         resultsPanel.setLayout(new BorderLayout());
         resultsPanel.add(noResultsPanel, BorderLayout.CENTER);
     }
@@ -308,14 +434,18 @@ public class FilterGUI extends JFrame {
         for (Animal a : animals) model.addElement(a.getName());
 
         JList<String> resultsList = new JList<>(model);
-        resultsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        resultsList.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        resultsList.setSelectionMode(FilterConstants.LIST_SELECTION_MODE);
+        resultsList.setFont(new Font(
+                FilterConstants.FONT_NAME,
+                FilterConstants.RESULTS_FONT_STYLE,
+                FilterConstants.RESULTS_FONT_SIZE
+        ));
         resultsList.clearSelection();
 
         updateClickListener(resultsList, allLoadedAnimals);
 
         JScrollPane listScrollPane = new JScrollPane(resultsList);
-        listScrollPane.setPreferredSize(new Dimension(400,300));
+        listScrollPane.setPreferredSize(FilterConstants.LIST_SCROLL_PREFERRED_SIZE);
 
         resultsPanel.setLayout(new BorderLayout());
         resultsPanel.add(listScrollPane, BorderLayout.CENTER);
@@ -323,10 +453,6 @@ public class FilterGUI extends JFrame {
         btnLoadMore.setEnabled(filterViewModel.hasMore());
         SwingUtilities.invokeLater(() -> resultsScroll.getVerticalScrollBar().setValue(0));
     }
-
-    // =========================================================
-    // UNTOUCHED METHODS
-    // =========================================================
 
     private void applyFilters(){
         int min = minLifespanSlider.getValue();
@@ -344,17 +470,20 @@ public class FilterGUI extends JFrame {
         System.out.println("Controller called, animals in filterViewModel: " + filterViewModel.getAnimals().size());
     }
 
-    private void loadMoreResults(){
+    private void loadMoreResults() {
         filterController.filterAnimals(getSelectedGroups(), getSelectedLocations(), getSelectedDiets(),
                 minLifespanSlider.getValue(), maxLifespanSlider.getValue(), filterViewModel.getNextCursor());
         System.out.println("FilterViewModel animals after filter before update call: " + filterViewModel.getAnimals().size());
-        if (filterViewModel.getAnimals() == null) filterViewModel.setAnimals(new ArrayList<>());
+        if (filterViewModel.getAnimals() == null) {
+            filterViewModel.setAnimals(new ArrayList<>());
+        }
         appendResultsFromViewModel();
         System.out.println("FilterViewModel animals after filter after call: " + filterViewModel.getAnimals().size());
     }
 
     private void updateClickListener(JList<String> resultsList, List<Animal> allAnimals) {
-        for(java.awt.event.MouseListener listener : resultsList.getMouseListeners()) resultsList.removeMouseListener(listener);
+        for(java.awt.event.MouseListener listener : resultsList.getMouseListeners())
+            resultsList.removeMouseListener(listener);
 
         final List<Animal> currentAnimals = new ArrayList<>(allAnimals);
         resultsList.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -368,15 +497,6 @@ public class FilterGUI extends JFrame {
                     }
                 }
             }
-        });
-    }
-
-    public static void main(String[] args){
-        SwingUtilities.invokeLater(() -> {
-            JFrame parent = new JFrame();
-            parent.setSize(500,300);
-            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            parent.setVisible(true);
         });
     }
 }

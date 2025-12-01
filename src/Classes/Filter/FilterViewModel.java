@@ -3,23 +3,25 @@
  */
 package Classes.Filter;
 
-import Classes.retrieveInfo.Animal;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import Classes.retrieveInfo.Animal;
+
 public class FilterViewModel {
 
-    //field declarations
+    // field declarations
     private List<Animal> animals = new ArrayList<>();
-    private boolean hasMore = false;
-    private String nextCursor = null;
+    private boolean hasMore;
+    private String nextCursor;
 
     /*
     Constructor
      */
     public List<Animal> getAnimals() {
-        return List.copyOf(animals); //to prevent external modification
+        return List.copyOf(animals);
+        // to prevent external modification
     }
 
     /*
@@ -27,18 +29,19 @@ public class FilterViewModel {
      */
     public void setAnimals(List<Animal> newAnimals) {
         this.animals = new ArrayList<>(newAnimals);
-        System.out.println("im updating the set animals method to this: " +animals);
     }
 
-    /*
-    Updates the list of animals to be displayed in the results panel --> load more case
+    /**
+     * Updates the list of animals to be displayed in the results panel --> load more case.
+     * @param newAnimals adds to the list of animals to be displayed
      */
     public void addAnimals(List<Animal> newAnimals) {
         this.animals.addAll(newAnimals);
     }
 
-    /*
-    Checks if more animals are to be displayed --> affects the load more button logic
+    /**
+     * Checks if more animals are to be displayed --> affects the load more button logic.
+     * @return if there is more
      */
     public boolean hasMore() {
         return hasMore;
@@ -49,7 +52,6 @@ public class FilterViewModel {
      */
     public void setHasMore(boolean hasMore) {
         this.hasMore = hasMore;
-        System.out.println("do i have more animals to display? " + hasMore);
     }
 
     public String getNextCursor() {

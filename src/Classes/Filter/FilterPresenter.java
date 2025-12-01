@@ -3,13 +3,13 @@
  */
 package Classes.Filter;
 
-import Classes.retrieveInfo.Animal;
 import java.util.List;
 
+import Classes.retrieveInfo.Animal;
 
-public class FilterPresenter implements FilterOutputBoundary{
+public class FilterPresenter implements FilterOutputBoundary {
 
-    //field declarations
+    // field declarations
     private final FilterViewModel filterViewModel;
 
     /*
@@ -24,9 +24,7 @@ public class FilterPresenter implements FilterOutputBoundary{
      */
     @Override
     public void present(FilterOutput output) {
-        System.out.println("im in the presenter");
-        List<Animal> animals = output.getFilteredAnimals();
-        System.out.println("This is my list of filtered animals: " + animals.toArray());
+        final List<Animal> animals = output.getFilteredAnimals();
         filterViewModel.setAnimals(animals);
         filterViewModel.setHasMore(output.hasMore());
         filterViewModel.setNextCursor(output.getNextCursor());

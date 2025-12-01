@@ -7,33 +7,70 @@ package Classes.Filter;
 import java.util.*;
 
 public class FilterInput {
-    //field declarations
-    //define all the filter criterion - immutable class
-    //constant(s)
-    private static final int PAGE_SIZE = 5; // fixed page size
-    //filter fields
-    private final List<String> animal_groups;
-    private final List<String> animal_diets;
-    private final List<String> animal_locations;
-    private final Integer min_lifespan; //since the user can choose not to apply any lifespan filter in which case it
-    // would allow it to be Null (also autoboxing)
-    private final Integer max_lifespan;
-    //pagination fields
-    private final int pageSize;  //current number of items fetched for this request
-    private final String cursor; //pagination token
+    // field declarations
+    // define all the filter criterion - immutable class
+    // constant(s)
 
+    // fixed page size
+    private static final int PAGE_SIZE = 7;
+    // filter fields
+    private final List<String> animalGroups;
+    private final List<String> animalDiets;
+    private final List<String> animalLocations;
+
+    // since the user can choose not to apply any lifespan filter in which case it
+    // would allow it to be Null (also autoboxing)
+    private final Integer minLifespan;
+    private final Integer maxLifespan;
+
+    // pagination fields
+    // current number of items fetched for this request
+    private final int pageSize;
+    // pagination token
+    private final String cursor;
 
     /*
       Constructor --> Private constructor - use builder. Why? --> in case we want to add more filter criterion
      */
     FilterInput(Builder builder) {
-        this.animal_groups = List.copyOf(builder.groups);
-        this.animal_locations = List.copyOf(builder.locations);
-        this.animal_diets = List.copyOf(builder.diets);
-        this.min_lifespan = builder.min_lifespan;
-        this.max_lifespan = builder.max_lifespan;
+        this.animalGroups = List.copyOf(builder.groups);
+        this.animalLocations = List.copyOf(builder.locations);
+        this.animalDiets = List.copyOf(builder.diets);
+        this.minLifespan = builder.minLifespan;
+        this.maxLifespan = builder.maxLifespan;
         this.cursor = builder.cursor;
         this.pageSize = PAGE_SIZE;
+    }
+
+    /*
+    Getter methods
+     */
+    public List<String> getGroups() {
+        return animalGroups;
+    }
+
+    public List<String> getLocations() {
+        return animalLocations;
+    }
+
+    public List<String> getDiets() {
+        return animalDiets;
+    }
+
+    public Integer getMinLifespan() {
+        return minLifespan;
+    }
+
+    public Integer getMaxLifespan() {
+        return maxLifespan;
+    }
+
+    public String getCursor() {
+        return cursor;
+    }
+
+    public int getPageSize() {
+        return pageSize;
     }
 
     /*
@@ -47,52 +84,77 @@ public class FilterInput {
         private List<String> groups = List.of();
         private List<String> locations = List.of();
         private List<String> diets = List.of();
-        private Integer min_lifespan;
-        private Integer max_lifespan;
+        private Integer minLifespan;
+        private Integer maxLifespan;
         private String cursor;
+        private int pageSize;
 
+        /**
+         * Creates a filter based on groups.
+         *
+         * @param groups selected group
+         * @return a builder filter object
+         */
         public Builder groups(List<String> groups) {
             this.groups = groups != null ? groups : List.of();
             return this;
         }
 
+        /**
+         * Creates a filter based on groups.
+         *
+         * @param locations selected locations
+         * @return a builder filter object
+         */
         public Builder locations(List<String> locations) {
-            this.locations = locations != null ? locations : Collections.emptyList(); //empty list
+            this.locations = locations != null ? locations : Collections.emptyList();
             return this;
         }
 
+        /**
+         * Creates a filter based on groups.
+         *
+         * @param diets selected diets
+         * @return a builder filter object
+         */
         public Builder diets(List<String> diets) {
             this.diets = diets != null ? diets : Collections.emptyList();
             return this;
         }
 
-
+        /**
+         * Creates a filter based on groups.
+         *
+         * @param min min range
+         * @param max max range
+         * @return a builder filter object
+         */
         public Builder lifespanRange(Integer min, Integer max) {
-            this.min_lifespan = min;
-            this.max_lifespan = max;
+            this.minLifespan = min;
+            this.maxLifespan = max;
             return this;
         }
 
+        /**
+         * Creates a filter based on groups.
+         *
+         * @param cursor initilizes cursor
+         * @return a builder filter object
+         */
         public Builder cursor(String cursor) {
             this.cursor = cursor;
             return this;
         }
 
+        /**
+         * Creates a filter based on groups.
+         *
+         * @return a builder filter logic
+         */
+
         public FilterInput build() {
             return new FilterInput(this);
         }
     }
-
-    /*
-    Getter methods
-     */
-    public List<String> getGroups() { return animal_groups; }
-    public List<String> getLocations() { return animal_locations; }
-    public List<String> getDiets() { return animal_diets; }
-    public Integer getMinLifespan() { return min_lifespan; }
-    public Integer getMaxLifespan() { return max_lifespan; }
-    public String getCursor() { return cursor; }
-    public int getPageSize() { return pageSize; }
-
-
 }
+

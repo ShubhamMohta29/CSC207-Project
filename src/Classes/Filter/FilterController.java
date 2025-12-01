@@ -5,9 +5,8 @@ package Classes.Filter;
 
 import java.util.List;
 
-
 public class FilterController {
-    //field declarations
+    // field declarations
     private final FilterInputBoundary inputBoundary;
 
     /*
@@ -17,22 +16,27 @@ public class FilterController {
         this.inputBoundary = inputBoundary;
     }
 
-    /*
-      Function creates the filter request object (filter input)
+    /**
+      * Function creates the filter request object (filter input).
+     * @param groups for selected animal group
+     * @param locations for selected locations
+     * @param cursor to keep track of the last animal displayed
+     * @param diets for selected diets
+     * @param lifespanMax for selected minimum
+     * @param lifespanMin for selected max
      */
     public void filterAnimals(List<String> groups,
                               List<String> locations,
                               List<String> diets,
                               Integer lifespanMin, Integer lifespanMax,
                               String cursor) {
-        FilterInput request = new FilterInput.Builder()
+        final FilterInput request = new FilterInput.Builder()
                 .groups(groups)
                 .locations(locations)
                 .diets(diets)
                 .lifespanRange(lifespanMin, lifespanMax)
                 .cursor(cursor)
                 .build();
-        System.out.println("okay i have created the filter request object");
         inputBoundary.filterAnimals(request);
     }
 }
