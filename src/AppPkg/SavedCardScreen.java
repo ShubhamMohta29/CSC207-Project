@@ -1,8 +1,6 @@
 package AppPkg;
 
 import Classes.ViewSavedCards.LoadSavedCardsResponseModel;
-import Classes.GenerateTradingCard.TradingCardService;
-import Classes.GenerateTradingCard.TradingCardViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +17,6 @@ public class SavedCardScreen extends JFrame {
         JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel grid = new JPanel(new GridLayout(0, 3, 15, 15));
 
-        // Load all cards
         java.util.List<String> names = response.getCardNames();
         java.util.List<BufferedImage> images = response.getCardImages();
 
@@ -32,18 +29,15 @@ public class SavedCardScreen extends JFrame {
             JLabel picture = new JLabel(new ImageIcon(scaled));
             JLabel label = new JLabel(cardName, SwingConstants.CENTER);
 
-            // tile panel
             JPanel tile = new JPanel(new BorderLayout());
             tile.add(picture, BorderLayout.CENTER);
             tile.add(label, BorderLayout.SOUTH);
             tile.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
 
-            // open full card view
             tile.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
-                    TradingCardViewModel generated = new TradingCardService()
-                            .create(new JSONWrapperforAnimal(cardName));
-                    new GenerateTradingCard(new JSONWrapperforAnimal(cardName)).setVisible(true);
+                    new ViewSavedCardScreen(cardName, img).setVisible(true);
                     dispose();
                 }
             });
@@ -51,7 +45,6 @@ public class SavedCardScreen extends JFrame {
             grid.add(tile);
         }
 
-        // Scroll panel if there are many cards
         JScrollPane scroll = new JScrollPane(grid);
         mainPanel.add(scroll, BorderLayout.CENTER);
 
