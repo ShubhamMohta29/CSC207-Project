@@ -7,9 +7,6 @@ import java.awt.Color;
  */
 public final class SettingConstants {
 
-    private SettingConstants() {
-    }
-
     public static final int DEFAULT_STYLE = 0;
     public static final int DEFAULT_FONT_SIZE = 15;
     public static final int FONT_SIZE_ONE = 13;
