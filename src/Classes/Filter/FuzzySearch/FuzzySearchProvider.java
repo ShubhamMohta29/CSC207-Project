@@ -1,4 +1,4 @@
-package Classes.retrieveInfo.FuzzySearch;
+package Classes.Filter.FuzzySearch;
 
 public interface FuzzySearchProvider {
     /**
