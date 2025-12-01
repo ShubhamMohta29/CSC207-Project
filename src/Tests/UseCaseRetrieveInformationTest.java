@@ -1,7 +1,7 @@
 package Tests;
 
-import AppPkg.MainMenu;
-import Classes.retrieveInfo.APIClass;
+import apppkg.MainMenu;
+import classes.retrieveInfo.ApiClass;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UseCaseRetrieveInformationTest {
 
     // ---------- Fake API CLASS ----------
-    class FakeAPI extends APIClass {
+    class FakeAPI extends ApiClass {
 
         private String fakeResponse = null;
         private int fakeCount = 0;
@@ -81,7 +81,7 @@ public class UseCaseRetrieveInformationTest {
         }
     }
 
-    private void injectAPI(MainMenu menu, APIClass fakeApi) throws Exception {
+    private void injectAPI(MainMenu menu, ApiClass fakeApi) throws Exception {
         Field apiField = MainMenu.class.getDeclaredField("api");
         apiField.setAccessible(true);
         apiField.set(menu, fakeApi);

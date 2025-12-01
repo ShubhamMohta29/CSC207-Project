@@ -1,6 +1,6 @@
 package Tests;
 
-import Classes.add_favorite.*;
+import classes.add_favorite.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

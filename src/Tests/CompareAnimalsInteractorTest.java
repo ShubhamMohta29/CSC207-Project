@@ -6,9 +6,9 @@
 
 package Tests;
 
-import Classes.retrieveInfo.Animal;
-import Classes.Compatibility.usecases.*;
-import Classes.retrieveInfo.AnimalFactory;
+import classes.retrieveInfo.Animal;
+import classes.Compatibility.usecases.*;
+import classes.retrieveInfo.AnimalFactory;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
