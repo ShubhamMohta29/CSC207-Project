@@ -1,5 +1,6 @@
-package Classes.GenerateTradingCard;
+package Tests;
 
+import Classes.GenerateTradingCard.*;
 import Classes.retrieveInfo.Animal;
 import Classes.retrieveInfo.AnimalFactory;
 import org.junit.jupiter.api.Test;
