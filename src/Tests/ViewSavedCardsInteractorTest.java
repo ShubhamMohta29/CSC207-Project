@@ -1,5 +1,6 @@
-package Classes.ViewSavedCards;
+package Tests;
 
+import Classes.ViewSavedCards.*;
 import org.junit.jupiter.api.Test;
 
 import java.awt.image.BufferedImage;
