@@ -82,6 +82,7 @@ public class FilterGUI extends JFrame {
         add(buttonPanel, BorderLayout.PAGE_END);
 
         showFiltersView();
+        revalidate();
         pack();
     }
 
@@ -322,7 +323,7 @@ public class FilterGUI extends JFrame {
         );
         updateButtonPanel(btnReset, filterViewModel.hasMore() ? btnLoadMore : null, btnClose);
         setTitle(FilterConstants.RESULTS_WINDOW_TITLE);
-        setPreferredSize(new Dimension(
+        setMinimumSize(new Dimension(
                 FilterConstants.RESULTS_WINDOW_WIDTH,
                 FilterConstants.RESULTS_WINDOW_HEIGHT
         ));

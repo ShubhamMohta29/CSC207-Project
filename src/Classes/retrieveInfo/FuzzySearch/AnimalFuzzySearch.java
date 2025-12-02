@@ -1,5 +1,6 @@
 package Classes.retrieveInfo.FuzzySearch;
 
+import Classes.Filter.FuzzySearch.FuzzySearchProvider;
 import Classes.Filter.LlmClientHandler;
 
 @SuppressWarnings("checkstyle:Indentation")
