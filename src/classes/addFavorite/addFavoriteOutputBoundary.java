@@ -1,4 +1,4 @@
-package Classes.add_favorite;
+package classes.add_favorite;
 
 /**
  * Output boundary for add favorite use case.

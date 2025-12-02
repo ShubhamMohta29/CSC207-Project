@@ -1,8 +1,8 @@
-package Classes.retrieveInfo;
+package classes.retrieveInfo;
 
 import java.io.IOException;
 
-import Classes.Filter.FuzzySearch.FuzzySearchProvider;
+import classes.filter.FuzzySearch.FuzzySearchProvider;
 
 /**
  * Interactor responsible for searching animals via a data source,

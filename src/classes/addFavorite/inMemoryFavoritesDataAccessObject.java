@@ -1,4 +1,4 @@
-package Classes.add_favorite;
+package classes.add_favorite;
 
 /**
  * In-memory implemention of the DAO for storing animal name.

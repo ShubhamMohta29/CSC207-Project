@@ -1,4 +1,4 @@
-package Classes.add_favorite;
+package classes.add_favorite;
 
 import java.util.ArrayList;
 

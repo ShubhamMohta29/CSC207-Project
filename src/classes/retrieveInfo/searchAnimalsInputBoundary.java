@@ -1,4 +1,4 @@
-package Classes.retrieveInfo;
+package classes.retrieveInfo;
 
 public interface SearchAnimalsInputBoundary {
 
