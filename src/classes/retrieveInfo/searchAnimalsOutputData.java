@@ -1,12 +1,12 @@
-package Classes.retrieveInfo;
+package classes.retrieveInfo;
 
-public class SearchAnimalsOutputData {
+public class searchAnimalsOutputData {
     private final boolean success;
     private final String errorMessage;
-    private final Animal[] animals;
+    private final animal[] animals;
     private final String suggestion;
 
-    public SearchAnimalsOutputData(boolean success, String errorMessage, Animal[] animals, String suggestion) {
+    public searchAnimalsOutputData(boolean success, String errorMessage, animal[] animals, String suggestion) {
         this.success = success;
         this.errorMessage = errorMessage;
         this.animals = animals;
@@ -21,7 +21,7 @@ public class SearchAnimalsOutputData {
         return errorMessage;
     }
 
-    public Animal[] getAnimals() {
+    public animal[] getAnimals() {
         return animals;
     }
 

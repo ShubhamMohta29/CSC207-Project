@@ -2,11 +2,11 @@
  * FilterInput : Class modelling filter requests
  */
 
-package Classes.Filter;
+package classes.filter;
 
 import java.util.*;
 
-public class FilterInput {
+public class filterInput {
     // field declarations
     // define all the filter criterion - immutable class
     // constant(s)
@@ -32,7 +32,7 @@ public class FilterInput {
     /*
       Constructor --> Private constructor - use builder. Why? --> in case we want to add more filter criterion
      */
-    FilterInput(Builder builder) {
+    filterInput(Builder builder) {
         this.animalGroups = List.copyOf(builder.groups);
         this.animalLocations = List.copyOf(builder.locations);
         this.animalDiets = List.copyOf(builder.diets);
@@ -152,8 +152,8 @@ public class FilterInput {
          * @return a builder filter logic
          */
 
-        public FilterInput build() {
-            return new FilterInput(this);
+        public filterInput build() {
+            return new filterInput(this);
         }
     }
 }

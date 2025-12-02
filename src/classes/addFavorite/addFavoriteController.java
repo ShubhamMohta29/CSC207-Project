@@ -1,22 +1,22 @@
-package classes.add_favorite;
+package classes.addFavorite;
 
 /**
  * The controller for add favorite use case.
  */
-public class AddFavoriteController {
-    private final AddFavoriteInputBoundary addFavoriteInteractor;
+public class addFavoriteController {
+    private final addFavoriteInputBoundary addFavoriteInteractor;
 
-    public AddFavoriteController(AddFavoriteInputBoundary addFavoriteInteractor) {
+    public addFavoriteController(addFavoriteInputBoundary addFavoriteInteractor) {
         this.addFavoriteInteractor = addFavoriteInteractor;
     }
 
     public void execute(String name) {
-        final AddFavoriteInputData addFavoriteInputData = new AddFavoriteInputData(name);
+        final addFavoriteInputData addFavoriteInputData = new addFavoriteInputData(name);
         addFavoriteInteractor.execute(addFavoriteInputData);
     }
 
     public void execute1(String name) {
-        final AddFavoriteInputData addFavoriteInputData = new AddFavoriteInputData(name);
+        final addFavoriteInputData addFavoriteInputData = new addFavoriteInputData(name);
         addFavoriteInteractor.execute1(addFavoriteInputData);
     }
 }

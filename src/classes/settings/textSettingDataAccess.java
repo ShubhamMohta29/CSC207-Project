@@ -1,4 +1,4 @@
-package Classes.Settings;
+package classes.settings;
 
 import java.awt.Color;
 import java.io.BufferedReader;
@@ -9,10 +9,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * Provides file-based data access for reading and saving {@link TextSetting}
+ * Provides file-based data access for reading and saving {@link textSetting}
  * objects. Handles loading from a CSV file and writing updates back to disk.
  */
-public class TextSettingDataAccess implements TextSettingGateway {
+public class textSettingDataAccess implements textSettingGateway {
 
     /**
      * Path to the settings CSV file.
@@ -24,7 +24,7 @@ public class TextSettingDataAccess implements TextSettingGateway {
      *
      * @param filePath the path of the settings file
      */
-    public TextSettingDataAccess(String filePath) {
+    public textSettingDataAccess(String filePath) {
         this.filePath = filePath;
     }
 
@@ -32,14 +32,14 @@ public class TextSettingDataAccess implements TextSettingGateway {
      * Loads text settings from the CSV file.
      * If the file does not exist or is invalid, default settings are returned.
      *
-     * @return a {@link TextSetting} object representing stored or default values
+     * @return a {@link textSetting} object representing stored or default values
      */
-    public TextSetting load() {
+    public textSetting load() {
         File file = new File(filePath);
 
         if (!file.exists()) {
-            System.out.println(SettingConstants.FILE_NOT_FOUND);
-            TextSetting defaultSetting = getDefaultSetting();
+            System.out.println(settingConstants.FILE_NOT_FOUND);
+            textSetting defaultSetting = getDefaultSetting();
             save(defaultSetting);
             return defaultSetting;
         }
@@ -59,10 +59,10 @@ public class TextSettingDataAccess implements TextSettingGateway {
             int b = Integer.parseInt(values[2 + 1]);
             String fontName = values[2 + 2].trim();
 
-            return new TextSetting(size, new Color(r, g, b), fontName);
+            return new textSetting(size, new Color(r, g, b), fontName);
         }
         catch (IOException | NumberFormatException exception) {
-            System.err.println(SettingConstants.FAILED_TO_LOAD + exception.getMessage());
+            System.err.println(settingConstants.FAILED_TO_LOAD + exception.getMessage());
             return getDefaultSetting();
         }
     }
@@ -72,10 +72,10 @@ public class TextSettingDataAccess implements TextSettingGateway {
      *
      * @param setting the settings to save
      */
-    public void save(TextSetting setting) {
+    public void save(textSetting setting) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            bw.write(SettingConstants.SAVE_SETTING_HEADER_REGEX);
-            bw.write(String.format(SettingConstants.SAVE_SETTING_INFO_FORMAT,
+            bw.write(settingConstants.SAVE_SETTING_HEADER_REGEX);
+            bw.write(String.format(settingConstants.SAVE_SETTING_INFO_FORMAT,
                     setting.getTextSize(),
                     setting.getTextColor().getRed(),
                     setting.getTextColor().getGreen(),
@@ -83,20 +83,20 @@ public class TextSettingDataAccess implements TextSettingGateway {
                     setting.getFontName()));
         }
         catch (IOException ex) {
-            System.err.println(SettingConstants.FAILED_TO_SAVE + ex.getMessage());
+            System.err.println(settingConstants.FAILED_TO_SAVE + ex.getMessage());
         }
     }
 
     /**
      * Returns the system default text settings.
      *
-     * @return a default {@link TextSetting}
+     * @return a default {@link textSetting}
      */
-    private TextSetting getDefaultSetting() {
-        return new TextSetting(
-                SettingConstants.DEFAULT_FONT_SIZE,
-                SettingConstants.ERROR_COLOR,
-                SettingConstants.DEFAULT_FONT_NAME
+    private textSetting getDefaultSetting() {
+        return new textSetting(
+                settingConstants.DEFAULT_FONT_SIZE,
+                settingConstants.ERROR_COLOR,
+                settingConstants.DEFAULT_FONT_NAME
         );
     }
 }

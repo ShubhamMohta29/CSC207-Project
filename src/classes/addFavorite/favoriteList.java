@@ -1,4 +1,4 @@
-package classes.add_favorite;
+package classes.addFavorite;
 
 import java.util.ArrayList;
 
@@ -6,10 +6,10 @@ import java.util.ArrayList;
  * An entity for Favorites list, which includes user's favorite animals
  */
 
-public class FavoriteList {
+public class favoriteList {
     private final ArrayList<String> favorites;
 
-    public FavoriteList() {
+    public favoriteList() {
         favorites = new ArrayList<String>();
     }
 

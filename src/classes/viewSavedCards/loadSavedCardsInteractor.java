@@ -1,20 +1,20 @@
-package Classes.ViewSavedCards;
+package classes.viewSavedCards;
 
-public class LoadSavedCardsInteractor implements LoadSavedCardsInputBoundary {
+public class loadSavedCardsInteractor implements loadSavedCardsInputBoundary {
 
-    private final LoadSavedCardsDataAccessInterface dataAccess;
-    private final LoadSavedCardsOutputBoundary presenter;
+    private final loadSavedCardsDataAccessInterface dataAccess;
+    private final loadSavedCardsOutputBoundary presenter;
 
-    public LoadSavedCardsInteractor(LoadSavedCardsDataAccessInterface dataAccess,
-                                    LoadSavedCardsOutputBoundary presenter) {
+    public loadSavedCardsInteractor(loadSavedCardsDataAccessInterface dataAccess,
+                                    loadSavedCardsOutputBoundary presenter) {
         this.dataAccess = dataAccess;
         this.presenter = presenter;
     }
 
     @Override
-    public LoadSavedCardsResponseModel load(LoadSavedCardsRequestModel requestModel) {
+    public loadSavedCardsResponseModel load(loadSavedCardsRequestModel requestModel) {
         return presenter.prepareSuccessView(
-                new LoadSavedCardsResponseModel(
+                new loadSavedCardsResponseModel(
                         dataAccess.loadAllCardNames(),
                         dataAccess.loadAllCardImages()
                 )

@@ -1,12 +1,12 @@
-package classes.add_favorite;
+package classes.addFavorite;
 
 /**
  * The input data for the add favorite use case.
  */
-public class AddFavoriteInputData {
+public class addFavoriteInputData {
     private final String name;
 
-    public AddFavoriteInputData(String name){
+    public addFavoriteInputData(String name){
         this.name = name;
     }
 

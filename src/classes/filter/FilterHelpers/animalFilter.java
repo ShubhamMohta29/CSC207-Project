@@ -1,14 +1,14 @@
-package Classes.Filter.FilterHelpers;
+package classes.filter.FilterHelpers;
 
-import Classes.retrieveInfo.Animal;
+import classes.retrieveInfo.animal;
 
-public interface AnimalFilter {
+public interface animalFilter {
     /**
      * Base interface for filters.
      * @param a the animal object to check
      * @return if it matches the applied filters
      */
-    boolean matches(Animal a);
+    boolean matches(animal a);
 }
 
 

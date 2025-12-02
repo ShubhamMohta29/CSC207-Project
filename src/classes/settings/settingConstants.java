@@ -1,11 +1,11 @@
-package Classes.Settings;
+package classes.settings;
 
 import java.awt.Color;
 
 /**
  * Stores all Constant used in Settings.
  */
-public final class SettingConstants {
+public final class settingConstants {
 
     public static final int DEFAULT_STYLE = 0;
     public static final int DEFAULT_FONT_SIZE = 15;

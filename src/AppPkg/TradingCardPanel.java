@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import Classes.GenerateTradingCard.TradingCardViewModel;
+import classes.generateTradingCard.tradingCardViewModel;
 
 /**
  * Displays a generated card image and buttons
@@ -16,7 +16,7 @@ import Classes.GenerateTradingCard.TradingCardViewModel;
 public class TradingCardPanel extends JPanel {
 
     public TradingCardPanel(
-            TradingCardViewModel viewModel,
+            tradingCardViewModel viewModel,
             Runnable onBackClick,
             Runnable onDownloadClick,
             Runnable onSaveCardClick) {

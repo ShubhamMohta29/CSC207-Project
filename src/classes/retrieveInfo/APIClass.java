@@ -1,4 +1,4 @@
-package Classes.retrieveInfo;
+package classes.retrieveInfo;
 
 import java.io.IOException;
 import java.net.URI;
@@ -10,12 +10,12 @@ import java.util.List;
 
 import org.json.JSONArray;
 
-import Config.ProjectConfig;
+import config.projectConfig;
 
 public class APIClass {
 
-    public static final String API_URL = ProjectConfig.NINJA_API_URL;
-    private static final String API_KEY = ProjectConfig.getNinjaApiKey();
+    public static final String API_URL = projectConfig.NINJA_API_URL;
+    private static final String API_KEY = projectConfig.getNinjaApiKey();
 
     private List<String> searchedAnimals;
     private String responseBody;

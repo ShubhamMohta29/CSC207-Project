@@ -1,10 +1,10 @@
-package classes.add_favorite;
+package classes.addFavorite;
 
 /**
  * Input boundary for add favorite use case.
  */
-public interface AddFavoriteInputBoundary {
-    void execute(AddFavoriteInputData addFavoriteInputData);
+public interface addFavoriteInputBoundary {
+    void execute(addFavoriteInputData addFavoriteInputData);
 
-    void execute1(AddFavoriteInputData addFavoriteInputData);
+    void execute1(addFavoriteInputData addFavoriteInputData);
 }

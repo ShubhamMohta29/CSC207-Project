@@ -1,13 +1,13 @@
-package Classes.ViewSavedCards;
+package classes.viewSavedCards;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-public class LoadSavedCardsResponseModel {
+public class loadSavedCardsResponseModel {
     private final List<String> cardNames;
     private final List<BufferedImage> cardImages;
 
-    public LoadSavedCardsResponseModel(List<String> names, List<BufferedImage> images) {
+    public loadSavedCardsResponseModel(List<String> names, List<BufferedImage> images) {
         this.cardNames = names;
         this.cardImages = images;
     }

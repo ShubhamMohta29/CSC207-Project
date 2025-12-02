@@ -1,14 +1,14 @@
-package Classes.SaveCard;
+package classes.saveCard;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class FileSystemCardDataAccess implements SaveCardDataAccessInterface {
+public class fileSystemCardDataAccess implements saveCardDataAccessInterface {
 
     private final File saveDir = new File("cards/");
 
-    public FileSystemCardDataAccess() {
+    public fileSystemCardDataAccess() {
         if (!saveDir.exists()) saveDir.mkdirs();
     }
 

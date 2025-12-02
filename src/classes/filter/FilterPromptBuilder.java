@@ -1,4 +1,4 @@
-package Classes.Filter;
+package classes.filter;
 
 public class FilterPromptBuilder {
 
@@ -7,7 +7,7 @@ public class FilterPromptBuilder {
      * @param request takes in the filter conditions
      * @return returns the prompt to send to api
      */
-    public String buildPrompt(FilterInput request) {
+    public String buildPrompt(filterInput request) {
         final StringBuilder sb = new StringBuilder();
 
         sb.append("""

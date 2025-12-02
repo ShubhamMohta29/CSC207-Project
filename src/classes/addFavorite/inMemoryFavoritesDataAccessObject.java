@@ -1,14 +1,14 @@
-package classes.add_favorite;
+package classes.addFavorite;
 
 /**
  * In-memory implemention of the DAO for storing animal name.
  * This does not persist data between runs.
  */
-public class InMemoryFavoritesDataAccessObject implements AddFavoriteDataAccessInterface{
+public class inMemoryFavoritesDataAccessObject implements addFavoriteDataAccessInterface {
 
-    private final FavoriteList favorites =  new FavoriteList();
+    private final favoriteList favorites =  new favoriteList();
 
-    public FavoriteList getFavoriteList(){
+    public favoriteList getFavoriteList(){
         return favorites;
     }
 

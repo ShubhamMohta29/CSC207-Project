@@ -1,4 +1,4 @@
-package Classes.Settings;
+package classes.settings;
 
 import java.awt.Color;
 
@@ -6,7 +6,7 @@ import java.awt.Color;
  * Output model representing processed text settings for display.
  * Stores color, font name, and font size.
  */
-public class TextSettingOutput {
+public class textSettingOutput {
 
     /**
      * The text color.
@@ -30,7 +30,7 @@ public class TextSettingOutput {
      * @param font  the font name
      * @param size  the font size
      */
-    public TextSettingOutput(Color color, String font, int size) {
+    public textSettingOutput(Color color, String font, int size) {
         this.color = color;
         this.font = font;
         this.size = size;

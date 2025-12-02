@@ -1,4 +1,4 @@
-package Classes.Filter;
+package classes.filter;
 
 import java.io.IOException;
 import java.net.URI;
@@ -7,15 +7,15 @@ import java.net.http.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import Config.ProjectConfig;
+import config.projectConfig;
 
-public class LlmClientHandler {
+public class llmClientHandler {
 
     private final HttpClient client = HttpClient.newHttpClient();
-    private final String apiUrl = ProjectConfig.OPEN_ROUTER_API_URL;
-    private final String apiKey = ProjectConfig.getOpenRouterApiKey();
-    private final String model = FilterConstants.MODEL;
-    private final int maxTokens = FilterConstants.MAX_TOKENS;
+    private final String apiUrl = projectConfig.OPEN_ROUTER_API_URL;
+    private final String apiKey = projectConfig.getOpenRouterApiKey();
+    private final String model = filterConstants.MODEL;
+    private final int maxTokens = filterConstants.MAX_TOKENS;
 
     /**
      * LLM handler.

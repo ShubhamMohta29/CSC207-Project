@@ -1,8 +1,8 @@
-package Classes.GenerateTradingCard;
+package classes.generateTradingCard;
 
 import java.awt.image.BufferedImage;
 
-public class TradingCardViewModel {
+public class tradingCardViewModel {
     private BufferedImage image;
     private String animalName;
 

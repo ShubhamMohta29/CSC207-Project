@@ -9,31 +9,31 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import Classes.retrieveInfo.Animal;
-import Classes.GenerateTradingCard.CardAppearanceConstants;
-import Classes.GenerateTradingCard.TradingCardService;
-import Classes.GenerateTradingCard.TradingCardViewModel;
-import Classes.SaveCard.*;
+import classes.retrieveInfo.animal;
+import classes.generateTradingCard.cardAppearanceConstants;
+import classes.generateTradingCard.tradingCardService;
+import classes.generateTradingCard.tradingCardViewModel;
+import classes.saveCard.*;
 
 /**
  * UI window for viewing, saving, and downloading a generated trading card.
  */
 public class GenerateTradingCard extends JFrame {
 
-    private final TradingCardViewModel viewModel;
+    private final tradingCardViewModel viewModel;
     private final JFrame previousScreen;
 
     /**
      * Opens trading card window with action buttons at the bottom.
      */
-    public GenerateTradingCard(final Animal animal, final JFrame previousScreen) {
+    public GenerateTradingCard(final animal animal, final JFrame previousScreen) {
         this.previousScreen = previousScreen;
-        this.viewModel = new TradingCardService().create(animal);
+        this.viewModel = new tradingCardService().create(animal);
         buildUi();
     }
 
     /** Opens card window without return screen link. */
-    public GenerateTradingCard(final Animal animal) {
+    public GenerateTradingCard(final animal animal) {
         this(animal, null);
     }
 
@@ -41,7 +41,7 @@ public class GenerateTradingCard extends JFrame {
     private void buildUi() {
         setTitle("Trading Card");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setSize(CardAppearanceConstants.CARD_WIDTH, CardAppearanceConstants.CARD_HEIGHT);
+        setSize(cardAppearanceConstants.CARD_WIDTH, cardAppearanceConstants.CARD_HEIGHT);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
@@ -79,10 +79,10 @@ public class GenerateTradingCard extends JFrame {
 
     /** Saves card internally using SaveCard use case. */
     private void saveCard() {
-        SaveCardController controller = new SaveCardController(
-                new SaveCardInteractor(
-                        new FileSystemCardDataAccess(),
-                        new SaveCardPresenter()
+        saveCardController controller = new saveCardController(
+                new saveCardInteractor(
+                        new fileSystemCardDataAccess(),
+                        new saveCardPresenter()
                 )
         );
 

@@ -1,14 +1,14 @@
-package Classes.retrieveInfo;
+package classes.retrieveInfo;
 
-public class SearchAnimalsPresenter implements SearchAnimalsOutputBoundary {
-    private final SearchAnimalsViewModel viewModel;
+public class searchAnimalsPresenter implements searchAnimalsOutputBoundary {
+    private final searchAnimalsViewModel viewModel;
 
-    public SearchAnimalsPresenter(SearchAnimalsViewModel viewModel) {
+    public searchAnimalsPresenter(searchAnimalsViewModel viewModel) {
         this.viewModel = viewModel;
     }
 
     @Override
-    public void present(Classes.retrieveInfo.SearchAnimalsOutputData responseModel) {
+    public void present(searchAnimalsOutputData responseModel) {
         viewModel.setSuccess(responseModel.isSuccess());
         viewModel.setMessage(responseModel.getErrorMessage());
         viewModel.setAnimals(responseModel.getAnimals());

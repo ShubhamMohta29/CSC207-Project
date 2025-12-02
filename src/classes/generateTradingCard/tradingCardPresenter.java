@@ -1,10 +1,10 @@
-package Classes.GenerateTradingCard;
+package classes.generateTradingCard;
 
-public class TradingCardPresenter implements GenerateTradingCardOutputBoundary {
+public class tradingCardPresenter implements generateTradingCardOutputBoundary {
 
     @Override
-    public TradingCardViewModel prepareSuccessView(GenerateTradingCardResponseModel response) {
-        final TradingCardViewModel vm = new TradingCardViewModel();
+    public tradingCardViewModel prepareSuccessView(generateTradingCardResponseModel response) {
+        final tradingCardViewModel vm = new tradingCardViewModel();
         vm.setImage(response.getImage());
         vm.setAnimalName(response.getAnimal().getName());
         return vm;

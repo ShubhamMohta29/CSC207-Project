@@ -8,17 +8,17 @@ import classes.filter.FuzzySearch.FuzzySearchProvider;
  * Interactor responsible for searching animals via a data source,
  * handling multiple results, and providing suggestions if not found.
  */
-public class SearchAnimalsInteractor implements SearchAnimalsInputBoundary {
+public class searchAnimalsInteractor implements searchAnimalsInputBoundary {
 
-    private final AnimalDataSource dataSource;
-    private final SearchAnimalsOutputBoundary presenter;
-    private final AnimalFactory factory;
+    private final animalDataSource dataSource;
+    private final searchAnimalsOutputBoundary presenter;
+    private final animalFactory factory;
     private final FuzzySearchProvider fuzzyProvider;
 
-    public SearchAnimalsInteractor(
-            final AnimalDataSource dataSource,
-            final SearchAnimalsOutputBoundary presenter,
-            final AnimalFactory factory,
+    public searchAnimalsInteractor(
+            final animalDataSource dataSource,
+            final searchAnimalsOutputBoundary presenter,
+            final animalFactory factory,
             final FuzzySearchProvider fuzzyProvider) {
         this.dataSource = dataSource;
         this.presenter = presenter;
@@ -27,9 +27,9 @@ public class SearchAnimalsInteractor implements SearchAnimalsInputBoundary {
     }
 
     @Override
-    public void execute(final SearchAnimalsInputData requestModel) {
+    public void execute(final searchAnimalsInputData requestModel) {
         final String query = normalizeQuery(requestModel.getQuery());
-        final SearchAnimalsOutputData result;
+        final searchAnimalsOutputData result;
 
         if (query.isEmpty()) {
             result = emptyQueryResult();
@@ -65,10 +65,10 @@ public class SearchAnimalsInteractor implements SearchAnimalsInputBoundary {
      *
      * @return SearchAnimalsOutputData for empty query
      */
-    private SearchAnimalsOutputData emptyQueryResult() {
-        return new SearchAnimalsOutputData(false,
+    private searchAnimalsOutputData emptyQueryResult() {
+        return new searchAnimalsOutputData(false,
                 "Please enter an animal name.",
-                new Animal[0],
+                new animal[0],
                 null);
     }
 
@@ -78,8 +78,8 @@ public class SearchAnimalsInteractor implements SearchAnimalsInputBoundary {
      * @param query the normalized query string
      * @return SearchAnimalsOutputData containing the search result
      */
-    private SearchAnimalsOutputData searchAnimals(final String query) {
-        SearchAnimalsOutputData result;
+    private searchAnimalsOutputData searchAnimals(final String query) {
+        searchAnimalsOutputData result;
         try {
             final String json = dataSource.getAnimalJson(query);
             result = processJsonResult(query, json);
@@ -97,8 +97,8 @@ public class SearchAnimalsInteractor implements SearchAnimalsInputBoundary {
      * @param json the JSON returned by the data source
      * @return SearchAnimalsOutputData representing the result
      */
-    private SearchAnimalsOutputData processJsonResult(final String query, final String json) {
-        final SearchAnimalsOutputData result;
+    private searchAnimalsOutputData processJsonResult(final String query, final String json) {
+        final searchAnimalsOutputData result;
         if (json == null) {
             result = handleNotFound(query);
         }
@@ -123,10 +123,10 @@ public class SearchAnimalsInteractor implements SearchAnimalsInputBoundary {
      * @param networkEx the network exception
      * @return SearchAnimalsOutputData indicating network error
      */
-    private SearchAnimalsOutputData networkErrorResult(final Exception networkEx) {
-        return new SearchAnimalsOutputData(false,
+    private searchAnimalsOutputData networkErrorResult(final Exception networkEx) {
+        return new searchAnimalsOutputData(false,
                 "Network error: " + networkEx.getMessage(),
-                new Animal[0],
+                new animal[0],
                 null);
     }
 
@@ -136,7 +136,7 @@ public class SearchAnimalsInteractor implements SearchAnimalsInputBoundary {
      * @param query the original query string
      * @return SearchAnimalsOutputData indicating not found
      */
-    private SearchAnimalsOutputData handleNotFound(final String query) {
+    private searchAnimalsOutputData handleNotFound(final String query) {
         final String suggestion;
         if (fuzzyProvider == null) {
             suggestion = null;
@@ -153,7 +153,7 @@ public class SearchAnimalsInteractor implements SearchAnimalsInputBoundary {
             message = "Animal not found. Suggestion: " + suggestion;
         }
 
-        return new SearchAnimalsOutputData(false, message, new Animal[0], suggestion);
+        return new searchAnimalsOutputData(false, message, new animal[0], suggestion);
     }
 
     /**
@@ -161,8 +161,8 @@ public class SearchAnimalsInteractor implements SearchAnimalsInputBoundary {
      *
      * @return SearchAnimalsOutputData for zero results
      */
-    private SearchAnimalsOutputData noResults() {
-        return new SearchAnimalsOutputData(false, "No results found.", new Animal[0], null);
+    private searchAnimalsOutputData noResults() {
+        return new searchAnimalsOutputData(false, "No results found.", new animal[0], null);
     }
 
     /**
@@ -171,9 +171,9 @@ public class SearchAnimalsInteractor implements SearchAnimalsInputBoundary {
      * @param json the JSON string for one animal
      * @return SearchAnimalsOutputData containing the single animal
      */
-    private SearchAnimalsOutputData singleResult(final String json) {
-        final Animal a = factory.fromJsonArrayString(json);
-        return new SearchAnimalsOutputData(true, null, new Animal[]{a}, null);
+    private searchAnimalsOutputData singleResult(final String json) {
+        final animal a = factory.fromJsonArrayString(json);
+        return new searchAnimalsOutputData(true, null, new animal[]{a}, null);
     }
 
     /**
@@ -182,9 +182,9 @@ public class SearchAnimalsInteractor implements SearchAnimalsInputBoundary {
      * @param json the JSON string containing multiple animals
      * @return SearchAnimalsOutputData containing all animals
      */
-    private SearchAnimalsOutputData multipleResults(final String json) {
+    private searchAnimalsOutputData multipleResults(final String json) {
         final org.json.JSONArray arr = new org.json.JSONArray(json);
-        final Animal[] animals = new Animal[arr.length()];
+        final animal[] animals = new animal[arr.length()];
 
         for (int i = 0; i < arr.length(); i++) {
             final org.json.JSONArray singleArray = new org.json.JSONArray();
@@ -192,6 +192,6 @@ public class SearchAnimalsInteractor implements SearchAnimalsInputBoundary {
             animals[i] = factory.fromJsonArrayString(singleArray.toString());
         }
 
-        return new SearchAnimalsOutputData(true, null, animals, null);
+        return new searchAnimalsOutputData(true, null, animals, null);
     }
 }

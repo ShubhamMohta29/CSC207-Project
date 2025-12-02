@@ -1,25 +1,25 @@
 /**
  * FilterViewModel : Holds current filtered results and pagination info. GUI reads from this class to render results.
  */
-package Classes.Filter;
+package classes.filter;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Classes.retrieveInfo.Animal;
+import classes.retrieveInfo.animal;
 
 public class FilterViewModel {
 
     // field declarations
-    private List<Animal> animals = new ArrayList<>();
+    private List<animal> animals = new ArrayList<>();
     private boolean hasMore;
     private String nextCursor;
 
     /*
     Constructor
      */
-    public List<Animal> getAnimals() {
+    public List<animal> getAnimals() {
         return List.copyOf(animals);
         // to prevent external modification
     }
@@ -27,7 +27,7 @@ public class FilterViewModel {
     /*
     Creates the list of animals to be displayed in the results panel
      */
-    public void setAnimals(List<Animal> newAnimals) {
+    public void setAnimals(List<animal> newAnimals) {
         this.animals = new ArrayList<>(newAnimals);
     }
 
@@ -35,7 +35,7 @@ public class FilterViewModel {
      * Updates the list of animals to be displayed in the results panel --> load more case.
      * @param newAnimals adds to the list of animals to be displayed
      */
-    public void addAnimals(List<Animal> newAnimals) {
+    public void addAnimals(List<animal> newAnimals) {
         this.animals.addAll(newAnimals);
     }
 

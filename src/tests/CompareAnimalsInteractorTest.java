@@ -4,11 +4,11 @@
 // Integration tests for animal comparison flows
 // ============================================
 
-package Tests;
+package tests;
 
-import Classes.retrieveInfo.Animal;
-import Classes.Compatibility.usecases.*;
-import Classes.retrieveInfo.AnimalFactory;
+import classes.retrieveInfo.animal;
+import classes.compatibility.usecases.*;
+import classes.retrieveInfo.animalFactory;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +18,7 @@ public class CompareAnimalsInteractorTest {
     void testMainFlow_BothAnimalsValid() {
         TestDataAccess dataAccess = new TestDataAccess();
         TestPresenter presenter = new TestPresenter();
-        CompareAnimalsInteractor interactor = new CompareAnimalsInteractor(dataAccess, presenter);
+        compareAnimalsInteractor interactor = new compareAnimalsInteractor(dataAccess, presenter);
 
         dataAccess.addAnimal("Lion", createLion());
         dataAccess.addAnimal("Tiger", createTiger());
@@ -37,7 +37,7 @@ public class CompareAnimalsInteractorTest {
     void testMainFlow_BothAnimalsEmpty() {
         TestDataAccess dataAccess = new TestDataAccess();
         TestPresenter presenter = new TestPresenter();
-        CompareAnimalsInteractor interactor = new CompareAnimalsInteractor(dataAccess, presenter);
+        compareAnimalsInteractor interactor = new compareAnimalsInteractor(dataAccess, presenter);
 
         interactor.execute("", "");
 
@@ -50,7 +50,7 @@ public class CompareAnimalsInteractorTest {
     void testMainFlow_FirstEmptySecondValid() {
         TestDataAccess dataAccess = new TestDataAccess();
         TestPresenter presenter = new TestPresenter();
-        CompareAnimalsInteractor interactor = new CompareAnimalsInteractor(dataAccess, presenter);
+        compareAnimalsInteractor interactor = new compareAnimalsInteractor(dataAccess, presenter);
 
         dataAccess.addAnimal("Tiger", createTiger());
 
@@ -65,7 +65,7 @@ public class CompareAnimalsInteractorTest {
     void testMainFlow_FirstValidSecondEmpty() {
         TestDataAccess dataAccess = new TestDataAccess();
         TestPresenter presenter = new TestPresenter();
-        CompareAnimalsInteractor interactor = new CompareAnimalsInteractor(dataAccess, presenter);
+        compareAnimalsInteractor interactor = new compareAnimalsInteractor(dataAccess, presenter);
 
         dataAccess.addAnimal("Lion", createLion());
 
@@ -80,7 +80,7 @@ public class CompareAnimalsInteractorTest {
     void testMainFlow_BothAnimalsInvalid() {
         TestDataAccess dataAccess = new TestDataAccess();
         TestPresenter presenter = new TestPresenter();
-        CompareAnimalsInteractor interactor = new CompareAnimalsInteractor(dataAccess, presenter);
+        compareAnimalsInteractor interactor = new compareAnimalsInteractor(dataAccess, presenter);
 
         interactor.execute("Unicorn", "Dragon");
 
@@ -93,7 +93,7 @@ public class CompareAnimalsInteractorTest {
     void testMainFlow_FirstInvalidSecondValid() {
         TestDataAccess dataAccess = new TestDataAccess();
         TestPresenter presenter = new TestPresenter();
-        CompareAnimalsInteractor interactor = new CompareAnimalsInteractor(dataAccess, presenter);
+        compareAnimalsInteractor interactor = new compareAnimalsInteractor(dataAccess, presenter);
 
         dataAccess.addAnimal("Tiger", createTiger());
 
@@ -108,7 +108,7 @@ public class CompareAnimalsInteractorTest {
     void testMainFlow_FirstValidSecondInvalid() {
         TestDataAccess dataAccess = new TestDataAccess();
         TestPresenter presenter = new TestPresenter();
-        CompareAnimalsInteractor interactor = new CompareAnimalsInteractor(dataAccess, presenter);
+        compareAnimalsInteractor interactor = new compareAnimalsInteractor(dataAccess, presenter);
 
         dataAccess.addAnimal("Lion", createLion());
 
@@ -119,7 +119,7 @@ public class CompareAnimalsInteractorTest {
         assertFalse(presenter.wasSuccessCalled);
     }
 
-    private Animal createLion() {
+    private animal createLion() {
         String lionJson = """
             [{
                 "name": "Lion",
@@ -146,10 +146,10 @@ public class CompareAnimalsInteractorTest {
                 }
             }]
             """;
-        return new AnimalFactory().fromJsonArrayString(lionJson);
+        return new animalFactory().fromJsonArrayString(lionJson);
     }
 
-    private Animal createTiger() {
+    private animal createTiger() {
         String tigerJson = """
             [{
                 "name": "Tiger",
@@ -176,23 +176,23 @@ public class CompareAnimalsInteractorTest {
                 }
             }]
             """;
-        return new AnimalFactory().fromJsonArrayString(tigerJson);
+        return new animalFactory().fromJsonArrayString(tigerJson);
     }
 
-    private class TestDataAccess implements AnimalDataAccessInterface {
-        private java.util.Map<String, Animal> animals = new java.util.HashMap<>();
+    private class TestDataAccess implements animalDataAccessInterface {
+        private java.util.Map<String, animal> animals = new java.util.HashMap<>();
 
-        public void addAnimal(String name, Animal animal) {
+        public void addAnimal(String name, animal animal) {
             animals.put(name, animal);
         }
 
         @Override
-        public Animal getAnimalByName(String name) {
+        public animal getAnimalByName(String name) {
             return animals.get(name);
         }
     }
 
-    private class TestPresenter implements CompareAnimalsOutputBoundary {
+    private class TestPresenter implements compareAnimalsOutputBoundary {
         public boolean wasSuccessCalled = false;
         public boolean wasAnimal1ErrorCalled = false;
         public boolean wasAnimal2ErrorCalled = false;

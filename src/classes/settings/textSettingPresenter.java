@@ -1,11 +1,11 @@
-package Classes.Settings;
+package classes.settings;
 
 import java.awt.Color;
 
 /**
- * Presenter for {@link TextSettingOutput} that implements {@link TextSettingOutputBoundary}.
+ * Presenter for {@link textSettingOutput} that implements {@link textSettingOutputBoundary}.
  */
-public class TextSettingPresenter implements TextSettingOutputBoundary {
+public class textSettingPresenter implements textSettingOutputBoundary {
 
     /**
      * The text color currently prepared for display.
@@ -26,10 +26,10 @@ public class TextSettingPresenter implements TextSettingOutputBoundary {
      * Constructs a presenter initialized with default text settings.
      * These default values match the application's defined fallback settings.
      */
-    TextSettingPresenter() {
-        this.fg = SettingConstants.DEFAULT_COLOR;
-        this.font = SettingConstants.DEFAULT_FONT_NAME;
-        this.size = SettingConstants.DEFAULT_FONT_SIZE;
+    textSettingPresenter() {
+        this.fg = settingConstants.DEFAULT_COLOR;
+        this.font = settingConstants.DEFAULT_FONT_NAME;
+        this.size = settingConstants.DEFAULT_FONT_SIZE;
     }
 
     /**
@@ -38,20 +38,20 @@ public class TextSettingPresenter implements TextSettingOutputBoundary {
      *
      * <p>This method:
      * <ul>
-     *     <li>Extracts color, font, and size from the {@link TextSettingOutput}</li>
+     *     <li>Extracts color, font, and size from the {@link textSettingOutput}</li>
      *     <li>Updates the presenter’s internal state</li>
-     *     <li>Creates and returns a new {@link ViewModel} for UI rendering</li>
+     *     <li>Creates and returns a new {@link viewModel} for UI rendering</li>
      * </ul>
      *
      * @param output the output data from the interactor containing updated text settings
-     * @return a {@link ViewModel} containing display-ready values
+     * @return a {@link viewModel} containing display-ready values
      */
-    public ViewModel updateView(TextSettingOutput output) {
+    public viewModel updateView(textSettingOutput output) {
         this.fg = output.getColor();
         this.font = output.getFont();
         this.size = output.getSize();
 
-        return new ViewModel(fg, font, size);
+        return new viewModel(fg, font, size);
     }
 
     /**

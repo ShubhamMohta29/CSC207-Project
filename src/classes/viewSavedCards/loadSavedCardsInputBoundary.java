@@ -1,5 +1,5 @@
-package Classes.ViewSavedCards;
+package classes.viewSavedCards;
 
-public interface LoadSavedCardsInputBoundary {
-    LoadSavedCardsResponseModel load(LoadSavedCardsRequestModel requestModel);
+public interface loadSavedCardsInputBoundary {
+    loadSavedCardsResponseModel load(loadSavedCardsRequestModel requestModel);
 }

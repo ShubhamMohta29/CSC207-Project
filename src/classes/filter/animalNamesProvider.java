@@ -2,7 +2,7 @@
  * AnimalNamesProvider :LLM - OpenRouterAPI.
  */
 
-package Classes.Filter;
+package classes.filter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,18 +10,18 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class AnimalNamesProvider implements AnimalNamesProviderI {
+public class animalNamesProvider implements animalNamesProviderI {
 
     private final FilterPromptBuilder promptBuilder;
-    private final LlmClientHandler llmClient;
+    private final llmClientHandler llmClient;
 
-    public AnimalNamesProvider() {
+    public animalNamesProvider() {
         this.promptBuilder = new FilterPromptBuilder();
-        this.llmClient = new LlmClientHandler();
+        this.llmClient = new llmClientHandler();
     }
 
     @Override
-    public List<String> getCandidateNames(FilterInput request) {
+    public List<String> getCandidateNames(filterInput request) {
         final String prompt = promptBuilder.buildPrompt(request);
         final String response = llmClient.query(prompt);
 

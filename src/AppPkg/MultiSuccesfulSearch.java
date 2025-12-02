@@ -1,22 +1,22 @@
 package AppPkg;
 
-import Classes.retrieveInfo.Animal;
+import classes.retrieveInfo.animal;
 
 import javax.swing.*;
 
-import static Classes.Settings.SettingConstants.DEFAULT_SETTINGS_FILE;
+import static classes.settings.settingConstants.DEFAULT_SETTINGS_FILE;
 
 public class MultiSuccesfulSearch extends javax.swing.JFrame
 {
     private final UIManager config = new UIManager(DEFAULT_SETTINGS_FILE);
 
-    public MultiSuccesfulSearch(Animal[] animals)
+    public MultiSuccesfulSearch(animal[] animals)
     {
         initComponents();
 
         // Populates the JList
         DefaultListModel<String> model = new DefaultListModel<>();
-        for (Animal a : animals) {
+        for (animal a : animals) {
             model.addElement(a.getName());
         }
         jListOptions.setModel(model);
@@ -28,7 +28,7 @@ public class MultiSuccesfulSearch extends javax.swing.JFrame
                 if (evt.getClickCount() == 2) {
                     int selectedIndex = jListOptions.locationToIndex(evt.getPoint());
                     if (selectedIndex >= 0) {
-                        Animal selectedAnimal = animals[selectedIndex];
+                        animal selectedAnimal = animals[selectedIndex];
 
                         new SuccesfulSearch(selectedAnimal).setVisible(true);
                         MultiSuccesfulSearch.this.dispose();

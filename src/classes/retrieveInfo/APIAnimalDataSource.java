@@ -1,4 +1,4 @@
-package Classes.retrieveInfo;
+package classes.retrieveInfo;
 
 import java.io.IOException;
 import java.net.URI;
@@ -8,9 +8,9 @@ import java.net.http.HttpResponse;
 
 import org.json.JSONArray;
 
-import Config.ProjectConfig;
+import config.projectConfig;
 
-public class APIAnimalDataSource implements AnimalDataSource {
+public class APIAnimalDataSource implements animalDataSource {
 
     private static final String PARENS = "[]";
 
@@ -20,8 +20,8 @@ public class APIAnimalDataSource implements AnimalDataSource {
     private String lastResponse = "[]";
 
     public APIAnimalDataSource() {
-        this.apiUrl = ProjectConfig.NINJA_API_URL;
-        this.apiKey = ProjectConfig.getNinjaApiKey();
+        this.apiUrl = projectConfig.NINJA_API_URL;
+        this.apiKey = projectConfig.getNinjaApiKey();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class APIAnimalDataSource implements AnimalDataSource {
                 .build();
         final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        if (response.statusCode() == AnimalConstants.HTTP_OK) {
+        if (response.statusCode() == animalConstants.HTTP_OK) {
             lastResponse = response.body();
             if (lastResponse != null && !lastResponse.trim().isEmpty() && !lastResponse.equals(PARENS)) {
                 result = lastResponse;

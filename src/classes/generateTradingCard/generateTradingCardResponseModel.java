@@ -1,15 +1,15 @@
-package Classes.GenerateTradingCard;
+package classes.generateTradingCard;
 
 import java.awt.image.BufferedImage;
 
-import Classes.retrieveInfo.Animal;
+import classes.retrieveInfo.animal;
 
-public class GenerateTradingCardResponseModel {
+public class generateTradingCardResponseModel {
 
     private final BufferedImage image;
-    private final Animal animal;
+    private final animal animal;
 
-    public GenerateTradingCardResponseModel(BufferedImage image, Animal animal) {
+    public generateTradingCardResponseModel(BufferedImage image, animal animal) {
         this.image = image;
         this.animal = animal;
     }
@@ -18,7 +18,7 @@ public class GenerateTradingCardResponseModel {
         return image;
     }
 
-    public Animal getAnimal() {
+    public animal getAnimal() {
         return animal;
     }
 }

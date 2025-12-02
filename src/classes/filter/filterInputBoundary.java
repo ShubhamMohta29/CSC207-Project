@@ -2,14 +2,14 @@
  * FilterInputBoundary : Interface called by controller.
  */
 
-package Classes.Filter;
+package classes.filter;
 
-public interface FilterInputBoundary {
+public interface filterInputBoundary {
 
     /**
      * Filter Input boundary.
      * @param input filter request object
      * @return list of filtere animals with their display info
      */
-    FilterOutput filterAnimals(FilterInput input);
+    filterOutput filterAnimals(filterInput input);
 }

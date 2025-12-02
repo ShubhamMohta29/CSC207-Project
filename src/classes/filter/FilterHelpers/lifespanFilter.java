@@ -1,13 +1,13 @@
-package Classes.Filter.FilterHelpers;
+package classes.filter.FilterHelpers;
 
-import Classes.retrieveInfo.Animal;
+import classes.retrieveInfo.animal;
 
 // Lifespan filter
-public class LifespanFilter implements AnimalFilter {
+public class lifespanFilter implements animalFilter {
     private final Integer minLifespan;
     private final Integer maxLifespan;
 
-    public LifespanFilter(Integer minLifespan, Integer maxLifespan) {
+    public lifespanFilter(Integer minLifespan, Integer maxLifespan) {
         this.minLifespan = minLifespan;
         this.maxLifespan = maxLifespan;
     }
@@ -18,7 +18,7 @@ public class LifespanFilter implements AnimalFilter {
      * @return if it matches the lifespan filter
      */
     @Override
-    public boolean matches(Animal a) {
+    public boolean matches(animal a) {
         boolean flag = true;
         if (minLifespan != null && a.getLifespan() < minLifespan) {
             flag = true;

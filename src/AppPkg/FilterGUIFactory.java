@@ -6,10 +6,10 @@ package AppPkg;
 
 import javax.swing.*;
 
-import Classes.Filter.*;
-import Classes.Filter.FilterHelpers.CandidateCache;
-import Classes.Filter.FilterHelpers.PaginationHelper;
-import Classes.retrieveInfo.APIClass;
+import classes.filter.*;
+import classes.filter.FilterHelpers.candidateCache;
+import classes.filter.FilterHelpers.paginationHelper;
+import classes.retrieveInfo.APIClass;
 
 public class FilterGUIFactory {
     /**
@@ -22,10 +22,10 @@ public class FilterGUIFactory {
         // required parameters
         final APIClass animalProvider = new APIClass();
         final FilterViewModel vm = new FilterViewModel();
-        final FilterPresenter filterPresenter = new FilterPresenter(vm);
-        final AnimalNamesProviderI nameProvider = new AnimalNamesProvider();
-        final FilterInteractor interactor = new FilterInteractor(nameProvider, filterPresenter, animalProvider, new CandidateCache(), new PaginationHelper());
-        final FilterController filterController = new FilterController(interactor);
+        final filterPresenter filterPresenter = new filterPresenter(vm);
+        final animalNamesProviderI nameProvider = new animalNamesProvider();
+        final filterInteractor interactor = new filterInteractor(nameProvider, filterPresenter, animalProvider, new candidateCache(), new paginationHelper());
+        final filterController filterController = new filterController(interactor);
 
         // build GUI
         return new FilterGUI(parent, filterController, vm);

@@ -2,11 +2,11 @@
  * FilterRepositoryI: Data Access Interface for the LLM.
  */
 
-package Classes.Filter;
+package classes.filter;
 
 import java.util.List;
 
-public interface AnimalNamesProviderI {
+public interface animalNamesProviderI {
 
     /**
         * The function getCandidateName: fetches a list of potential animal names that meet the user's filter criteria.
@@ -18,6 +18,6 @@ public interface AnimalNamesProviderI {
         *       coupled with the FilterInput
         * @return returns the list of potential candidates.
      */
-    List<String> getCandidateNames(FilterInput input);
+    List<String> getCandidateNames(filterInput input);
 
 }

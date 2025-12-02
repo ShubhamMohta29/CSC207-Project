@@ -1,12 +1,12 @@
-package Classes.SaveCard;
+package classes.saveCard;
 
 import java.time.LocalDateTime;
 
-public class SaveCardResponseModel {
+public class saveCardResponseModel {
     private final String cardName;
     private final LocalDateTime timeSaved;
 
-    public SaveCardResponseModel(String cardName, LocalDateTime timeSaved) {
+    public saveCardResponseModel(String cardName, LocalDateTime timeSaved) {
         this.cardName = cardName;
         this.timeSaved = timeSaved;
     }

@@ -1,12 +1,12 @@
-package Classes.SaveCard;
+package classes.saveCard;
 
 import java.awt.image.BufferedImage;
 
-public class SaveCardRequestModel {
+public class saveCardRequestModel {
     private final String cardName;
     private final BufferedImage cardImage;
 
-    public SaveCardRequestModel(String cardName, BufferedImage cardImage) {
+    public saveCardRequestModel(String cardName, BufferedImage cardImage) {
         this.cardName = cardName;
         this.cardImage = cardImage;
     }

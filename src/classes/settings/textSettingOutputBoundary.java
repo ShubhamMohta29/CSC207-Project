@@ -1,4 +1,4 @@
-package Classes.Settings;
+package classes.settings;
 
 import java.awt.Color;
 
@@ -6,7 +6,7 @@ import java.awt.Color;
  * Interface representing the output boundary for text settings.
  * Provides methods to retrieve color, font size, and font name for display.
  */
-public interface TextSettingOutputBoundary {
+public interface textSettingOutputBoundary {
 
     /**
      * Returns the text color.
@@ -31,8 +31,8 @@ public interface TextSettingOutputBoundary {
 
     /**
      * Returns the view model.
-     * @param output ViewModel for UI manager
-     * @return ViewModel
+     * @param output viewModel for UI manager
+     * @return viewModel
      */
-    ViewModel updateView(TextSettingOutput output);
+    viewModel updateView(textSettingOutput output);
 }

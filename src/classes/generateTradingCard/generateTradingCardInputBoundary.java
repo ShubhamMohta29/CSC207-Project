@@ -1,9 +1,9 @@
-package Classes.GenerateTradingCard;
+package classes.generateTradingCard;
 
 /**
  * Defines the input boundary for generating a trading card.
  */
-public interface GenerateTradingCardInputBoundary {
+public interface generateTradingCardInputBoundary {
 
     /**
      * Generates a trading card based on the provided request model.
@@ -11,5 +11,5 @@ public interface GenerateTradingCardInputBoundary {
      * @param requestModel the request containing animal data for the card
      * @return a TradingCardViewModel with generated card details
      */
-    TradingCardViewModel generate(GenerateTradingCardRequestModel requestModel);
+    tradingCardViewModel generate(generateTradingCardRequestModel requestModel);
 }

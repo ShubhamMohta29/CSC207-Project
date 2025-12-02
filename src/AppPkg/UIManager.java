@@ -1,9 +1,9 @@
 package AppPkg;
 
-import Classes.Settings.TextSettingController;
+import classes.settings.textSettingController;
 import AppPkg.UIStrategy.StrategyMap;
 import AppPkg.UIStrategy.UIStyleStrategy;
-import Classes.Settings.ViewModel;
+import classes.settings.viewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,8 +21,8 @@ public class UIManager {
     public UIManager(String filePath) {
 
         // Build controller to load stored settings
-        TextSettingController controller = new TextSettingController(filePath);
-        ViewModel viewModel = controller.getViewModel();
+        textSettingController controller = new textSettingController(filePath);
+        viewModel viewModel = controller.getViewModel();
 
         // Store UI-ready settings
         this.filePath = filePath;
@@ -43,8 +43,8 @@ public class UIManager {
     public void updateALL(JFrame frame) {
 
         // Rebuild controller + view model so we get newest settings
-        TextSettingController controller = new TextSettingController(filePath);
-        ViewModel viewModel = controller.getViewModel();
+        textSettingController controller = new textSettingController(filePath);
+        viewModel viewModel = controller.getViewModel();
 
         this.fg = viewModel.getColor();
         this.font = viewModel.getFont();

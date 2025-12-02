@@ -5,25 +5,20 @@ import java.awt.Cursor;
 import java.awt.Font;
 
 // Project imports - Classes package
-import Classes.Filter.FuzzySearch.AnimalFuzzySearch;
-import Classes.Filter.FuzzySearch.FuzzySearchProvider;
-import Classes.ViewSavedCards.FileSystemLoadSavedCardsDataAccess;
-import Classes.ViewSavedCards.LoadSavedCardsController;
-import Classes.ViewSavedCards.LoadSavedCardsInteractor;
-import Classes.ViewSavedCards.LoadSavedCardsPresenter;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import classes.filter.FuzzySearch.AnimalFuzzySearch;
+import classes.filter.FuzzySearch.FuzzySearchProvider;
+import classes.viewSavedCards.fileSystemLoadSavedCardsDataAccess;
+import classes.viewSavedCards.loadSavedCardsController;
+import classes.viewSavedCards.loadSavedCardsInteractor;
+import classes.viewSavedCards.loadSavedCardsPresenter;
 
-import java.awt.*;
-
-import static Classes.Settings.SettingConstants.*;
-import Classes.retrieveInfo.APIClass;
-import Classes.retrieveInfo.AnimalFactory;
+import classes.retrieveInfo.APIClass;
+import classes.retrieveInfo.animalFactory;
 import AppPkg.Controllers.SearchController;
 import AppPkg.Controllers.SearchResult;
-import static Classes.Settings.SettingConstants.DEFAULT_SETTINGS_FILE;
-import static Classes.Settings.SettingConstants.DEFAULT_STYLE;
-import static Classes.Settings.SettingConstants.HEADING_FONT_SIZE;
+import static classes.settings.settingConstants.DEFAULT_SETTINGS_FILE;
+import static classes.settings.settingConstants.DEFAULT_STYLE;
+import static classes.settings.settingConstants.HEADING_FONT_SIZE;
 
 public class  MainMenu extends javax.swing.JFrame
 {
@@ -35,7 +30,7 @@ public class  MainMenu extends javax.swing.JFrame
 
     public MainMenu()
     {
-        this.searchController = new SearchController(this.api, this.fuzzyProvider, new AnimalFactory());
+        this.searchController = new SearchController(this.api, this.fuzzyProvider, new animalFactory());
         initComponents();
         updateLabelStyle();// apply setting changes
     }
@@ -43,7 +38,7 @@ public class  MainMenu extends javax.swing.JFrame
     public MainMenu(FuzzySearchProvider fuzzyProvider, APIClass api){
         this.fuzzyProvider = fuzzyProvider;
         this.api = api;
-        this.searchController = new SearchController(this.api, this.fuzzyProvider, new AnimalFactory());
+        this.searchController = new SearchController(this.api, this.fuzzyProvider, new animalFactory());
         initComponents();
         updateLabelStyle();
     }
@@ -197,10 +192,10 @@ public class  MainMenu extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void openSavedCardsLibrary() {
-        var controller = new LoadSavedCardsController(
-                new LoadSavedCardsInteractor(
-                        new FileSystemLoadSavedCardsDataAccess(),
-                        new LoadSavedCardsPresenter()
+        var controller = new loadSavedCardsController(
+                new loadSavedCardsInteractor(
+                        new fileSystemLoadSavedCardsDataAccess(),
+                        new loadSavedCardsPresenter()
                 )
         );
 

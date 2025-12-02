@@ -1,9 +1,9 @@
-package Classes.ViewSavedCards;
+package classes.viewSavedCards;
 
-public class LoadSavedCardsPresenter implements LoadSavedCardsOutputBoundary {
+public class loadSavedCardsPresenter implements loadSavedCardsOutputBoundary {
 
     @Override
-    public LoadSavedCardsResponseModel prepareSuccessView(LoadSavedCardsResponseModel responseModel) {
+    public loadSavedCardsResponseModel prepareSuccessView(loadSavedCardsResponseModel responseModel) {
         return responseModel;
     }
 }

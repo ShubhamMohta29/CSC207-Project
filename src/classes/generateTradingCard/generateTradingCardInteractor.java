@@ -1,26 +1,26 @@
-package Classes.GenerateTradingCard;
+package classes.generateTradingCard;
 
-import Classes.retrieveInfo.Animal;
-import java.awt.*;
+import classes.retrieveInfo.animal;
+
 import java.awt.image.BufferedImage;
 
-public class GenerateTradingCardInteractor implements GenerateTradingCardInputBoundary {
+public class generateTradingCardInteractor implements generateTradingCardInputBoundary {
 
-    private final GenerateTradingCardOutputBoundary presenter;
-    private final CardImageGenerator generator;
+    private final generateTradingCardOutputBoundary presenter;
+    private final cardImageGenerator generator;
 
-    public GenerateTradingCardInteractor(GenerateTradingCardOutputBoundary presenter,
-                                         CardImageGenerator generator) {
+    public generateTradingCardInteractor(generateTradingCardOutputBoundary presenter,
+                                         cardImageGenerator generator) {
         this.presenter = presenter;
         this.generator = generator;
     }
 
     @Override
-    public TradingCardViewModel generate(GenerateTradingCardRequestModel requestModel) {
-        final Animal animal = requestModel.getAnimal();
+    public tradingCardViewModel generate(generateTradingCardRequestModel requestModel) {
+        final animal animal = requestModel.getAnimal();
         final BufferedImage img = generator.generate(animal);
-        final GenerateTradingCardResponseModel response =
-                new GenerateTradingCardResponseModel(img, animal);
+        final generateTradingCardResponseModel response =
+                new generateTradingCardResponseModel(img, animal);
         return presenter.prepareSuccessView(response);
     }
 }

@@ -1,15 +1,15 @@
-package Classes.GenerateTradingCard;
+package classes.generateTradingCard;
 
-import Classes.retrieveInfo.Animal;
+import classes.retrieveInfo.animal;
 
-public class GenerateTradingCardRequestModel {
-    private final Animal animal;
+public class generateTradingCardRequestModel {
+    private final animal animal;
 
-    public GenerateTradingCardRequestModel(Animal animal) {
+    public generateTradingCardRequestModel(animal animal) {
         this.animal = animal;
     }
 
-    public Animal getAnimal() {
+    public animal getAnimal() {
         return animal;
     }
 }

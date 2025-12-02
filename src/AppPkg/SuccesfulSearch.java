@@ -1,21 +1,21 @@
 package AppPkg;
 
-import Classes.retrieveInfo.Animal;
-import Classes.add_favorite.AddFavoriteController;
-import Classes.add_favorite.AddFavoriteInputBoundary;
-import Classes.add_favorite.AddFavoriteInteractor;
-import Classes.add_favorite.FileFavoritesDataAccessObject;
+import classes.retrieveInfo.animal;
+import classes.addFavorite.addFavoriteController;
+import classes.addFavorite.addFavoriteInputBoundary;
+import classes.addFavorite.addFavoriteInteractor;
+import classes.addFavorite.fileFavoritesDataAccessObject;
 
 import java.awt.*;
 
-import static Classes.Settings.SettingConstants.DEFAULT_SETTINGS_FILE;
+import static classes.settings.settingConstants.DEFAULT_SETTINGS_FILE;
 
 public class SuccesfulSearch extends javax.swing.JFrame
 {
     private final UIManager config = new UIManager(DEFAULT_SETTINGS_FILE);
-    private Animal animal;
+    private animal animal;
 
-    public SuccesfulSearch(Animal animal)
+    public SuccesfulSearch(animal animal)
     {
         initComponents();
         txaDisplay.setEditable(false);
@@ -131,11 +131,11 @@ public class SuccesfulSearch extends javax.swing.JFrame
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void btnAddFavoriteActionPerformed(java.awt.event.ActionEvent evt) {
-        final FileFavoritesDataAccessObject favoritesDataAccessObject
-                = new FileFavoritesDataAccessObject("favorites.csv");
+        final fileFavoritesDataAccessObject favoritesDataAccessObject
+                = new fileFavoritesDataAccessObject("favorites.csv");
 
-        final AddFavoriteInputBoundary addFavoriteInteractor = new AddFavoriteInteractor(favoritesDataAccessObject);
-        AddFavoriteController addFavoriteController = new AddFavoriteController(addFavoriteInteractor);
+        final addFavoriteInputBoundary addFavoriteInteractor = new addFavoriteInteractor(favoritesDataAccessObject);
+        addFavoriteController addFavoriteController = new addFavoriteController(addFavoriteInteractor);
 
         btnAddFavorite.setBackground(Color.RED);
         btnAddFavorite.setOpaque(true);

@@ -1,12 +1,12 @@
-package classes.add_favorite;
+package classes.addFavorite;
 
 /**
  * The add favorite interactor
  */
-public class AddFavoriteInteractor implements AddFavoriteInputBoundary{
-    private final AddFavoriteDataAccessInterface addFavoriteDataAccessObject;
+public class addFavoriteInteractor implements addFavoriteInputBoundary {
+    private final addFavoriteDataAccessInterface addFavoriteDataAccessObject;
 
-    public AddFavoriteInteractor(AddFavoriteDataAccessInterface addFavoriteDataAccessInterface){
+    public addFavoriteInteractor(addFavoriteDataAccessInterface addFavoriteDataAccessInterface){
         this.addFavoriteDataAccessObject = addFavoriteDataAccessInterface;
     }
 
@@ -14,7 +14,7 @@ public class AddFavoriteInteractor implements AddFavoriteInputBoundary{
     /**
      * Add name to a favorite list.
      */
-    public void execute(AddFavoriteInputData addFavoriteInputData) {
+    public void execute(addFavoriteInputData addFavoriteInputData) {
         final String name = addFavoriteInputData.getName();
         addFavoriteDataAccessObject.addFavorite(name);
     }
@@ -22,7 +22,7 @@ public class AddFavoriteInteractor implements AddFavoriteInputBoundary{
     /**
      * Remove name from a favorite list.
      */
-    public void execute1(AddFavoriteInputData addFavoriteInputData) {
+    public void execute1(addFavoriteInputData addFavoriteInputData) {
         final String name = addFavoriteInputData.getName();
         addFavoriteDataAccessObject.removeFavorite(name);
     }

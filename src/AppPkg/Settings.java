@@ -1,11 +1,11 @@
 package AppPkg;
 
-import Classes.Settings.*;
+import classes.settings.*;
 
-import static Classes.Settings.SettingConstants.*;
+import static classes.settings.settingConstants.*;
 
 public class Settings extends javax.swing.JFrame {
-    private final TextSettingController textSettingController = new TextSettingController(DEFAULT_SETTINGS_FILE);
+    private final textSettingController textSettingController = new textSettingController(DEFAULT_SETTINGS_FILE);
     private UIManager config = new UIManager(DEFAULT_SETTINGS_FILE);
 
     private int size = DEFAULT_FONT_SIZE;
@@ -43,7 +43,7 @@ public class Settings extends javax.swing.JFrame {
         lblFont.setText(FONT_LABEL);
 
         // Fetches all fonts available in the OS
-        FontFetcher availableFont = new FontFetcher();
+        fontFetcher availableFont = new fontFetcher();
         String[] list = availableFont.getFonts();
         cBoxFonts.setModel(new javax.swing.DefaultComboBoxModel<>(list));
 

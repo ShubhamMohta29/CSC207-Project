@@ -1,6 +1,6 @@
-package Classes.retrieveInfo;
+package classes.retrieveInfo;
 
-public interface SearchAnimalsOutputBoundary {
+public interface searchAnimalsOutputBoundary {
 
     /**
      * Presents the result of a search operation to the output layer.
@@ -8,6 +8,6 @@ public interface SearchAnimalsOutputBoundary {
      * @param responseModel the output data containing the search results,
      *                      status, and any suggestions
      */
-    void present(SearchAnimalsOutputData responseModel);
+    void present(searchAnimalsOutputData responseModel);
 
 }

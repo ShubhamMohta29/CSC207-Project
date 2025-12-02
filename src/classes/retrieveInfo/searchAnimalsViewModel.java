@@ -1,9 +1,9 @@
-package Classes.retrieveInfo;
+package classes.retrieveInfo;
 
-public class SearchAnimalsViewModel {
+public class searchAnimalsViewModel {
     private boolean success;
     private String message;
-    private Animal[] animals;
+    private animal[] animals;
     private String suggestion;
 
     public void setSuccess(boolean success) {
@@ -14,7 +14,7 @@ public class SearchAnimalsViewModel {
         this.message = message;
     }
 
-    public void setAnimals(Animal[] animals) {
+    public void setAnimals(animal[] animals) {
         this.animals = animals;
     }
 

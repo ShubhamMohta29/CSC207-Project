@@ -1,6 +1,6 @@
 package AppPkg;
 
-import Classes.ViewSavedCards.LoadSavedCardsResponseModel;
+import classes.viewSavedCards.loadSavedCardsResponseModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 
 public class SavedCardScreen extends JFrame {
 
-    public SavedCardScreen(LoadSavedCardsResponseModel response) {
+    public SavedCardScreen(loadSavedCardsResponseModel response) {
         setTitle("My Saved Trading Cards");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(900, 650);

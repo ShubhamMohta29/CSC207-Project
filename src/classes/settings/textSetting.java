@@ -1,4 +1,4 @@
-package Classes.Settings;
+package classes.settings;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -7,7 +7,7 @@ import java.awt.Font;
  * Represents the business model for storing and managing text-related settings,
  * including font size, color, and font family name.
  */
-public class TextSetting {
+public class textSetting {
 
     /**
      * The size of the text in points.
@@ -31,7 +31,7 @@ public class TextSetting {
      * @param textColor the color of the text
      * @param fontName  the name of the font family
      */
-    public TextSetting(int textSize, Color textColor, String fontName) {
+    public textSetting(int textSize, Color textColor, String fontName) {
         this.textSize = textSize;
         this.textColor = textColor;
         this.fontName = fontName;

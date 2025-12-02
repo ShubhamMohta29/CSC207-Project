@@ -1,16 +1,16 @@
-package Classes.Compatibility.usecases;
+package classes.compatibility.usecases;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import Classes.retrieveInfo.Animal;
+import classes.retrieveInfo.animal;
 
 /**
  * Interactor for comparing two animals and calculating compatibility.
  * Implements the business logic for animal comparison.
  */
-public final class CompareAnimalsInteractor
-        implements CompareAnimalsInputBoundary {
+public final class compareAnimalsInteractor
+        implements compareAnimalsInputBoundary {
     /**
      * Array of all categories used for animal comparison.
      */
@@ -45,12 +45,12 @@ public final class CompareAnimalsInteractor
     /**
      * Data access interface for retrieving animal information.
      */
-    private final AnimalDataAccessInterface dataAccess;
+    private final animalDataAccessInterface dataAccess;
 
     /**
      * Output boundary for presenting comparison results.
      */
-    private final CompareAnimalsOutputBoundary presenter;
+    private final compareAnimalsOutputBoundary presenter;
 
     /**
      * Constructs a CompareAnimalsInteractor.
@@ -58,9 +58,9 @@ public final class CompareAnimalsInteractor
      * @param dataAccess the data access interface
      * @param presenter the output boundary for presenting results
      */
-    public CompareAnimalsInteractor(
-            final AnimalDataAccessInterface dataAccess,
-            final CompareAnimalsOutputBoundary presenter) {
+    public compareAnimalsInteractor(
+            final animalDataAccessInterface dataAccess,
+            final compareAnimalsOutputBoundary presenter) {
         this.dataAccess = dataAccess;
         this.presenter = presenter;
     }
@@ -71,9 +71,9 @@ public final class CompareAnimalsInteractor
         final boolean emptyHandled =
                 handleEmptyInputs(animal1Name, animal2Name);
         if (!emptyHandled) {
-            final Animal animal1 =
+            final animal animal1 =
                     dataAccess.getAnimalByName(animal1Name);
-            final Animal animal2 =
+            final animal animal2 =
                     dataAccess.getAnimalByName(animal2Name);
 
             final boolean nullHandled =
@@ -126,8 +126,8 @@ public final class CompareAnimalsInteractor
      * @param animal2 second animal object
      * @return true if any animal is null
      */
-    private boolean handleNullAnimals(final Animal animal1,
-                                      final Animal animal2) {
+    private boolean handleNullAnimals(final animal animal1,
+                                      final animal animal2) {
         final boolean bothNull = animal1 == null && animal2 == null;
         final boolean firstNull = animal1 == null;
         final boolean secondNull = animal2 == null;
@@ -159,8 +159,8 @@ public final class CompareAnimalsInteractor
      * @param animal1 first animal
      * @param animal2 second animal
      */
-    private void processComparison(final Animal animal1,
-                                   final Animal animal2) {
+    private void processComparison(final animal animal1,
+                                   final animal animal2) {
         final Set<String> similar =
                 calculateSimilarCategories(animal1, animal2);
         final Set<String> conflicting =
@@ -183,7 +183,7 @@ public final class CompareAnimalsInteractor
      * @return set of similar category names
      */
     private Set<String> calculateSimilarCategories(
-            final Animal animal1, final Animal animal2) {
+            final animal animal1, final animal animal2) {
         final Set<String> similar = new HashSet<>();
 
         addIfGroupMatches(animal1, animal2, similar);
@@ -206,8 +206,8 @@ public final class CompareAnimalsInteractor
      * @param animal2 second animal
      * @param similar set to add to if match
      */
-    private void addIfGroupMatches(final Animal animal1,
-                                   final Animal animal2,
+    private void addIfGroupMatches(final animal animal1,
+                                   final animal animal2,
                                    final Set<String> similar) {
         if (animal1.getGroup().equals(animal2.getGroup())
                 || animal1.getGroup().isEmpty()
@@ -223,8 +223,8 @@ public final class CompareAnimalsInteractor
      * @param animal2 second animal
      * @param similar set to add to if match
      */
-    private void addIfDietMatches(final Animal animal1,
-                                  final Animal animal2,
+    private void addIfDietMatches(final animal animal1,
+                                  final animal animal2,
                                   final Set<String> similar) {
         if (animal1.getDiet().equals(animal2.getDiet())
                 || animal1.getDiet().isEmpty()
@@ -240,8 +240,8 @@ public final class CompareAnimalsInteractor
      * @param animal2 second animal
      * @param similar set to add to if match
      */
-    private void addIfLifestyleMatches(final Animal animal1,
-                                       final Animal animal2,
+    private void addIfLifestyleMatches(final animal animal1,
+                                       final animal animal2,
                                        final Set<String> similar) {
         if (animal1.getLifestyle().equals(animal2.getLifestyle())
                 || animal1.getLifestyle().isEmpty()
@@ -257,8 +257,8 @@ public final class CompareAnimalsInteractor
      * @param animal2 second animal
      * @param similar set to add to if match
      */
-    private void addIfLocationMatches(final Animal animal1,
-                                      final Animal animal2,
+    private void addIfLocationMatches(final animal animal1,
+                                      final animal animal2,
                                       final Set<String> similar) {
         if (hasLocationOverlap(animal1.getLocation(),
                 animal2.getLocation())) {
@@ -273,8 +273,8 @@ public final class CompareAnimalsInteractor
      * @param animal2 second animal
      * @param similar set to add to if match
      */
-    private void addIfPreyMatches(final Animal animal1,
-                                  final Animal animal2,
+    private void addIfPreyMatches(final animal animal1,
+                                  final animal animal2,
                                   final Set<String> similar) {
         if (hasPreyOverlap(animal1.getPrey(), animal2.getPrey())) {
             similar.add("Prey");
@@ -288,8 +288,8 @@ public final class CompareAnimalsInteractor
      * @param animal2 second animal
      * @param similar set to add to if match
      */
-    private void addIfHabitatMatches(final Animal animal1,
-                                     final Animal animal2,
+    private void addIfHabitatMatches(final animal animal1,
+                                     final animal animal2,
                                      final Set<String> similar) {
         if (animal1.getHabitat().equals(animal2.getHabitat())
                 || animal1.getHabitat().isEmpty()
@@ -305,8 +305,8 @@ public final class CompareAnimalsInteractor
      * @param animal2 second animal
      * @param similar set to add to if match
      */
-    private void addIfLifespanMatches(final Animal animal1,
-                                      final Animal animal2,
+    private void addIfLifespanMatches(final animal animal1,
+                                      final animal animal2,
                                       final Set<String> similar) {
         final double lifespanDiff = relativeDiff(
                 animal1.getLifespan(), animal2.getLifespan());
@@ -322,8 +322,8 @@ public final class CompareAnimalsInteractor
      * @param animal2 second animal
      * @param similar set to add to if match
      */
-    private void addIfHeightMatches(final Animal animal1,
-                                    final Animal animal2,
+    private void addIfHeightMatches(final animal animal1,
+                                    final animal animal2,
                                     final Set<String> similar) {
         final double heightDiff = relativeDiff(
                 animal1.getHeight(), animal2.getHeight());
@@ -339,8 +339,8 @@ public final class CompareAnimalsInteractor
      * @param animal2 second animal
      * @param similar set to add to if match
      */
-    private void addIfWeightMatches(final Animal animal1,
-                                    final Animal animal2,
+    private void addIfWeightMatches(final animal animal1,
+                                    final animal animal2,
                                     final Set<String> similar) {
         final double weightDiff = relativeDiff(
                 animal1.getWeight(), animal2.getWeight());

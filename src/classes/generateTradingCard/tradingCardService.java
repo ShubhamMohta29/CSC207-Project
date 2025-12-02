@@ -1,29 +1,29 @@
-package Classes.GenerateTradingCard;
+package classes.generateTradingCard;
 
-import Classes.retrieveInfo.Animal;
+import classes.retrieveInfo.animal;
 
 /**
  * Handles trading card generation.
  */
-public final class TradingCardService {
+public final class tradingCardService {
 
-    private final GenerateTradingCardController controller;
+    private final generateTradingCardController controller;
 
     /**
      * Builds the controller + interactor + presenter + image generator.
      */
-    public TradingCardService() {
-        TradingCardPresenter presenter = new TradingCardPresenter();
-        CardImageGenerator generator = new Java2dCardGenerator();
-        GenerateTradingCardInputBoundary interactor =
-                new GenerateTradingCardInteractor(presenter, generator);
-        this.controller = new GenerateTradingCardController(interactor);
+    public tradingCardService() {
+        tradingCardPresenter presenter = new tradingCardPresenter();
+        cardImageGenerator generator = new java2DCardGenerator();
+        generateTradingCardInputBoundary interactor =
+                new generateTradingCardInteractor(presenter, generator);
+        this.controller = new generateTradingCardController(interactor);
     }
 
     /**
      * Runs the generation and returns a view model.
      */
-    public TradingCardViewModel create(final Animal animal) {
+    public tradingCardViewModel create(final animal animal) {
         return controller.generateCard(animal);
     }
 }

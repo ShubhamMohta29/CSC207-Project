@@ -1,15 +1,15 @@
-package Classes.Settings;
+package classes.settings;
 
 /**
  * Controller responsible for handling user actions related to text settings.
  * It receives input from the UI, packages it into request models, and delegates
- * the update operation to the {@link TextSettingInputBoundary}. After updating,
+ * the update operation to the {@link textSettingInputBoundary}. After updating,
  * it refreshes the interactor to ensure the latest settings are loaded.
  */
-public class TextSettingController {
+public class textSettingController {
 
-    private final TextSettingInputBoundary config;
-    private final TextSettingOutputBoundary presenter;
+    private final textSettingInputBoundary config;
+    private final textSettingOutputBoundary presenter;
     private final String filePath;
 
     /**
@@ -18,9 +18,9 @@ public class TextSettingController {
      *
      * @param filePath the path to the settings file
      */
-    public TextSettingController(String filePath) {
-        this.config = new TextSettingInteractor(filePath);
-        this.presenter = new TextSettingPresenter();
+    public textSettingController(String filePath) {
+        this.config = new textSettingInteractor(filePath);
+        this.presenter = new textSettingPresenter();
         this.filePath = filePath;
     }
 
@@ -33,19 +33,19 @@ public class TextSettingController {
      * @param style the new font style or name
      */
     public void updateSettings(String color, int size, String style) {
-        TextSettingInput request = new TextSettingInput(color, size, style);
+        textSettingInput request = new textSettingInput(color, size, style);
         config.editSettings(request);
     }
 
     /**
-     * Returns a {@link ViewModel} representing the current text settings.
+     * Returns a {@link viewModel} representing the current text settings.
      * A presenter is created from the interactor’s output, and the view model is
      * constructed using the presenter’s processed values.
-     * @return a {@link ViewModel} containing display-ready text settings
+     * @return a {@link viewModel} containing display-ready text settings
      */
-    public ViewModel getViewModel() {
+    public viewModel getViewModel() {
 
-        TextSettingOutput output = new TextSettingOutput(
+        textSettingOutput output = new textSettingOutput(
                 config.getTextColor(),
                 config.getFontName(),
                 config.getTextSize()

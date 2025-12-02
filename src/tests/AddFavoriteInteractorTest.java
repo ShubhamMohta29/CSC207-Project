@@ -1,6 +1,6 @@
-package Tests;
+package tests;
 
-import Classes.add_favorite.*;
+import classes.addFavorite.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,17 +10,17 @@ public class AddFavoriteInteractorTest {
 
     @Test
     public void successAdd() {
-        AddFavoriteInputData inputData = new AddFavoriteInputData(name);
-        AddFavoriteDataAccessInterface favList = new InMemoryFavoritesDataAccessObject();
-        AddFavoriteInputBoundary interactor = new AddFavoriteInteractor(favList);
+        addFavoriteInputData inputData = new addFavoriteInputData(name);
+        addFavoriteDataAccessInterface favList = new inMemoryFavoritesDataAccessObject();
+        addFavoriteInputBoundary interactor = new addFavoriteInteractor(favList);
         interactor.execute(inputData);
         assertTrue(favList.isFavorite(name));
     }
     @Test
     public void successRemove() {
-        AddFavoriteInputData inputData = new AddFavoriteInputData(name);
-        AddFavoriteDataAccessInterface favList = new InMemoryFavoritesDataAccessObject();
-        AddFavoriteInputBoundary interactor = new AddFavoriteInteractor(favList);
+        addFavoriteInputData inputData = new addFavoriteInputData(name);
+        addFavoriteDataAccessInterface favList = new inMemoryFavoritesDataAccessObject();
+        addFavoriteInputBoundary interactor = new addFavoriteInteractor(favList);
         interactor.execute1(inputData);
         assertFalse(favList.isFavorite(name));
     }}

@@ -1,4 +1,4 @@
-package Tests;
+package tests;
 
 import java.util.*;
 
@@ -6,17 +6,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import Classes.Filter.*;
-import Classes.Filter.FilterHelpers.*;
-import Classes.retrieveInfo.*;
+import classes.filter.*;
+import classes.filter.FilterHelpers.*;
+import classes.retrieveInfo.*;
 
 class FilterInteractorTest {
 
-    private FilterInteractor interactor;
+    private filterInteractor interactor;
     private FakeNameProvider nameProvider;
     private FakeOutputBoundary outputBoundary;
     private FakeAnimalProvider animalProvider;
-    private CandidateCache cache;
+    private candidateCache cache;
     private FakePaginator paginator;
 
     @BeforeEach
@@ -24,18 +24,18 @@ class FilterInteractorTest {
         nameProvider = new FakeNameProvider();
         outputBoundary = new FakeOutputBoundary();
         animalProvider = new FakeAnimalProvider();
-        cache = new CandidateCache();
+        cache = new candidateCache();
         paginator = new FakePaginator();
-        interactor = new FilterInteractor(nameProvider, outputBoundary, animalProvider, cache, paginator);
+        interactor = new filterInteractor(nameProvider, outputBoundary, animalProvider, cache, paginator);
     }
 
     @Test
     void testNoCandidates() {
         nameProvider.candidates = Collections.emptyList();
-        final FilterInput input = new FilterInput.Builder()
+        final filterInput input = new filterInput.Builder()
                 .build();
 
-        final FilterOutput output = interactor.filterAnimals(input);
+        final filterOutput output = interactor.filterAnimals(input);
 
         assertNotNull(output);
         assertTrue(output.getFilteredAnimals().isEmpty());
@@ -50,11 +50,11 @@ class FilterInteractorTest {
         animalProvider.data.put("Tiger", "[{\"name\":\"Tiger\",\"characteristics\":{\"diet\":\"Carnivore\"},\"taxonomy\":{}}]");
         animalProvider.data.put("Elephant", "[{\"name\":\"Elephant\",\"characteristics\":{\"diet\":\"Herbivore\"},\"taxonomy\":{}}]");
 
-        FilterInput input = new FilterInput.Builder()
+        filterInput input = new filterInput.Builder()
                 .build();
-        paginator.nextPageInfo = new PaginationHelper.PaginationInfo(2, null, false);
+        paginator.nextPageInfo = new paginationHelper.PaginationInfo(2, null, false);
 
-        FilterOutput output = interactor.filterAnimals(input);
+        filterOutput output = interactor.filterAnimals(input);
 
         assertEquals(2, output.getFilteredAnimals().size());
         assertFalse(output.hasMore());
@@ -68,10 +68,10 @@ class FilterInteractorTest {
         animalProvider.data.put("Elephant", "[]");
         // filtered out
 
-        final FilterInput input = new FilterInput.Builder().build();
-        paginator.nextPageInfo = new PaginationHelper.PaginationInfo(2, null, false);
+        final filterInput input = new filterInput.Builder().build();
+        paginator.nextPageInfo = new paginationHelper.PaginationInfo(2, null, false);
 
-        final FilterOutput output = interactor.filterAnimals(input);
+        final filterOutput output = interactor.filterAnimals(input);
 
         assertEquals(1, output.getFilteredAnimals().size());
         assertEquals("Tiger", output.getFilteredAnimals().get(0).getName());
@@ -83,29 +83,29 @@ class FilterInteractorTest {
         nameProvider.candidates = Collections.singletonList("UnknownAnimal");
         animalProvider.data.put("UnknownAnimal", "INVALID_JSON");
 
-        final FilterInput input = new FilterInput.Builder().build();
-        paginator.nextPageInfo = new PaginationHelper.PaginationInfo(1, null, false);
+        final filterInput input = new filterInput.Builder().build();
+        paginator.nextPageInfo = new paginationHelper.PaginationInfo(1, null, false);
 
-        final FilterOutput output = interactor.filterAnimals(input);
+        final filterOutput output = interactor.filterAnimals(input);
 
         assertTrue(output.getFilteredAnimals().isEmpty());
         assertEquals(output, outputBoundary.lastOutput);
     }
 
-    static class FakeNameProvider implements AnimalNamesProviderI {
+    static class FakeNameProvider implements animalNamesProviderI {
         List<String> candidates = new ArrayList<>();
 
         @Override
-        public List<String> getCandidateNames(FilterInput input) {
+        public List<String> getCandidateNames(filterInput input) {
             return candidates;
         }
     }
 
-    static class FakeOutputBoundary implements FilterOutputBoundary {
-        FilterOutput lastOutput;
+    static class FakeOutputBoundary implements filterOutputBoundary {
+        filterOutput lastOutput;
 
         @Override
-        public void present(FilterOutput output) {
+        public void present(filterOutput output) {
             lastOutput = output;
         }
     }
@@ -119,16 +119,16 @@ class FilterInteractorTest {
         }
     }
 
-    static class FakePaginator extends PaginationHelper {
+    static class FakePaginator extends paginationHelper {
         PaginationInfo nextPageInfo = new PaginationInfo(0, null, false);
 
         @Override
-        public int getStartIndex(FilterInput input) {
+        public int getStartIndex(filterInput input) {
             return 0;
         }
 
         @Override
-        public PaginationInfo calculatePagination(FilterInput input, int totalCandidates, int fetchedCount) {
+        public PaginationInfo calculatePagination(filterInput input, int totalCandidates, int fetchedCount) {
             int pageSize = input.getPageSize();
             // use actual page size from FilterInput
             int itemsOnPage = Math.min(pageSize, totalCandidates);

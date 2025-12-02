@@ -1,6 +1,6 @@
-package Classes.retrieveInfo;
+package classes.retrieveInfo;
 
-public final class AnimalConverter {
+public final class animalConverter {
 
     private static final String PARENS_REGEX = "[()]";
 
@@ -34,7 +34,7 @@ public final class AnimalConverter {
     }
 
     private double parseUpToValue(final String input) {
-        final String valuePart = input.substring(AnimalConstants.UP_TO_PREFIX_LENGTH).trim();
+        final String valuePart = input.substring(animalConstants.UP_TO_PREFIX_LENGTH).trim();
         return valueWithUnitToYears(valuePart);
     }
 
@@ -135,13 +135,13 @@ public final class AnimalConverter {
         double result = extractNumber(token.trim());
 
         if (token.contains("month")) {
-            result /= AnimalConstants.MONTHS_IN_YEAR;
+            result /= animalConstants.MONTHS_IN_YEAR;
         }
         else if (token.contains("week")) {
-            result /= AnimalConstants.WEEKS_IN_YEAR;
+            result /= animalConstants.WEEKS_IN_YEAR;
         }
         else if (token.contains("day")) {
-            result /= AnimalConstants.DAYS_IN_YEAR;
+            result /= animalConstants.DAYS_IN_YEAR;
         }
 
         return result;
@@ -151,10 +151,10 @@ public final class AnimalConverter {
         double result = extractNumber(token.trim());
 
         if (token.contains("lb") || token.contains("lbs") || token.contains("pound")) {
-            result *= AnimalConstants.LB_TO_KG;
+            result *= animalConstants.LB_TO_KG;
         }
         else if (token.contains("g") && !token.contains("kg")) {
-            result /= AnimalConstants.GRAMS_IN_KG;
+            result /= animalConstants.GRAMS_IN_KG;
         }
 
         return result;
@@ -165,10 +165,10 @@ public final class AnimalConverter {
 
         try {
             if (token.contains("mm")) {
-                result /= AnimalConstants.MM_TO_CM;
+                result /= animalConstants.MM_TO_CM;
             }
             else if (token.contains("m")) {
-                result *= AnimalConstants.M_TO_CM;
+                result *= animalConstants.M_TO_CM;
             }
             else if (token.contains("ft") || token.contains("'")) {
                 final String[] parts = token.replace("\"", "").replace("'", " ").split("\\s+");
@@ -177,10 +177,10 @@ public final class AnimalConverter {
                 if (parts.length > 1) {
                     inches = Double.parseDouble(parts[1]);
                 }
-                result = feet * AnimalConstants.FEET_TO_CM + inches * AnimalConstants.INCH_TO_CM;
+                result = feet * animalConstants.FEET_TO_CM + inches * animalConstants.INCH_TO_CM;
             }
             else if (token.contains("in") || token.contains("\"")) {
-                result *= AnimalConstants.INCH_TO_CM;
+                result *= animalConstants.INCH_TO_CM;
             }
         }
         catch (NumberFormatException error) {

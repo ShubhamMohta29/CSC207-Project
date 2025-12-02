@@ -1,17 +1,17 @@
-package Classes.GenerateTradingCard;
+package classes.generateTradingCard;
 
-import Classes.retrieveInfo.Animal;
+import classes.retrieveInfo.animal;
 
-public class GenerateTradingCardController {
+public class generateTradingCardController {
 
-    private final GenerateTradingCardInputBoundary interactor;
+    private final generateTradingCardInputBoundary interactor;
 
     /**
      * Creates a controller that delegates card generation to the interactor.
      *
      * @param interactor the input boundary used to generate trading cards
      */
-    public GenerateTradingCardController(GenerateTradingCardInputBoundary interactor) {
+    public generateTradingCardController(generateTradingCardInputBoundary interactor) {
         this.interactor = interactor;
     }
 
@@ -21,8 +21,8 @@ public class GenerateTradingCardController {
      * @param animal the animal to place on the card
      * @return the generated trading card view model
      */
-    public TradingCardViewModel generateCard(Animal animal) {
-        final GenerateTradingCardRequestModel req = new GenerateTradingCardRequestModel(animal);
+    public tradingCardViewModel generateCard(animal animal) {
+        final generateTradingCardRequestModel req = new generateTradingCardRequestModel(animal);
         return interactor.generate(req);
     }
 }

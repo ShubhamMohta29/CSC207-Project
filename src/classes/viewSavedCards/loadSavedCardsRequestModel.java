@@ -1,4 +1,4 @@
-package Classes.ViewSavedCards;
+package classes.viewSavedCards;
 
-public class LoadSavedCardsRequestModel {
+public class loadSavedCardsRequestModel {
 }

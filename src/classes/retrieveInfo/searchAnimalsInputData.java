@@ -1,6 +1,6 @@
-package Classes.retrieveInfo;
+package classes.retrieveInfo;
 
-public class SearchAnimalsInputData {
+public class searchAnimalsInputData {
 
     private final String query;
 
@@ -9,7 +9,7 @@ public class SearchAnimalsInputData {
      *
      * @param query the search query string
      */
-    public SearchAnimalsInputData(String query) {
+    public searchAnimalsInputData(String query) {
         this.query = query;
     }
 

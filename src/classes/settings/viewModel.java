@@ -1,4 +1,4 @@
-package Classes.Settings;
+package classes.settings;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -7,7 +7,7 @@ import java.awt.Font;
  * View model representing text settings for display in the UI.
  * Encapsulates the color and font (with style and size) for rendering text.
  */
-public class ViewModel {
+public class viewModel {
 
     /**
      * The text color.
@@ -20,16 +20,16 @@ public class ViewModel {
     private final Font font;
 
     /**
-     * Constructs a ViewModel with the specified color, font name, and size.
-     * Uses {@link SettingConstants#DEFAULT_STYLE} for the font style.
+     * Constructs a viewModel with the specified color, font name, and size.
+     * Uses {@link settingConstants#DEFAULT_STYLE} for the font style.
      *
      * @param color the text color
      * @param font  the font name
      * @param size  the font size
      */
-    public ViewModel(Color color, String font, int size) {
+    public viewModel(Color color, String font, int size) {
         this.color = color;
-        this.font = new Font(font, SettingConstants.DEFAULT_STYLE, size);
+        this.font = new Font(font, settingConstants.DEFAULT_STYLE, size);
     }
 
     /**

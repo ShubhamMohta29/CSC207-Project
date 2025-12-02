@@ -1,10 +1,10 @@
-package Classes.retrieveInfo;
+package classes.retrieveInfo;
 
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-public final class Animal {
+public final class animal {
     private final String name;
     private final Map<String, String> taxonomy;
     private final String habitat;
@@ -20,7 +20,7 @@ public final class Animal {
     private final String type;
     private final String na = "N/A";
 
-    public Animal(
+    public animal(
             String name,
             Map<String, String> taxonomy,
             String habitat,

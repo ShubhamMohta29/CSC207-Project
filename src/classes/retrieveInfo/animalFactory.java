@@ -1,4 +1,4 @@
-package Classes.retrieveInfo;
+package classes.retrieveInfo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,18 +6,18 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public final class AnimalFactory {
-    private final AnimalConverter converter = new AnimalConverter();
+public final class animalFactory {
+    private final animalConverter converter = new animalConverter();
 
     /**
-     * Converts a JSON array string representing animals into an {@link Animal} object.
+     * Converts a JSON array string representing animals into an {@link animal} object.
      * Only the first element of the array is used.
      *
      * @param jsonArrayString the JSON array string containing animal data
-     * @return an {@link Animal} object populated from the JSON
+     * @return an {@link animal} object populated from the JSON
      * @throws IllegalArgumentException if the input string is null, empty, or contains an empty array
      */
-    public Animal fromJsonArrayString(String jsonArrayString) {
+    public animal fromJsonArrayString(String jsonArrayString) {
         if (jsonArrayString == null || jsonArrayString.trim().isEmpty() || "[]".equals(jsonArrayString)) {
             throw new IllegalArgumentException("Empty JSON for Animal");
         }
@@ -50,7 +50,7 @@ public final class AnimalFactory {
         final double weight = parseWeight(characteristics);
         final double height = parseHeight(characteristics);
 
-        return new Animal(
+        return new animal(
                 a.optString("name"),
                 taxMap,
                 parseString(characteristics, "habitat"),

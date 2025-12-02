@@ -1,14 +1,14 @@
-package Classes.ViewSavedCards;
+package classes.viewSavedCards;
 
-public class LoadSavedCardsController {
+public class loadSavedCardsController {
 
-    private final LoadSavedCardsInputBoundary interactor;
+    private final loadSavedCardsInputBoundary interactor;
 
-    public LoadSavedCardsController(LoadSavedCardsInputBoundary interactor) {
+    public loadSavedCardsController(loadSavedCardsInputBoundary interactor) {
         this.interactor = interactor;
     }
 
-    public LoadSavedCardsResponseModel load() {
-        return interactor.load(new LoadSavedCardsRequestModel());
+    public loadSavedCardsResponseModel load() {
+        return interactor.load(new loadSavedCardsRequestModel());
     }
 }

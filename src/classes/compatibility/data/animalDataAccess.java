@@ -1,21 +1,21 @@
-package Classes.Compatibility.data;
+package classes.compatibility.data;
 
-import Classes.retrieveInfo.APIClass;
-import Classes.retrieveInfo.Animal;
-import Classes.retrieveInfo.AnimalFactory;
-import Classes.Compatibility.usecases.AnimalDataAccessInterface;
+import classes.retrieveInfo.APIClass;
+import classes.retrieveInfo.animal;
+import classes.retrieveInfo.animalFactory;
+import classes.compatibility.usecases.animalDataAccessInterface;
 
-public class AnimalDataAccess implements AnimalDataAccessInterface {
+public class animalDataAccess implements animalDataAccessInterface {
     private final APIClass api;
-    private final AnimalFactory factory;
+    private final animalFactory factory;
 
-    public AnimalDataAccess() {
+    public animalDataAccess() {
         this.api = new APIClass();
-        this.factory = new AnimalFactory();
+        this.factory = new animalFactory();
     }
 
     @Override
-    public Animal getAnimalByName(String name) {
+    public animal getAnimalByName(String name) {
         String animalData = api.getAnimalData(name);
 
         if (animalData == null || animalData.trim().isEmpty() || animalData.equals("[]")) {

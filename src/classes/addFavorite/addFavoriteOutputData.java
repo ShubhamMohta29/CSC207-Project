@@ -1,12 +1,12 @@
-package classes.add_favorite;
+package classes.addFavorite;
 
 /**
  * Output data for add favorite use case.
  */
-public class AddFavoriteOutputData {
+public class addFavoriteOutputData {
     private final String[] favList;
 
-    public AddFavoriteOutputData(String[] favList) {
+    public addFavoriteOutputData(String[] favList) {
         this.favList = favList;
     }
 

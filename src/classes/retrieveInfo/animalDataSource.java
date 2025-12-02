@@ -1,8 +1,8 @@
-package Classes.retrieveInfo;
+package classes.retrieveInfo;
 
 import java.io.IOException;
 
-public interface AnimalDataSource {
+public interface animalDataSource {
 
     /**
      * Fetches the JSON representation of an animal from the API.

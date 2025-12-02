@@ -1,9 +1,9 @@
-package Classes.Filter;
+package classes.filter;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class FilterConstants {
+public class filterConstants {
     // OpenAI/Language Model Constants
     public static final int MAX_TOKENS = 500;
     public static final String MODEL = "openai/gpt-4o";

@@ -1,6 +1,6 @@
-package Classes.GenerateTradingCard;
+package classes.generateTradingCard;
 
-public final class CardAppearanceConstants {
+public final class cardAppearanceConstants {
 
     // Canvas size
     public static final int CARD_WIDTH = 320;
@@ -38,7 +38,7 @@ public final class CardAppearanceConstants {
     // Divider
     public static final int DIVIDER_HEIGHT = 4;
 
-    private CardAppearanceConstants() {
+    private cardAppearanceConstants() {
 
     }
 }

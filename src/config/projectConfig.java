@@ -1,9 +1,9 @@
-package Config;
+package config;
 
 import java.io.*;
 import java.util.Properties;
 
-public class ProjectConfig {
+public class projectConfig {
     private static final Properties props = new Properties();
     public static final String OPEN_ROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
     public static final String NINJA_API_URL = "https://api.api-ninjas.com/v1/animals?name=";

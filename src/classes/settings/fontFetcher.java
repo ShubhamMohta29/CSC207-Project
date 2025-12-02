@@ -1,13 +1,13 @@
-package Classes.Settings;
+package classes.settings;
 
 import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class FontFetcher {
+public class fontFetcher {
     private final ArrayList<String> availableFont;
 
-    public FontFetcher() {
+    public fontFetcher() {
         this.availableFont = new ArrayList<>();
         GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
         String[] fontFamilies = g.getAvailableFontFamilyNames();

@@ -1,7 +1,7 @@
-package Classes.Compatibility.usecases;
+package classes.compatibility.usecases;
 
-import Classes.retrieveInfo.Animal;
+import classes.retrieveInfo.animal;
 
-public interface AnimalDataAccessInterface {
-    Animal getAnimalByName(String name);
+public interface animalDataAccessInterface {
+    animal getAnimalByName(String name);
 }

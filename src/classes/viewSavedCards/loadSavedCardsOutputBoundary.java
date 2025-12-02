@@ -1,5 +1,5 @@
-package Classes.ViewSavedCards;
+package classes.viewSavedCards;
 
-public interface LoadSavedCardsOutputBoundary {
-    LoadSavedCardsResponseModel prepareSuccessView(LoadSavedCardsResponseModel responseModel);
+public interface loadSavedCardsOutputBoundary {
+    loadSavedCardsResponseModel prepareSuccessView(loadSavedCardsResponseModel responseModel);
 }

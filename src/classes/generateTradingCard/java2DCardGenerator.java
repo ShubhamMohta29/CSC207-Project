@@ -1,20 +1,19 @@
-package Classes.GenerateTradingCard;
+package classes.generateTradingCard;
 
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
-import Classes.retrieveInfo.Animal;
-import Classes.GenerateTradingCard.CardImageGenerator;
+import classes.retrieveInfo.animal;
 
-import static Classes.GenerateTradingCard.CardAppearanceConstants.*;
+import static classes.generateTradingCard.cardAppearanceConstants.*;
 
 /**
  * Full card generator producing the final image.
  */
-public final class Java2dCardGenerator implements CardImageGenerator {
+public final class java2DCardGenerator implements cardImageGenerator {
 
     @Override
-    public BufferedImage generate(final Animal animal) {
+    public BufferedImage generate(final animal animal) {
 
         BufferedImage img = new BufferedImage(CARD_WIDTH, CARD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = img.createGraphics();

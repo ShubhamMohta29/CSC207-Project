@@ -1,18 +1,18 @@
 /**
  * FilterController :controller creates the input data and calls the use case. It gets called by the view with the user actions
  */
-package Classes.Filter;
+package classes.filter;
 
 import java.util.List;
 
-public class FilterController {
+public class filterController {
     // field declarations
-    private final FilterInputBoundary inputBoundary;
+    private final filterInputBoundary inputBoundary;
 
     /*
     Constructor
      */
-    public FilterController(FilterInputBoundary inputBoundary) {
+    public filterController(filterInputBoundary inputBoundary) {
         this.inputBoundary = inputBoundary;
     }
 
@@ -30,7 +30,7 @@ public class FilterController {
                               List<String> diets,
                               Integer lifespanMin, Integer lifespanMax,
                               String cursor) {
-        final FilterInput request = new FilterInput.Builder()
+        final filterInput request = new filterInput.Builder()
                 .groups(groups)
                 .locations(locations)
                 .diets(diets)

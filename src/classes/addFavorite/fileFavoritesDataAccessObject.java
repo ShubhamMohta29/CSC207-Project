@@ -1,16 +1,16 @@
-package classes.add_favorite;
+package classes.addFavorite;
 
 import java.io.*;
 
 /**
  * A DAO for saving to and reading from a local file.
  */
-public class FileFavoritesDataAccessObject implements AddFavoriteDataAccessInterface{
+public class fileFavoritesDataAccessObject implements addFavoriteDataAccessInterface {
 
     private final File csvFile;
-    private final FavoriteList favorites =  new FavoriteList();
+    private final favoriteList favorites =  new favoriteList();
 
-    public FileFavoritesDataAccessObject(String csvpath) {
+    public fileFavoritesDataAccessObject(String csvpath) {
         csvFile = new File(csvpath);
         try {
             csvFile.createNewFile();
@@ -42,7 +42,7 @@ public class FileFavoritesDataAccessObject implements AddFavoriteDataAccessInter
         }
     }
 
-    public FavoriteList getFavoriteList(){
+    public favoriteList getFavoriteList(){
         return favorites;
     }
 

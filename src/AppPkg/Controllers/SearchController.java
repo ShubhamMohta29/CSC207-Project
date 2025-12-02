@@ -3,11 +3,11 @@ package AppPkg.Controllers;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import Classes.Filter.FuzzySearch.AnimalFuzzySearch;
-import Classes.Filter.FuzzySearch.FuzzySearchProvider;
-import Classes.retrieveInfo.Animal;
-import Classes.retrieveInfo.AnimalFactory;
-import Classes.retrieveInfo.APIClass;
+import classes.filter.FuzzySearch.AnimalFuzzySearch;
+import classes.filter.FuzzySearch.FuzzySearchProvider;
+import classes.retrieveInfo.animal;
+import classes.retrieveInfo.animalFactory;
+import classes.retrieveInfo.APIClass;
 
 /**
  * Controller responsible for searching animals via the API,
@@ -17,15 +17,15 @@ public class SearchController {
 
     private final APIClass api;
     private final FuzzySearchProvider fuzzy;
-    private final AnimalFactory factory;
+    private final animalFactory factory;
 
     public SearchController() {
         this.api = new APIClass();
         this.fuzzy = new AnimalFuzzySearch();
-        this.factory = new AnimalFactory();
+        this.factory = new animalFactory();
     }
 
-    public SearchController(APIClass api, FuzzySearchProvider fuzzy, AnimalFactory factory) {
+    public SearchController(APIClass api, FuzzySearchProvider fuzzy, animalFactory factory) {
         if (api == null) {
             this.api = new APIClass();
         }
@@ -39,7 +39,7 @@ public class SearchController {
             this.fuzzy = fuzzy;
         }
         if (factory == null) {
-            this.factory = new AnimalFactory();
+            this.factory = new animalFactory();
         }
         else {
             this.factory = factory;
@@ -92,7 +92,7 @@ public class SearchController {
     }
 
     private SearchResult noQueryResult() {
-        return new SearchResult(false, "Please select an animal name.", new Animal[0], null);
+        return new SearchResult(false, "Please select an animal name.", new animal[0], null);
     }
 
     private SearchResult handleNoData(final String query) {
@@ -100,10 +100,10 @@ public class SearchController {
         final String suggestion = fuzzy.getSuggestion(query);
         if (suggestion != null && !suggestion.isEmpty()) {
             final String htmlText = "<html>Animal not found. Did you mean: <a href=''>" + suggestion + "</a>?</html>";
-            result = new SearchResult(false, htmlText, new Animal[0], suggestion);
+            result = new SearchResult(false, htmlText, new animal[0], suggestion);
         }
         else {
-            result = new SearchResult(false, "Animal '" + query + "' not found.", new Animal[0], null);
+            result = new SearchResult(false, "Animal '" + query + "' not found.", new animal[0], null);
         }
         return result;
     }
@@ -114,14 +114,14 @@ public class SearchController {
         final int count = array.length();
 
         if (count == 0) {
-            result = new SearchResult(false, "Please double check animal name.", new Animal[0], null);
+            result = new SearchResult(false, "Please double check animal name.", new animal[0], null);
         }
         else if (count == 1) {
-            final Animal singleAnimal = factory.fromJsonArrayString(jsonData);
-            result = new SearchResult(true, null, new Animal[]{singleAnimal}, null);
+            final animal singleAnimal = factory.fromJsonArrayString(jsonData);
+            result = new SearchResult(true, null, new animal[]{singleAnimal}, null);
         }
         else {
-            final Animal[] animals = new Animal[count];
+            final animal[] animals = new animal[count];
             for (int i = 0; i < count; i++) {
                 final JSONObject obj = array.getJSONObject(i);
                 final JSONArray singleArray = new JSONArray();

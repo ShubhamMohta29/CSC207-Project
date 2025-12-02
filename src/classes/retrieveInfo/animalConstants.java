@@ -1,6 +1,6 @@
-package Classes.retrieveInfo;
+package classes.retrieveInfo;
 
-public class AnimalConstants {
+public class animalConstants {
 
     public static final double MONTHS_IN_YEAR = 12.0;
     public static final double WEEKS_IN_YEAR = 52.0;

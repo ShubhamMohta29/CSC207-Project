@@ -1,6 +1,6 @@
-package Classes.SaveCard;
+package classes.saveCard;
 
-public interface SaveCardOutputBoundary {
-    SaveCardResponseModel prepareSuccessView(SaveCardResponseModel responseModel);
-    SaveCardResponseModel prepareFailView(String errorMessage);
+public interface saveCardOutputBoundary {
+    saveCardResponseModel prepareSuccessView(saveCardResponseModel responseModel);
+    saveCardResponseModel prepareFailView(String errorMessage);
 }

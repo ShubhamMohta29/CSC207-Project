@@ -1,14 +1,14 @@
-package Classes.SaveCard;
+package classes.saveCard;
 
-public class SaveCardPresenter implements SaveCardOutputBoundary {
+public class saveCardPresenter implements saveCardOutputBoundary {
 
     @Override
-    public SaveCardResponseModel prepareSuccessView(SaveCardResponseModel responseModel) {
+    public saveCardResponseModel prepareSuccessView(saveCardResponseModel responseModel) {
         return responseModel;
     }
 
     @Override
-    public SaveCardResponseModel prepareFailView(String errorMessage) {
+    public saveCardResponseModel prepareFailView(String errorMessage) {
         throw new RuntimeException(errorMessage);
     }
 }

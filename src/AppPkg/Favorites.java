@@ -1,23 +1,22 @@
 package AppPkg;
 
-import Classes.retrieveInfo.Animal;
-import Classes.retrieveInfo.APIClass;
-import Classes.Settings.*;
-import Classes.add_favorite.*;
-import Classes.retrieveInfo.AnimalFactory;
+import classes.retrieveInfo.animal;
+import classes.retrieveInfo.APIClass;
+import classes.addFavorite.*;
+import classes.retrieveInfo.animalFactory;
 
 import javax.swing.*;
 
-import static Classes.Settings.SettingConstants.DEFAULT_SETTINGS_FILE;
+import static classes.settings.settingConstants.DEFAULT_SETTINGS_FILE;
 
 public class Favorites extends javax.swing.JFrame
 {
-    private final AnimalFactory factory;
+    private final animalFactory factory;
     private final UIManager config = new UIManager(DEFAULT_SETTINGS_FILE);
 
     public Favorites()
     {
-        this.factory = new AnimalFactory();
+        this.factory = new animalFactory();
         initComponents();
         config.updateALL(this);
     }
@@ -32,9 +31,9 @@ public class Favorites extends javax.swing.JFrame
         lblHeading = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListFavs = new javax.swing.JList<>();
-        final FavoriteList favorites = new FileFavoritesDataAccessObject("favorites.csv").getFavoriteList();
-        final AddFavoriteOutputData addFavoriteOutputData =
-                new AddFavoriteOutputData(favorites.getFavorites().toArray(new String[0]));
+        final favoriteList favorites = new fileFavoritesDataAccessObject("favorites.csv").getFavoriteList();
+        final addFavoriteOutputData addFavoriteOutputData =
+                new addFavoriteOutputData(favorites.getFavorites().toArray(new String[0]));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Favorites");
@@ -119,15 +118,15 @@ public class Favorites extends javax.swing.JFrame
             APIClass apiClass = new APIClass();
             String jsonResponse = apiClass.getAnimalData(animalName);
 
-            Animal animal = factory.fromJsonArrayString(jsonResponse);
+            animal animal = factory.fromJsonArrayString(jsonResponse);
             new SuccesfulSearch(animal).setVisible(true);
             this.dispose();
         }
     }
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {
-        final AddFavoriteInputBoundary addFavoriteInteractor = new AddFavoriteInteractor(favoritesDataAccessObject);
-        AddFavoriteController addFavoriteController = new AddFavoriteController(addFavoriteInteractor);
+        final addFavoriteInputBoundary addFavoriteInteractor = new addFavoriteInteractor(favoritesDataAccessObject);
+        addFavoriteController addFavoriteController = new addFavoriteController(addFavoriteInteractor);
         String animalName = jListFavs.getSelectedValue();
         if (animalName == null) {
             JOptionPane.showMessageDialog(null, "Select a name to remove");
@@ -149,7 +148,7 @@ public class Favorites extends javax.swing.JFrame
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JButton btnRemove;
-    final FileFavoritesDataAccessObject favoritesDataAccessObject
-            = new FileFavoritesDataAccessObject("favorites.csv");
+    final fileFavoritesDataAccessObject favoritesDataAccessObject
+            = new fileFavoritesDataAccessObject("favorites.csv");
     // End of variables declaration//GEN-END:variables
 }

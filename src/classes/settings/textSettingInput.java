@@ -1,25 +1,25 @@
-package Classes.Settings;
+package classes.settings;
 
 /**
  * Request model representing user input for text settings.
  * Encapsulates color, font size, and font style information.
  */
-public class TextSettingInput {
+public class textSettingInput {
 
     /**
      * The font style or name.
      */
-    private String style = SettingConstants.DEFAULT_FONT_NAME;
+    private String style = settingConstants.DEFAULT_FONT_NAME;
 
     /**
      * The font size.
      */
-    private int size = SettingConstants.DEFAULT_FONT_SIZE;
+    private int size = settingConstants.DEFAULT_FONT_SIZE;
 
     /**
      * The text color as a string.
      */
-    private String color = SettingConstants.NAME_BLACK;
+    private String color = settingConstants.NAME_BLACK;
 
     /**
      * Constructs a new TextSettingInput with the given color, size, and style.
@@ -29,7 +29,7 @@ public class TextSettingInput {
      * @param size  the font size
      * @param style the font name or style
      */
-    public TextSettingInput(String color, int size, String style) {
+    public textSettingInput(String color, int size, String style) {
 
         this.color = color;
         this.size = size;

@@ -1,20 +1,20 @@
-package Classes.SaveCard;
+package classes.saveCard;
 
 import java.time.LocalDateTime;
 
-public class SaveCardInteractor implements SaveCardInputBoundary {
+public class saveCardInteractor implements saveCardInputBoundary {
 
-    private final SaveCardDataAccessInterface dataAccess;
-    private final SaveCardOutputBoundary presenter;
+    private final saveCardDataAccessInterface dataAccess;
+    private final saveCardOutputBoundary presenter;
 
-    public SaveCardInteractor(SaveCardDataAccessInterface dataAccess,
-                              SaveCardOutputBoundary presenter) {
+    public saveCardInteractor(saveCardDataAccessInterface dataAccess,
+                              saveCardOutputBoundary presenter) {
         this.dataAccess = dataAccess;
         this.presenter = presenter;
     }
 
     @Override
-    public SaveCardResponseModel save(SaveCardRequestModel requestModel) {
+    public saveCardResponseModel save(saveCardRequestModel requestModel) {
         try {
             if (dataAccess.cardExists(requestModel.getCardName())) {
                 return presenter.prepareFailView("Card name already exists.");
@@ -22,7 +22,7 @@ public class SaveCardInteractor implements SaveCardInputBoundary {
 
             dataAccess.saveCard(requestModel.getCardName(), requestModel.getCardImage());
 
-            return presenter.prepareSuccessView(new SaveCardResponseModel(
+            return presenter.prepareSuccessView(new saveCardResponseModel(
                     requestModel.getCardName(),
                     LocalDateTime.now()
             ));

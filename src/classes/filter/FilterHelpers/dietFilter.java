@@ -1,14 +1,14 @@
-package Classes.Filter.FilterHelpers;
+package classes.filter.FilterHelpers;
 
 import java.util.List;
 
-import Classes.retrieveInfo.Animal;
+import classes.retrieveInfo.animal;
 
 // Diet filter
-public class DietFilter implements AnimalFilter {
+public class dietFilter implements animalFilter {
     private final List<String> diets;
 
-    public DietFilter(List<String> diets) {
+    public dietFilter(List<String> diets) {
         this.diets = diets;
     }
 
@@ -18,7 +18,7 @@ public class DietFilter implements AnimalFilter {
      * @return if the diet matches
      */
     @Override
-    public boolean matches(Animal a) {
+    public boolean matches(animal a) {
         if (diets == null || diets.isEmpty()) {
             return true;
         }

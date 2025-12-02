@@ -1,6 +1,6 @@
-package Tests;
+package tests;
 
-import Classes.ViewSavedCards.*;
+import classes.viewSavedCards.*;
 import org.junit.jupiter.api.Test;
 
 import java.awt.image.BufferedImage;
@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LoadSavedCardsInteractorTest {
 
-    private static class MockDataAccess implements LoadSavedCardsDataAccessInterface {
+    private static class MockDataAccess implements loadSavedCardsDataAccessInterface {
         List<String> names;
         List<BufferedImage> images;
 
@@ -21,11 +21,11 @@ class LoadSavedCardsInteractorTest {
         public List<BufferedImage> loadAllCardImages() { return images; }
     }
 
-    private static class MockPresenter implements LoadSavedCardsOutputBoundary {
-        LoadSavedCardsResponseModel received;
+    private static class MockPresenter implements loadSavedCardsOutputBoundary {
+        loadSavedCardsResponseModel received;
 
         @Override
-        public LoadSavedCardsResponseModel prepareSuccessView(LoadSavedCardsResponseModel responseModel) {
+        public loadSavedCardsResponseModel prepareSuccessView(loadSavedCardsResponseModel responseModel) {
             received = responseModel;
             return responseModel;
         }
@@ -41,9 +41,9 @@ class LoadSavedCardsInteractorTest {
         );
 
         MockPresenter presenter = new MockPresenter();
-        LoadSavedCardsInteractor interactor = new LoadSavedCardsInteractor(data, presenter);
+        loadSavedCardsInteractor interactor = new loadSavedCardsInteractor(data, presenter);
 
-        LoadSavedCardsResponseModel result = interactor.load(new LoadSavedCardsRequestModel());
+        loadSavedCardsResponseModel result = interactor.load(new loadSavedCardsRequestModel());
 
         assertNotNull(result);
         assertEquals(2, presenter.received.getCardNames().size());
@@ -58,9 +58,9 @@ class LoadSavedCardsInteractorTest {
         data.images = List.of();
 
         MockPresenter presenter = new MockPresenter();
-        LoadSavedCardsInteractor interactor = new LoadSavedCardsInteractor(data, presenter);
+        loadSavedCardsInteractor interactor = new loadSavedCardsInteractor(data, presenter);
 
-        LoadSavedCardsResponseModel result = interactor.load(new LoadSavedCardsRequestModel());
+        loadSavedCardsResponseModel result = interactor.load(new loadSavedCardsRequestModel());
 
         assertNotNull(result);
         assertTrue(presenter.received.getCardNames().isEmpty());
@@ -75,9 +75,9 @@ class LoadSavedCardsInteractorTest {
         data.images = List.of(img);
 
         MockPresenter presenter = new MockPresenter();
-        LoadSavedCardsInteractor interactor = new LoadSavedCardsInteractor(data, presenter);
+        loadSavedCardsInteractor interactor = new loadSavedCardsInteractor(data, presenter);
 
-        interactor.load(new LoadSavedCardsRequestModel());
+        interactor.load(new loadSavedCardsRequestModel());
 
         assertEquals("ElephantCard", presenter.received.getCardNames().get(0));
         assertSame(img, presenter.received.getCardImages().get(0));

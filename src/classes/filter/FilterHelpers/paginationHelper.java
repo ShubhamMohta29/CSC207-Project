@@ -1,14 +1,14 @@
-package Classes.Filter.FilterHelpers;
+package classes.filter.FilterHelpers;
 
-import Classes.Filter.FilterInput;
+import classes.filter.filterInput;
 
-public class PaginationHelper {
+public class paginationHelper {
     /**
      * Helper method.
      * @param input the filter input object
      * @return the index in the list from where the naimsl should be displayed
      */
-    public int getStartIndex(FilterInput input) {
+    public int getStartIndex(filterInput input) {
         if (input.getCursor() == null) {
             return 0;
         }
@@ -20,7 +20,7 @@ public class PaginationHelper {
         }
     }
 
-    public PaginationInfo calculatePagination(FilterInput input, int totalCandidates, int fetchedCount) {
+    public PaginationInfo calculatePagination(filterInput input, int totalCandidates, int fetchedCount) {
         int startIndex = getStartIndex(input);
         int nextIndex = startIndex + fetchedCount;
         boolean hasMore = nextIndex < totalCandidates;

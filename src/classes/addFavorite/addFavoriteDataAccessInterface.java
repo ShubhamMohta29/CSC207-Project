@@ -1,13 +1,13 @@
-package classes.add_favorite;
+package classes.addFavorite;
 
 /**
  * A DAO interface for the add favorite use case.
  */
-public interface AddFavoriteDataAccessInterface {
+public interface addFavoriteDataAccessInterface {
     /**
      * Returns the list of favorite animals of the current user.
      */
-    FavoriteList getFavoriteList();
+    favoriteList getFavoriteList();
 
     void addFavorite(String name);
 

@@ -1,13 +1,13 @@
 /**
  * FilterPresenter :converts domain response to FilterViewModel. The FilterViewModel can then be observed by the view to update the display
  */
-package Classes.Filter;
+package classes.filter;
 
 import java.util.List;
 
-import Classes.retrieveInfo.Animal;
+import classes.retrieveInfo.animal;
 
-public class FilterPresenter implements FilterOutputBoundary {
+public class filterPresenter implements filterOutputBoundary {
 
     // field declarations
     private final FilterViewModel filterViewModel;
@@ -15,7 +15,7 @@ public class FilterPresenter implements FilterOutputBoundary {
     /*
     Constructor
      */
-    public FilterPresenter(FilterViewModel filterViewModel) {
+    public filterPresenter(FilterViewModel filterViewModel) {
         this.filterViewModel = filterViewModel;
     }
 
@@ -23,8 +23,8 @@ public class FilterPresenter implements FilterOutputBoundary {
     Updates the viewmodel
      */
     @Override
-    public void present(FilterOutput output) {
-        final List<Animal> animals = output.getFilteredAnimals();
+    public void present(filterOutput output) {
+        final List<animal> animals = output.getFilteredAnimals();
         filterViewModel.setAnimals(animals);
         filterViewModel.setHasMore(output.hasMore());
         filterViewModel.setNextCursor(output.getNextCursor());

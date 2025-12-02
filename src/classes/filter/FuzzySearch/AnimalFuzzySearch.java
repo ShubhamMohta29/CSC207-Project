@@ -1,11 +1,11 @@
-package Classes.Filter.FuzzySearch;
+package classes.filter.FuzzySearch;
 
-import Classes.Filter.LlmClientHandler;
+import classes.filter.llmClientHandler;
 
 @SuppressWarnings("checkstyle:Indentation")
 public class AnimalFuzzySearch implements FuzzySearchProvider {
 
-    private final LlmClientHandler llmClient;
+    private final llmClientHandler llmClient;
         private static final String PROMPT_TEMPLATE =
             "The user searched for: \"%s\".\n"
                     + "Suggest ONLY one correct animal name they might have meant. "
@@ -17,7 +17,7 @@ public class AnimalFuzzySearch implements FuzzySearchProvider {
     */
     public AnimalFuzzySearch() {
 
-        this.llmClient = new LlmClientHandler();
+        this.llmClient = new llmClientHandler();
         }
 
     @SuppressWarnings({"checkstyle:ReturnCount", "checkstyle:Indentation", "checkstyle:IllegalCatch", "checkstyle:CatchParameterName"})

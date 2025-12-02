@@ -1,13 +1,13 @@
-package Classes.Filter.FilterHelpers;
+package classes.filter.FilterHelpers;
 
 import java.util.List;
 
-import Classes.retrieveInfo.Animal;
+import classes.retrieveInfo.animal;
 
-public class GroupFilter implements AnimalFilter {
+public class groupFilter implements animalFilter {
     private final List<String> groups;
 
-    public GroupFilter(List<String> groups) {
+    public groupFilter(List<String> groups) {
         this.groups = groups;
     }
 
@@ -17,7 +17,7 @@ public class GroupFilter implements AnimalFilter {
      * @return it it matches the group
      */
     @Override
-    public boolean matches(Animal a) {
+    public boolean matches(animal a) {
         if (groups == null || groups.isEmpty()) return true;
         return groups.contains(a.getGroup()) || groups.contains(a.getType());
     }

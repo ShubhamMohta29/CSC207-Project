@@ -1,20 +1,20 @@
-package Classes.Filter.FilterHelpers;
+package classes.filter.FilterHelpers;
 
 
 import java.util.List;
 
-import Classes.Filter.FilterInput;
+import classes.filter.filterInput;
 
-public class CandidateCache {
+public class candidateCache {
     private List<String> cachedCandidates;
-    private FilterInput cachedInput;
+    private filterInput cachedInput;
 
     /**
      * Stores cached animals.
      * @param candidates returned by the llm
      * @param input the fulter input object
      */
-    public void store(List<String> candidates, FilterInput input) {
+    public void store(List<String> candidates, filterInput input) {
         this.cachedCandidates = candidates;
         this.cachedInput = input;
     }

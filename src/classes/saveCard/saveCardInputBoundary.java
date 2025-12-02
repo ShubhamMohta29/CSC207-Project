@@ -1,5 +1,5 @@
-package Classes.SaveCard;
+package classes.saveCard;
 
-public interface SaveCardInputBoundary {
-    SaveCardResponseModel save(SaveCardRequestModel requestModel);
+public interface saveCardInputBoundary {
+    saveCardResponseModel save(saveCardRequestModel requestModel);
 }

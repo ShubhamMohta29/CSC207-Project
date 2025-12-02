@@ -2,36 +2,36 @@
  * FilterInteractor: gets the animals from the repository, applies filters, sorting, and pagination, then calls the
  * presenter with the output data.
  */
-package Classes.Filter;
+package classes.filter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Classes.Filter.FilterHelpers.*;
-import Classes.retrieveInfo.APIClass;
-import Classes.retrieveInfo.Animal;
-import Classes.retrieveInfo.AnimalFactory;
+import classes.filter.FilterHelpers.*;
+import classes.retrieveInfo.APIClass;
+import classes.retrieveInfo.animal;
+import classes.retrieveInfo.animalFactory;
 
-public class FilterInteractor implements FilterInputBoundary {
+public class filterInteractor implements filterInputBoundary {
 
-    private final AnimalNamesProviderI nameProvider;
-    private final FilterOutputBoundary outputBoundary;
+    private final animalNamesProviderI nameProvider;
+    private final filterOutputBoundary outputBoundary;
     private final APIClass animalProvider;
-    private final AnimalFactory factory;
-    private final CandidateCache cache;
-    private final PaginationHelper paginator;
+    private final animalFactory factory;
+    private final candidateCache cache;
+    private final paginationHelper paginator;
 
-    public FilterInteractor(AnimalNamesProviderI nameProvider,
-                            FilterOutputBoundary outputBoundary,
+    public filterInteractor(animalNamesProviderI nameProvider,
+                            filterOutputBoundary outputBoundary,
                             APIClass animalProvider,
-                            CandidateCache cache,
-                            PaginationHelper paginator) {
+                            candidateCache cache,
+                            paginationHelper paginator) {
         this.nameProvider = nameProvider;
         this.outputBoundary = outputBoundary;
         this.animalProvider = animalProvider;
         this.cache = cache;
         this.paginator = paginator;
-        this.factory = new AnimalFactory();
+        this.factory = new animalFactory();
     }
 
     /**
@@ -40,7 +40,7 @@ public class FilterInteractor implements FilterInputBoundary {
      * @return the filter object output
      */
     @Override
-    public FilterOutput filterAnimals(FilterInput input) {
+    public filterOutput filterAnimals(filterInput input) {
         // Fetch candidates (either fresh or cached)
         List<String> candidates = (input.getCursor() == null)
                 ? nameProvider.getCandidateNames(input)
@@ -49,22 +49,22 @@ public class FilterInteractor implements FilterInputBoundary {
         if (input.getCursor() == null) cache.store(candidates, input);
 
         if (candidates.isEmpty()) {
-            final FilterOutput emptyResp = new FilterOutput(new ArrayList<>(), false, null);
+            final filterOutput emptyResp = new filterOutput(new ArrayList<>(), false, null);
             outputBoundary.present(emptyResp);
             return emptyResp;
         }
 
         final int startIndex = paginator.getStartIndex(input);
-        final List<Animal> results = new ArrayList<>();
+        final List<animal> results = new ArrayList<>();
         final int processed = processCandidates(input, candidates, results, startIndex);
 
-        final PaginationHelper.PaginationInfo pageInfo = paginator.calculatePagination(input, candidates.size(), processed);
-        FilterOutput output = new FilterOutput(results, pageInfo.hasMore, pageInfo.nextCursor);
+        final paginationHelper.PaginationInfo pageInfo = paginator.calculatePagination(input, candidates.size(), processed);
+        filterOutput output = new filterOutput(results, pageInfo.hasMore, pageInfo.nextCursor);
         outputBoundary.present(output);
         return output;
     }
 
-    private int processCandidates(FilterInput input, List<String> candidates, List<Animal> results, int startIndex) {
+    private int processCandidates(filterInput input, List<String> candidates, List<animal> results, int startIndex) {
         final int pageSize = input.getPageSize();
         final int buffer = 1;
         // small buffer to ensure enough filtered results
@@ -74,11 +74,11 @@ public class FilterInteractor implements FilterInputBoundary {
         // how many candidates we looked at
 
         // Build dynamic filter chain
-        List<AnimalFilter> filters = new ArrayList<>();
-        filters.add(new GroupFilter(input.getGroups()));
-        filters.add(new LocationFilter(input.getLocations()));
-        filters.add(new DietFilter(input.getDiets()));
-        filters.add(new LifespanFilter(input.getMinLifespan(), input.getMaxLifespan()));
+        List<animalFilter> filters = new ArrayList<>();
+        filters.add(new groupFilter(input.getGroups()));
+        filters.add(new locationFilter(input.getLocations()));
+        filters.add(new dietFilter(input.getDiets()));
+        filters.add(new lifespanFilter(input.getMinLifespan(), input.getMaxLifespan()));
 
         for (int i = startIndex; i < candidates.size() && processedCount < pageSize + buffer; i++) {
             candidatesProcessed++;
@@ -88,7 +88,7 @@ public class FilterInteractor implements FilterInputBoundary {
             }
 
             try {
-                final Animal a = factory.fromJsonArrayString(data);
+                final animal a = factory.fromJsonArrayString(data);
                 final boolean match = filters.stream().allMatch(f -> f.matches(a));
                 if (match) {
                     results.add(a);

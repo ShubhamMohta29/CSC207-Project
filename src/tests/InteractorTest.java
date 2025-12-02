@@ -1,8 +1,8 @@
-package Tests;
+package tests;
 
-import Classes.GenerateTradingCard.*;
-import Classes.retrieveInfo.Animal;
-import Classes.retrieveInfo.AnimalFactory;
+import classes.generateTradingCard.*;
+import classes.retrieveInfo.animal;
+import classes.retrieveInfo.animalFactory;
 import org.junit.jupiter.api.Test;
 
 import java.awt.image.BufferedImage;
@@ -43,9 +43,9 @@ class GenerateTradingCardInteractorTest {
     /**
      * Mock generator.
      */
-    private static class MockGenerator implements CardImageGenerator {
+    private static class MockGenerator implements cardImageGenerator {
         @Override
-        public BufferedImage generate(Animal a) {
+        public BufferedImage generate(animal a) {
             return new BufferedImage(40, 40, BufferedImage.TYPE_INT_RGB);
         }
     }
@@ -53,12 +53,12 @@ class GenerateTradingCardInteractorTest {
     /**
      * Mock presenter.
      */
-    private static class MockPresenter implements GenerateTradingCardOutputBoundary {
-        TradingCardViewModel received;
+    private static class MockPresenter implements generateTradingCardOutputBoundary {
+        tradingCardViewModel received;
 
         @Override
-        public TradingCardViewModel prepareSuccessView(GenerateTradingCardResponseModel response) {
-            TradingCardViewModel vm = new TradingCardViewModel();
+        public tradingCardViewModel prepareSuccessView(generateTradingCardResponseModel response) {
+            tradingCardViewModel vm = new tradingCardViewModel();
             vm.setAnimalName(response.getAnimal().getName());
             vm.setImage(response.getImage());
             received = vm;
@@ -72,13 +72,13 @@ class GenerateTradingCardInteractorTest {
         MockPresenter presenter = new MockPresenter();
         MockGenerator generator = new MockGenerator();
 
-        GenerateTradingCardInteractor interactor =
-                new GenerateTradingCardInteractor(presenter, generator);
+        generateTradingCardInteractor interactor =
+                new generateTradingCardInteractor(presenter, generator);
 
-        Animal fox = new AnimalFactory().fromJsonArrayString(ANIMAL_JSON);
+        animal fox = new animalFactory().fromJsonArrayString(ANIMAL_JSON);
 
-        TradingCardViewModel result =
-                interactor.generate(new GenerateTradingCardRequestModel(fox));
+        tradingCardViewModel result =
+                interactor.generate(new generateTradingCardRequestModel(fox));
 
         assertNotNull(result);
         assertEquals("Fox", result.getAnimalName());

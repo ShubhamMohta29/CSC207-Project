@@ -1,8 +1,8 @@
-package classes.add_favorite;
+package classes.addFavorite;
 
 /**
  * Output boundary for add favorite use case.
  */
-public interface AddFavoriteOutputBoundary {
-    void getFavList(AddFavoriteOutputData outputData);
+public interface addFavoriteOutputBoundary {
+    void getFavList(addFavoriteOutputData outputData);
 }

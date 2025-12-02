@@ -1,8 +1,8 @@
-package Classes.SaveCard;
+package classes.saveCard;
 
 import java.awt.image.BufferedImage;
 
-public interface SaveCardDataAccessInterface {
+public interface saveCardDataAccessInterface {
     boolean cardExists(String cardName);
     void saveCard(String cardName, BufferedImage image) throws Exception;
 }

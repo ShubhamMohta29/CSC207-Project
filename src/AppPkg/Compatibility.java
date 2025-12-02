@@ -1,33 +1,33 @@
 package AppPkg;
 
-import Classes.Compatibility.usecases.CompareAnimalsInputBoundary;
-import Classes.Compatibility.usecases.CompareAnimalsOutputBoundary;
-import Classes.Compatibility.usecases.CompareAnimalsInteractor;
-import Classes.Compatibility.usecases.AnimalDataAccessInterface;
-import Classes.Compatibility.data.AnimalDataAccess;
+import classes.compatibility.usecases.compareAnimalsInputBoundary;
+import classes.compatibility.usecases.compareAnimalsOutputBoundary;
+import classes.compatibility.usecases.compareAnimalsInteractor;
+import classes.compatibility.usecases.animalDataAccessInterface;
+import classes.compatibility.data.animalDataAccess;
 
-import static Classes.Settings.SettingConstants.DEFAULT_SETTINGS_FILE;
+import static classes.settings.settingConstants.DEFAULT_SETTINGS_FILE;
 
 public class Compatibility extends javax.swing.JFrame
 {
     private final UIManager config = new UIManager(DEFAULT_SETTINGS_FILE);
 
     // Controller and Presenter are now part of this class for simplicity
-    private final CompareAnimalsInputBoundary interactor;
+    private final compareAnimalsInputBoundary interactor;
 
     public Compatibility()
     {
         // Build the CA Engine in constructor
-        AnimalDataAccessInterface dataAccess = new AnimalDataAccess();
-        CompareAnimalsOutputBoundary presenter = new CompareAnimalsPresenter();
-        this.interactor = new CompareAnimalsInteractor(dataAccess, presenter);
+        animalDataAccessInterface dataAccess = new animalDataAccess();
+        compareAnimalsOutputBoundary presenter = new compareAnimalsPresenter();
+        this.interactor = new compareAnimalsInteractor(dataAccess, presenter);
 
         initComponents();
         updateLabelStyle();
     }
 
     // Inner class: Presenter (Interface Adapter Layer)
-    private class CompareAnimalsPresenter implements CompareAnimalsOutputBoundary {
+    private class compareAnimalsPresenter implements compareAnimalsOutputBoundary {
         @Override
         public void presentSuccess(String animal1Name, String animal2Name,
                                    String matching, String conflicting, String rating) {
